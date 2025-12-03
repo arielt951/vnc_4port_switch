@@ -4,7 +4,7 @@ Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detec
 Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
 Chronologic VCS simulator copyright 1991-2025
 Contains Synopsys proprietary information.
-Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  3 15:49 2025
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  3 16:53 2025
 Warning : License for product VCS-BASE-RUNTIME will expire within 29 days, on: 31-dec-2025.
 
 If you would like to temporarily disable this message, set 
@@ -18,30 +18,20 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
 *Verdi* : Begin traversing the scopes, layer (0).
 *Verdi* : End of traversing.
 
-=== STARTING COMPLEX TEST SUITE ===
+=== Starting Sequential Testbench ===
+[65] TEST 1: Sending Packet Port 0 -> Port 1
+   -> [Cycle 115] RECV at Port 1: Data=aa
+[275] TEST 2: Sending Packet Port 1 -> Port 2
+   -> [Cycle 325] RECV at Port 2: Data=bb
+[485] TEST 3: Sending Packet Port 2 -> Port 3
+   -> [Cycle 535] RECV at Port 3: Data=cc
+[695] TEST 4: Sending Packet Port 3 -> Port 0
+   -> [Cycle 745] RECV at Port 0: Data=dd
 
---- LEVEL 1: Unicast Sanity Check ---
-Error: "switch_complex_tb.sv", 71: switch_complex_tb: at time 105
-FAIL: Level 1 Unicast missing
-
---- LEVEL 2: Multicast Check ---
-Error: "switch_complex_tb.sv", 82: switch_complex_tb: at time 225
-FAIL: Level 2 Multicast incomplete
-
---- LEVEL 3: Error Handling ---
-PASS: Self-Loop Packet - No packet received (Correctly dropped)
-PASS: Bad Source Packet - No packet received (Correctly dropped)
-
---- LEVEL 4: Parallel Routing ---
-INFO: Level 4 Finished. Check waves to ensure parallel arrival.
-
---- LEVEL 5: Round Robin Arbitration (Port 0 Contention) ---
-INFO: Level 5 Finished. Inspect Port 0 Output for sequence 22 -> 33 -> 44
-
-=== TEST SUITE COMPLETE ===
-$finish called from file "switch_complex_tb.sv", line 138.
-$finish at simulation time                  745
+=== Testbench Finished ===
+$finish called from file "switch_complex_tb.sv", line 110.
+$finish at simulation time                  905
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 745
-CPU Time:      0.280 seconds;       Data structure size:   0.0Mb
-Wed Dec  3 15:49:12 2025
+Time: 905
+CPU Time:      0.140 seconds;       Data structure size:   0.0Mb
+Wed Dec  3 16:53:21 2025

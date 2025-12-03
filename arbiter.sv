@@ -90,10 +90,10 @@ module arbiter (
 
 
         // C. Encode Mux Selects (Map One-Hot to 2-bit Binary)
-        mux_sel0 = (win_out0[1]) ? 2'd1 : (win_out0[2]) ? 2'd2 : (win_out0[3]) ? 2'd3 : 2'd0;
-        mux_sel1 = (win_out1[1]) ? 2'd1 : (win_out1[2]) ? 2'd2 : (win_out1[3]) ? 2'd3 : 2'd0;
-        mux_sel2 = (win_out2[1]) ? 2'd1 : (win_out2[2]) ? 2'd2 : (win_out2[3]) ? 2'd3 : 2'd0;
-        mux_sel3 = (win_out3[1]) ? 2'd1 : (win_out3[2]) ? 2'd2 : (win_out3[3]) ? 2'd3 : 2'd0;
+        //mux_sel0 = (win_out0[1]) ? 2'd1 : (win_out0[2]) ? 2'd2 : (win_out0[3]) ? 2'd3 : 2'd0;
+        //mux_sel1 = (win_out1[1]) ? 2'd1 : (win_out1[2]) ? 2'd2 : (win_out1[3]) ? 2'd3 : 2'd0;
+        //mux_sel2 = (win_out2[1]) ? 2'd1 : (win_out2[2]) ? 2'd2 : (win_out2[3]) ? 2'd3 : 2'd0;
+        //mux_sel3 = (win_out3[1]) ? 2'd1 : (win_out3[2]) ? 2'd2 : (win_out3[3]) ? 2'd3 : 2'd0;
     end
 
     // =========================================================================
@@ -147,6 +147,12 @@ module arbiter (
 			active1 <= (|win_out1 ) & |grant_bus;
 			active2 <= (|win_out2 ) & |grant_bus;
 			active3 <= (|win_out3 ) & |grant_bus;
+			
+			// C. Encode Mux Selects (Map One-Hot to 2-bit Binary)
+			mux_sel0 <= (win_out0[1]) ? 2'd1 : (win_out0[2]) ? 2'd2 : (win_out0[3]) ? 2'd3 : 2'd0;
+			mux_sel1 <= (win_out1[1]) ? 2'd1 : (win_out1[2]) ? 2'd2 : (win_out1[3]) ? 2'd3 : 2'd0;
+			mux_sel2 <= (win_out2[1]) ? 2'd1 : (win_out2[2]) ? 2'd2 : (win_out2[3]) ? 2'd3 : 2'd0;
+			mux_sel3 <= (win_out3[1]) ? 2'd1 : (win_out3[2]) ? 2'd2 : (win_out3[3]) ? 2'd3 : 2'd0;
 			
             // Rotate Output 0 Pointer if winner used it
             if (win_out0[0] && grant_bus[0]) ptr0 <= 2'd1;

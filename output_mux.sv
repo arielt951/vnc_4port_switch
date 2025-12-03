@@ -35,7 +35,7 @@ module output_mux (
                 end
             endcase
         end else begin
-            data_out  = 16'b0;
+            data_out  = 8'b0;
             valid_out = 1'b0; 
     end
     end

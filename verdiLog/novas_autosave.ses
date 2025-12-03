@@ -28,14 +28,14 @@ fdb_tool =
 [hb]
 postSimFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
 syncTime = 0
-viewport = 0 24 1920 932 0 0 290 898
-activeNode = "switch_simple_tb.dut.port3_i"
-activeScope = "switch_simple_tb.dut.port3_i"
-activeFile = "switch_port.sv"
+viewport = 0 24 1920 932 0 0 400 1918
+activeNode = "switch_sequential_tb"
+activeScope = "switch_sequential_tb"
+activeFile = "switch_complex_tb.sv"
 interactiveMode = False
 viewType = Source
 simulatorMode = False
-sourceBeginLine = 51
+sourceBeginLine = 0
 baMode = False
 srcLineNum = True
 AutoWrap = True
@@ -52,27 +52,23 @@ DnDtraceCrossHierOnly = True
 leadingZero = False
 signalPane = False
 SourceVerticalScrollLines = 5
-Scope1 = "switch_simple_tb.dut.port3_i"
-Scope2 = "switch_simple_tb.dut.port2_i"
-Scope3 = "switch_simple_tb.dut.port0_i"
-Scope4 = "switch_simple_tb.dut.port1_i"
-Scope5 = "switch_simple_tb"
-multipleSelection = 1 63 2 0 0
+Scope1 = "switch_sequential_tb"
+multipleSelection = 1 0 2 0 0
 sdfCheckUndef = FALSE
 simFlow = FALSE
 [hb.design]
 importCmd = "-dbdir" "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir" 
 invokeDir = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
 [hb.sourceTab.1]
-scope = switch_simple_tb.dut.port3_i
-File = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/switch_port.sv
-Line = 52
+scope = switch_sequential_tb
+File = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/switch_complex_tb.sv
+Line = 1
 [nMemoryManager]
 WaveformFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
 UserActionNum = 0
 nMemWindowNum = 0
 [wave.0]
-viewPort = 0 11 1920 391 164 65
+viewPort = 0 11 1920 426 429 50
 primaryWindow = TRUE
 SessionFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/verdiLog/novas_autosave.ses.wave.0
 displayGrid = FALSE
