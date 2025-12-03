@@ -1,0 +1,6 @@
+Command Line: /tools/synopsys/verdi/X-2025.06-1/platform/LINUXAMD64/bin/Novas -ssf novas.fsdb
+uname(Linux micron4.eng.tau.ac.il 4.18.0-553.el8_10.x86_64 #1 SMP Fri May 24 13:05:10 UTC 2024 x86_64)
+KdbImportParallelMixAllLib time 0.009483 0.006051 0.005975 delta 7151616 7151616 total 1260277760 1260277760
+KdbImportParallelMixAllLib time 0.010650 0.003854 0.010337 delta 12599296 12599296 total 1401434112 1401434112
+KdbImportParallelMixAllLib time 0.014710 0.004058 0.012516 delta 11026432 11026432 total 1459167232 1459167232
+KdbImportParallelMixAllLib time 0.013136 0.003420 0.012190 delta 8404992 8404992 total 1484349440 1484349440

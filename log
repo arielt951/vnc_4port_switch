@@ -1,0 +1,47 @@
+Unloading SNPSLIC/base <aL>
+  Unloading dependent: FC/V-2023.12-SP3
+Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detected on the machine. To enable $save functionality, ASLR will be switched off and simv re-executed.
+Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
+Chronologic VCS simulator copyright 1991-2025
+Contains Synopsys proprietary information.
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  3 15:49 2025
+Warning : License for product VCS-BASE-RUNTIME will expire within 29 days, on: 31-dec-2025.
+
+If you would like to temporarily disable this message, set 
+ the VCS_LIC_EXPIRE_WARNING environment variable to the number of days
+before expiration that you want this message to start (the minimum is 0).
+*Verdi* Loading libsscore_vcs202506.so
+FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
+(C) 1996 - 2025 by Synopsys, Inc.
+*Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+*Verdi* : Create FSDB file 'novas.fsdb'
+*Verdi* : Begin traversing the scopes, layer (0).
+*Verdi* : End of traversing.
+
+=== STARTING COMPLEX TEST SUITE ===
+
+--- LEVEL 1: Unicast Sanity Check ---
+Error: "switch_complex_tb.sv", 71: switch_complex_tb: at time 105
+FAIL: Level 1 Unicast missing
+
+--- LEVEL 2: Multicast Check ---
+Error: "switch_complex_tb.sv", 82: switch_complex_tb: at time 225
+FAIL: Level 2 Multicast incomplete
+
+--- LEVEL 3: Error Handling ---
+PASS: Self-Loop Packet - No packet received (Correctly dropped)
+PASS: Bad Source Packet - No packet received (Correctly dropped)
+
+--- LEVEL 4: Parallel Routing ---
+INFO: Level 4 Finished. Check waves to ensure parallel arrival.
+
+--- LEVEL 5: Round Robin Arbitration (Port 0 Contention) ---
+INFO: Level 5 Finished. Inspect Port 0 Output for sequence 22 -> 33 -> 44
+
+=== TEST SUITE COMPLETE ===
+$finish called from file "switch_complex_tb.sv", line 138.
+$finish at simulation time                  745
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 745
+CPU Time:      0.280 seconds;       Data structure size:   0.0Mb
+Wed Dec  3 15:49:12 2025
