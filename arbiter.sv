@@ -70,84 +70,69 @@ module arbiter (
             end
         endcase
         return winner;
-    endfunction
+	endfunction
+	
+	always @(*) begin
+	// A Port gets a grant ONLY if it won ALL the outputs it asked for.
+	// Logic: grant = (req_exists) AND ( (not_wanted_0 OR won_0) AND (not_wanted_1 OR won_1) ... )
+			// Port 0 Grant
+		grant_bus[0] = (port_reqs[0]) && (|port0_dst) &&
+					   (!port0_dst[0] || win_out0[0]) &&
+					   (!port0_dst[1] || win_out1[0]) &&
+					   (!port0_dst[2] || win_out2[0]) &&
+					   (!port0_dst[3] || win_out3[0]);
 
-    // =========================================================================
-    // 3. COMBINATIONAL LOGIC: Determine Winners
-    // =========================================================================
-        // A. Transpose: Group requests by Output Port
-    assign reqs_out0 = {port3_dst[0], port2_dst[0], port1_dst[0], port0_dst[0]};
-    assign reqs_out1 = {port3_dst[1], port2_dst[1], port1_dst[1], port0_dst[1]};
-    assign reqs_out2 = {port3_dst[2], port2_dst[2], port1_dst[2], port0_dst[2]};
-    assign reqs_out3 = {port3_dst[3], port2_dst[3], port1_dst[3], port0_dst[3]};
+		// Port 1 Grant
+		grant_bus[1] = (port_reqs[1]) && (|port1_dst) &&
+					   (!port1_dst[0] || win_out0[1]) &&
+					   (!port1_dst[1] || win_out1[1]) &&
+					   (!port1_dst[2] || win_out2[1]) &&
+					   (!port1_dst[3] || win_out3[1]);
 
-    always @(*) begin
-        // B. Pick Winner for each output independently
-        win_out0 = pick_winner(reqs_out0, ptr0);
-        win_out1 = pick_winner(reqs_out1, ptr1);
-        win_out2 = pick_winner(reqs_out2, ptr2);
-        win_out3 = pick_winner(reqs_out3, ptr3);
+		// Port 2 Grant
+		grant_bus[2] = (port_reqs[2]) && (|port2_dst) &&
+					   (!port2_dst[0] || win_out0[2]) &&
+					   (!port2_dst[1] || win_out1[2]) &&
+					   (!port2_dst[2] || win_out2[2]) &&
+					   (!port2_dst[3] || win_out3[2]);
 
-
-        // C. Encode Mux Selects (Map One-Hot to 2-bit Binary)
-        //mux_sel0 = (win_out0[1]) ? 2'd1 : (win_out0[2]) ? 2'd2 : (win_out0[3]) ? 2'd3 : 2'd0;
-        //mux_sel1 = (win_out1[1]) ? 2'd1 : (win_out1[2]) ? 2'd2 : (win_out1[3]) ? 2'd3 : 2'd0;
-        //mux_sel2 = (win_out2[1]) ? 2'd1 : (win_out2[2]) ? 2'd2 : (win_out2[3]) ? 2'd3 : 2'd0;
-        //mux_sel3 = (win_out3[1]) ? 2'd1 : (win_out3[2]) ? 2'd2 : (win_out3[3]) ? 2'd3 : 2'd0;
-    end
-
-    // =========================================================================
-    // 4. COMBINATIONAL LOGIC: Grant Generation (All-or-Nothing)
-    // =========================================================================
-    // A Port gets a grant ONLY if it won ALL the outputs it asked for.
-    // Logic: grant = (req_exists) AND ( (not_wanted_0 OR won_0) AND (not_wanted_1 OR won_1) ... )
+		// Port 3 Grant
+		grant_bus[3] = (port_reqs[3]) && (|port3_dst) &&
+					   (!port3_dst[0] || win_out0[3]) &&
+					   (!port3_dst[1] || win_out1[3]) &&
+					   (!port3_dst[2] || win_out2[3]) &&
+					   (!port3_dst[3] || win_out3[3]);
+		
+		// B. Pick Winner for each output independently
+		win_out0 = pick_winner(reqs_out0, ptr0);
+		win_out1 = pick_winner(reqs_out1, ptr1);
+		win_out2 = pick_winner(reqs_out2, ptr2);
+		win_out3 = pick_winner(reqs_out3, ptr3);
+		
+	end
+	
+	always_ff @(posedge clk or negedge rst_n) begin
+		if (!rst_n) begin
+			ptr0 <= 0; ptr1 <= 0; ptr2 <= 0; ptr3 <= 0;active0 <= 1'b0; active1 <= 1'b0; active2 <= 1'b0; active3 <= 1'b0;
+			mux_sel0 <= 2'd0;mux_sel1 <= 2'd0;mux_sel2 <= 2'd0;mux_sel3 <= 2'd0;
+		end else begin
     
-    always @(*) begin
-        // Port 0 Grant
-        grant_bus[0] = (port_reqs[0]) && (|port0_dst) &&
-                       (!port0_dst[0] || win_out0[0]) &&
-                       (!port0_dst[1] || win_out1[0]) &&
-                       (!port0_dst[2] || win_out2[0]) &&
-                       (!port0_dst[3] || win_out3[0]);
+        // A. Transpose: Group requests by Output Port
+     reqs_out0 <= {port3_dst[0], port2_dst[0], port1_dst[0], port0_dst[0]};
+     reqs_out1 <= {port3_dst[1], port2_dst[1], port1_dst[1], port0_dst[1]};
+     reqs_out2 <= {port3_dst[2], port2_dst[2], port1_dst[2], port0_dst[2]};
+     reqs_out3 <= {port3_dst[3], port2_dst[3], port1_dst[3], port0_dst[3]};
+	
 
-        // Port 1 Grant
-        grant_bus[1] = (port_reqs[1]) && (|port1_dst) &&
-                       (!port1_dst[0] || win_out0[1]) &&
-                       (!port1_dst[1] || win_out1[1]) &&
-                       (!port1_dst[2] || win_out2[1]) &&
-                       (!port1_dst[3] || win_out3[1]);
-
-        // Port 2 Grant
-        grant_bus[2] = (port_reqs[2]) && (|port2_dst) &&
-                       (!port2_dst[0] || win_out0[2]) &&
-                       (!port2_dst[1] || win_out1[2]) &&
-                       (!port2_dst[2] || win_out2[2]) &&
-                       (!port2_dst[3] || win_out3[2]);
-
-        // Port 3 Grant
-        grant_bus[3] = (port_reqs[3]) && (|port3_dst) &&
-                       (!port3_dst[0] || win_out0[3]) &&
-                       (!port3_dst[1] || win_out1[3]) &&
-                       (!port3_dst[2] || win_out2[3]) &&
-                       (!port3_dst[3] || win_out3[3]);
-    end
-
-    // =========================================================================
-    // 5. SEQUENTIAL LOGIC: Update Pointers (Rotate Priority)
-    // =========================================================================
     // We only rotate the pointer if the winner actually received the Grant.
     // If Port 0 won Output 1 but was denied the Grant (because it failed Output 2),
     // we do NOT rotate Output 1's pointer (Port 0 keeps priority for next retry).
     
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            ptr0 <= 0; ptr1 <= 0; ptr2 <= 0; ptr3 <= 0;active0 <= 1'b0; active1 <= 1'b0; active2 <= 1'b0; active3 <= 1'b0;
-			mux_sel0 <= 2'd0;mux_sel1 <= 2'd0;mux_sel2 <= 2'd0;mux_sel3 <= 2'd0;
-        end else begin
-			active0 <= (|win_out0)  & |grant_bus; // Reduction OR: returns 1 if any bit is 1
-			active1 <= (|win_out1 ) & |grant_bus;
-			active2 <= (|win_out2 ) & |grant_bus;
-			active3 <= (|win_out3 ) & |grant_bus;
+    
+			active0 <= (|win_out0) & |grant_bus; // Reduction OR: returns 1 if any bit is 1
+			active1 <= (|win_out1) & |grant_bus;
+			active2 <= (|win_out2) & |grant_bus;
+			active3 <= (|win_out3) & |grant_bus;
 			
 			// C. Encode Mux Selects (Map One-Hot to 2-bit Binary)
 			mux_sel0 <= (win_out0[1]) ? 2'd1 : (win_out0[2]) ? 2'd2 : (win_out0[3]) ? 2'd3 : 2'd0;

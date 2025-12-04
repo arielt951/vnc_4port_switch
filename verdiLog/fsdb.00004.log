@@ -15,6 +15,8 @@ Async open disabled.
 [PERF]VCChain decompress count : 1
 [PERF]VC decompress count : 1
 [PERF]VCChain decompress count : 1
+[PERF]VC decompress count : 0
+[PERF]VCChain decompress count : 1
 [PERF]VC decompress count : 1
 [PERF]VCChain decompress count : 1
 [PERF]VC decompress count : 1
@@ -32,5 +34,5 @@ Async open disabled.
 [PERF]VC decompress count : 1
 [PERF]VCChain decompress count : 1
 [FSDBGate Info] start
-[FSDBGate Info] Total fhdb_compute_count = 308
+[FSDBGate Info] Total fhdb_compute_count = 142
 [FSDBGate Info] end

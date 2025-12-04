@@ -115,7 +115,7 @@ initial begin
 		drive_pkt(3, 4'b1000, 4'b1111, 8'hEE); // P3 -> broadcast
 	join
 	repeat(1) @(posedge clk);
-		drive_pkt(0, 4'b0010, 4'b0101, 8'hCC); // P1 -> {P2, P0}
+		drive_pkt(1, 4'b0010, 4'b0101, 8'hCC); // P1 -> {P2, P0}
 
 
 	repeat(40) @(posedge clk); // Give plenty of time to resolve

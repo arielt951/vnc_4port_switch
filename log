@@ -4,7 +4,7 @@ Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detec
 Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
 Chronologic VCS simulator copyright 1991-2025
 Contains Synopsys proprietary information.
-Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  4 12:06 2025
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  4 18:11 2025
 Warning : License for product VCS-BASE-RUNTIME will expire within 28 days, on: 31-dec-2025.
 
 If you would like to temporarily disable this message, set 
@@ -17,39 +17,12 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
 *Verdi* : Create FSDB file 'novas.fsdb'
 *Verdi* : Begin traversing the scopes, layer (0).
 *Verdi* : End of traversing.
-
-=== STARTING ADVANCED COLLISION TESTS ===
-
---- SCENARIO 1: Multicast Clash (P0 vs P1 targeting P2 & P3) ---
-[95] DRIVING Port 0 -> Target 1100 (Data=a0)
-[95] DRIVING Port 1 -> Target 1100 (Data=b0)
-   [RECV] @145 Port 2 Output: a0
-   [RECV] @145 Port 3 Output: a0
-   [RECV] @155 Port 2 Output: b0
-   [RECV] @155 Port 3 Output: b0
-   [CHECK] Ports 2 & 3 should receive A0 then B0 (or vice versa).
-
---- SCENARIO 2: Broadcast (P2) vs Unicast (P3 -> P0) ---
-[305] DRIVING Port 2 -> Target 1111 (Data=ff)
-[305] DRIVING Port 3 -> Target 0001 (Data=33)
-   [RECV] @355 Port 0 Output: ff
-   [RECV] @355 Port 1 Output: ff
-   [RECV] @355 Port 2 Output: ff
-   [RECV] @355 Port 3 Output: ff
-   [RECV] @365 Port 0 Output: 33
-   [CHECK] IF P3 wins P0 first: P0 sees 33, then FF. Others see FF later.
-   [CHECK] IF P2 wins P0 first: P0 sees FF, then 33. Others see FF immediately.
-
---- SCENARIO 3: Three-way Multicast Chain Reaction ---
-[565] DRIVING Port 1 -> Target 1100 (Data=dd)
-[565] DRIVING Port 3 -> Target 1111 (Data=ee)
-[585] DRIVING Port 0 -> Target 0101 (Data=cc)
-   [CHECK] Verify all packets arrived eventually without dropping.
-
-=== TESTS FINISHED ===
-$finish called from file "switch_collision_tb.sv", line 125.
-$finish at simulation time                  995
+--- Starting Simulation ---
+Time 55: Driving Packet on Port 0 -> Port 1
+--- Simulation Finished ---
+$finish called from file "switch_simple_tb.sv", line 61.
+$finish at simulation time                  265
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 995
-CPU Time:      0.140 seconds;       Data structure size:   0.0Mb
-Thu Dec  4 12:06:17 2025
+Time: 265
+CPU Time:      0.130 seconds;       Data structure size:   0.0Mb
+Thu Dec  4 18:11:39 2025

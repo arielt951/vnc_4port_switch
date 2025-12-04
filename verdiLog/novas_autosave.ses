@@ -24,18 +24,18 @@ powerDumped = 0
 fdb_server = 
 fdb_proj = 
 fdb_campaign = 
-fdb_tool = 
+fdb_tool = All Tools
 [hb]
 postSimFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
-syncTime = 605
-viewport = 0 24 1438 751 0 0 555 1916
+syncTime = 0
+viewport = 0 24 1438 751 0 0 469 1436
 activeNode = "switch_collision_tb.dut.top_arb_i"
 activeScope = "switch_collision_tb.dut.top_arb_i"
 activeFile = "arbiter.sv"
 interactiveMode = False
 viewType = Source
 simulatorMode = False
-sourceBeginLine = 95
+sourceBeginLine = 1
 baMode = False
 srcLineNum = True
 AutoWrap = True
@@ -53,7 +53,9 @@ leadingZero = False
 signalPane = True
 SourceVerticalScrollLines = 5
 Scope1 = "switch_collision_tb.dut.top_arb_i"
-multipleSelection = 1 1 2 0 0
+Scope2 = "switch_collision_tb.dut.port3_i"
+Scope3 = "switch_collision_tb.dut.mux0_i"
+multipleSelection = 1 5 11 0 0
 sdfCheckUndef = FALSE
 simFlow = FALSE
 [hb.design]
@@ -62,7 +64,7 @@ invokeDir = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
 [hb.sourceTab.1]
 scope = switch_collision_tb.dut.top_arb_i
 File = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/arbiter.sv
-Line = 96
+Line = 2
 [nMemoryManager]
 WaveformFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
 UserActionNum = 0

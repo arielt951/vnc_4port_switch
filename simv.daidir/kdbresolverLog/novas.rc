@@ -226,15 +226,15 @@ version = Verdi_X-2025.06-1
 [General]
 autoSaveSession = FALSE
 TclAutoSource = 
-cmd_enter_form = FALSE
 SyncBrowserDir = TRUE
 ColorThemeModern = bright
 version = Verdi_X-2025.06-1
-recent_commands_nWave = nextEvent,digitalFBin,editBus,editCut,renameSignal,changeColor,getSignal,previousEvent,groupAddPopUp,leftFullPage
-recent_commands_Verdi = hbSaveSession,hbReload,hbInvokeSignalPane
+recent_commands_nWave = getSignal,changeColor,editCut,nextEvent,leftFullPage,rightFullPage,digitalFBin,editBus,renameSignal,previousEvent
+recent_commands_Verdi = hbRestoreSession,hbReload,hbSaveSession,hbInvokeSignalPane
+cmd_enter_form = FALSE
 prevColorThemeModern = bright
 SignalCaseInSensitive = FALSE
-FindBarVisible = nWave
+FindBarVisible = nWave,hdlSrc
 [GlobalProp]
 ErrWindow_Font = Helvetica_M_R_12
 [Globals]
@@ -392,13 +392,14 @@ savePropDtl = TRUE
 [QtDialog]
 unknownSave = 489,277,461,245
 QwWarnMsgDlg = 651,368,600,250
-qWaveSignalDialog = 584,262,800,479
-SigCPLDialog = 856,301,231,319
 EditBusSimDialog = 745,407,428,165
-fileWithNote = 391,128,655,543
-QwUserAskDlg = 557,307,324,128
 openFileDlg = 659,248,602,483
 EventWindow = 545,289,829,402
+fileWithNote = 392,157,655,543
+SigCPLDialog = 617,240,231,319
+qWaveSignalDialog = 319,160,800,479
+FileWithNoteForm_base = 392,157,655,543
+QwUserAskDlg = 557,307,324,128
 [Safety]
 RegisterObject = ID_RED4
 CoreObject = ID_ORANGE5
@@ -519,6 +520,7 @@ nLineSize = 1024
 [Test]
 verbose_progress = FALSE
 [TestBenchBrowser]
+-showDeclTreeWin = FALSE
 -showUVMDynamicHierTreeWin = FALSE
 [Text]
 hdlTypeName = blue4
@@ -694,37 +696,37 @@ isOneSearchVisible = TRUE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0]
 parRuleSets = ""
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column0]
+name = "Severity"
+width = 60
+visualIndex = 2
+isHidden = FALSE
+isUserChangeColumnVisible = FALSE
+isColFilterColorCoding = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
 name = "Block's First Line"
 width = 120
 visualIndex = 1
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
 name = "Code"
 width = 60
 visualIndex = 3
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
 name = "Type"
 width = 60
 visualIndex = 4
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
 name = "Time"
 width = 60
 visualIndex = 0
-isHidden = FALSE
-isUserChangeColumnVisible = FALSE
-isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
-name = "Severity"
-width = 60
-visualIndex = 2
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
@@ -811,7 +813,7 @@ AutoApplySeverityColor = TRUE
 scope_to_save_with_macro
 open_file_dir
 open_rc_file_dir
-getSignalForm = 560 250 800 479 165 389 391 92
+getSignalForm = 1 29 800 479 165 389 391 92
 viewPort = 0 11 1438 522 429 50
 legendBackground = -c ID_BLACK
 valueBackground = -c ID_BLACK
@@ -1127,14 +1129,14 @@ LineBreakWithScope = FALSE
 StopAfterCompileOption = -i
 [fusa]
 tooltip_summary = TRUE
-Name_Show = TRUE
-Coverage_Show = TRUE
-Test_Cov_Show = TRUE
-Fault_Cov_Show = TRUE
-Undetected_Show = TRUE
-Num_of_Fault_Show = TRUE
 Num_of_Displayed_Fault_Show = FALSE
-Num_of_Inst_Show = TRUE
+Name_Show = FALSE
+Coverage_Show = FALSE
+Test_Cov_Show = FALSE
+Fault_Cov_Show = FALSE
+Undetected_Show = FALSE
+Num_of_Fault_Show = FALSE
+Num_of_Inst_Show = FALSE
 [hvpsetting]
 importExcelXMLOptions = 
 use_test_loca_as_source = FALSE
