@@ -103,11 +103,17 @@ module arbiter (
 					   (!port3_dst[2] || win_out2[3]) &&
 					   (!port3_dst[3] || win_out3[3]);
 		
+		reqs_out0 = {port3_dst[0], port2_dst[0], port1_dst[0], port0_dst[0]};
+		reqs_out1 = {port3_dst[1], port2_dst[1], port1_dst[1], port0_dst[1]};
+		reqs_out2 = {port3_dst[2], port2_dst[2], port1_dst[2], port0_dst[2]};
+		reqs_out3 = {port3_dst[3], port2_dst[3], port1_dst[3], port0_dst[3]};
 		// B. Pick Winner for each output independently
 		win_out0 = pick_winner(reqs_out0, ptr0);
 		win_out1 = pick_winner(reqs_out1, ptr1);
 		win_out2 = pick_winner(reqs_out2, ptr2);
 		win_out3 = pick_winner(reqs_out3, ptr3);
+		
+		
 		
 	end
 	
@@ -117,12 +123,6 @@ module arbiter (
 			mux_sel0 <= 2'd0;mux_sel1 <= 2'd0;mux_sel2 <= 2'd0;mux_sel3 <= 2'd0;
 		end else begin
     
-        // A. Transpose: Group requests by Output Port
-     reqs_out0 <= {port3_dst[0], port2_dst[0], port1_dst[0], port0_dst[0]};
-     reqs_out1 <= {port3_dst[1], port2_dst[1], port1_dst[1], port0_dst[1]};
-     reqs_out2 <= {port3_dst[2], port2_dst[2], port1_dst[2], port0_dst[2]};
-     reqs_out3 <= {port3_dst[3], port2_dst[3], port1_dst[3], port0_dst[3]};
-	
 
     // We only rotate the pointer if the winner actually received the Grant.
     // If Port 0 won Output 1 but was denied the Grant (because it failed Output 2),

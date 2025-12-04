@@ -81,6 +81,7 @@ always_comb begin
 	port_req = 1'b0;
 	read_en_fifo = 1'b0;
 	
+	
 	case (current_state)
 		
 		// -----------------------------------------------------------------
@@ -102,7 +103,8 @@ always_comb begin
 		ROUTE: begin
 			if (pkt_valid) begin
 				// Valid packet: Move to Arbitration Wait
-				next_state = ARB_WAIT; 
+				next_state = ARB_WAIT;
+				
 			end else begin
 				// Invalid packet: Drop it!
 				read_en_fifo = 1'b1;

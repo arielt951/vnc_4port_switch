@@ -229,9 +229,9 @@ TclAutoSource =
 SyncBrowserDir = TRUE
 ColorThemeModern = bright
 version = Verdi_X-2025.06-1
-recent_commands_nWave = getSignal,changeColor,editCut,nextEvent,leftFullPage,rightFullPage,digitalFBin,editBus,renameSignal,previousEvent
-recent_commands_Verdi = hbRestoreSession,hbReload,hbSaveSession,hbInvokeSignalPane
 cmd_enter_form = FALSE
+recent_commands_nWave = editCut,getSignal,renameSignal,changeColor,nextEvent,leftFullPage,rightFullPage,digitalFBin,editBus,previousEvent
+recent_commands_Verdi = hbReload,hbRestoreSession,hbSaveSession,hbInvokeSignalPane
 prevColorThemeModern = bright
 SignalCaseInSensitive = FALSE
 FindBarVisible = nWave,hdlSrc
@@ -397,8 +397,9 @@ openFileDlg = 659,248,602,483
 EventWindow = 545,289,829,402
 fileWithNote = 392,157,655,543
 SigCPLDialog = 617,240,231,319
+FileWithNoteForm_base = 391,128,655,543
 qWaveSignalDialog = 319,160,800,479
-FileWithNoteForm_base = 392,157,655,543
+QwInfoMsgDlg = 345,289,750,250
 QwUserAskDlg = 557,307,324,128
 [Safety]
 RegisterObject = ID_RED4
@@ -479,14 +480,14 @@ iscCmdSep = FALSE
 ScsDebugAll = FALSE
 NoAppendOption = FALSE
 invokeSimPath = work
+restoreSimState = FALSE
+enableReverseDebug = FALSE
 simType = vcssv
 bSVTBMode = TRUE
 SimMode = TRUE
 interactiveDebugging = TRUE
 KeepBreakPoints = FALSE
 vcs_svPath = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv
-restoreSimState = FALSE
-enableReverseDebug = FALSE
 [SimulationPlus2]
 eventDumpUnfinish = FALSE
 [Source]
@@ -696,44 +697,44 @@ isOneSearchVisible = TRUE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0]
 parRuleSets = ""
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column0]
-name = "Severity"
-width = 60
-visualIndex = 2
-isHidden = FALSE
-isUserChangeColumnVisible = FALSE
-isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
 name = "Block's First Line"
 width = 120
 visualIndex = 1
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
-name = "Code"
-width = 60
-visualIndex = 3
-isHidden = TRUE
-isUserChangeColumnVisible = FALSE
-isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
-name = "Type"
-width = 60
-visualIndex = 4
-isHidden = TRUE
-isUserChangeColumnVisible = FALSE
-isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
 name = "Time"
 width = 60
 visualIndex = 0
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column5]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
 name = "Message"
 width = 2000
 visualIndex = 5
+isHidden = FALSE
+isUserChangeColumnVisible = FALSE
+isColFilterColorCoding = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
+name = "Code"
+width = 60
+visualIndex = 3
+isHidden = TRUE
+isUserChangeColumnVisible = FALSE
+isColFilterColorCoding = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+name = "Type"
+width = 60
+visualIndex = 4
+isHidden = TRUE
+isUserChangeColumnVisible = FALSE
+isColFilterColorCoding = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column5]
+name = "Severity"
+width = 60
+visualIndex = 2
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
@@ -813,8 +814,8 @@ AutoApplySeverityColor = TRUE
 scope_to_save_with_macro
 open_file_dir
 open_rc_file_dir
-getSignalForm = 1 29 800 479 165 389 391 92
-viewPort = 0 11 1438 522 429 50
+getSignalForm = 1 29 800 479 237 389 319 92
+viewPort = 0 11 1438 400 191 65
 legendBackground = -c ID_BLACK
 valueBackground = -c ID_BLACK
 curveBackground = -c ID_BLACK
@@ -1208,7 +1209,6 @@ plan_fillColor_subplan = lightgray
 [rtla]
 RtlaDbPath = 
 [schematics]
-viewport = 178 262 638 516
 ComputedAnnotColor = ID_PURPLE5
 schBackgroundColor = ID_BLACK lineSolid 1
 schBackgroundColor_qt = #000000 qt_solidLine 1
@@ -1541,6 +1541,7 @@ PnRAutoFlipPort = True
 PnRAutoFlipPortFourSide = False
 IsShowConstantValue = True
 schColorTheme = default
+viewport = 0 11 576 162
 [schematics_print]
 Signature = FALSE
 DesignName = PCU
@@ -1617,7 +1618,7 @@ AddImportArgument = FALSE
 LineBreakWithScope = TRUE
 StopAfterCompileOption = -s
 [wave.0]
-viewPort = 0 11 1438 522 429 50
+viewPort = 0 11 1438 400 191 65
 [wave.1]
 viewPort = 127 219 960 332 100 65
 [wave.2]
