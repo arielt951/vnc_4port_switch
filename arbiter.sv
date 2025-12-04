@@ -142,6 +142,7 @@ module arbiter (
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             ptr0 <= 0; ptr1 <= 0; ptr2 <= 0; ptr3 <= 0;active0 <= 1'b0; active1 <= 1'b0; active2 <= 1'b0; active3 <= 1'b0;
+			mux_sel0 <= 2'd0;mux_sel1 <= 2'd0;mux_sel2 <= 2'd0;mux_sel3 <= 2'd0;
         end else begin
 			active0 <= (|win_out0)  & |grant_bus; // Reduction OR: returns 1 if any bit is 1
 			active1 <= (|win_out1 ) & |grant_bus;

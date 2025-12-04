@@ -1,0 +1,84 @@
+Magic 271485
+Revision Verdi_X-2025.06-1
+
+; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
+viewPort 0 11 1440 546 191 65
+
+; File list:
+; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
+openDirFile -d / "" "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb"
+
+; file time scale:
+; fileTimeScale ### s|ms|us|ns|ps
+
+; signal spacing:
+signalSpacing 5
+
+; windowTimeUnit is used for zoom, cursor & marker
+; waveform viewport range
+zoom 0.000000 180.069398
+cursor 95.000000
+marker 0.000000
+
+; user define markers
+; userMarker time_pos marker_name color linestyle
+; visible top row signal index
+top 0
+; marker line index
+markerPos 7
+
+; event list
+; addEvent event_name event_expression
+; curEvent event_name
+
+
+
+COMPLEX_EVENT_BEGIN
+
+
+COMPLEX_EVENT_END
+
+
+
+; toolbar current search type
+; curSTATUS search_type
+curSTATUS ByChange
+
+
+addGroup "states"
+addGroup "output mux1"
+addGroup "PORT1" -e FALSE
+addGroup "FIFO IF" -e FALSE
+addGroup "Parser" -e FALSE
+addGroup "arbiter"
+addGroup "G7"
+addGroup "G8"
+
+; getSignalForm Scope Hierarchy Status
+; active file of getSignalForm
+activeDirFile "" "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb"
+
+GETSIGNALFORM_SCOPE_HIERARCHY_BEGIN
+getSignalForm close
+
+"/_vcs_unit__2593612624"
+
+SCOPE_LIST_BEGIN
+"/_vcs_unit__2593612624"
+"/_vcs_unit__1051369035"
+"/_vcs_unit__1210967606"
+"/switch_simple_tb/dut/mux0_i"
+"/switch_simple_tb"
+"/switch_simple_tb/dut"
+"/switch_simple_tb/dut/mux1_i"
+"/switch_simple_tb/dut/port0_i"
+"/switch_simple_tb/dut/port0"
+"/switch_simple_tb/dut/port0_i/port_fifo"
+"/switch_simple_tb/dut/top_arb_i"
+"/switch_simple_tb/dut/port0_i/parser_inst"
+"/switch_simple_tb/dut/mux3_i"
+SCOPE_LIST_END
+
+GETSIGNALFORM_SCOPE_HIERARCHY_END
+
+

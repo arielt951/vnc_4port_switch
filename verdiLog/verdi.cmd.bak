@@ -7,79 +7,36 @@ debLoadSimResult \
            /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
 wvCreateWindow
 verdiSetActWin -win $_nWave2
-verdiWindowResize -win $_Verdi_1 "0" "24" "1920" "932"
-verdiWindowResize -win $_Verdi_1 "0" "24" "1920" "932"
+verdiWindowResize -win $_Verdi_1 "0" "24" "1440" "752"
+verdiWindowResize -win $_Verdi_1 "0" "24" "1440" "752"
 verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
 verdiSetActWin -dock widgetDock_<Inst._Tree>
-srcHBSelect "switch_sequential_tb.dut.port0_i" -win $_nTrace1
-wvGetSignalOpen -win $_nWave2
-wvGetSignalSetScope -win $_nWave2 "/_vcs_unit__1083842608"
-verdiSetActWin -win $_nWave2
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/port0_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/port0"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/mux0_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/mux1_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/mux2_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/mux3_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/mux0_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/port0"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/port0_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/port1_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/port2_i"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/port3"
-wvGetSignalSetScope -win $_nWave2 "/switch_sequential_tb/dut/port3_i"
-wvSetPosition -win $_nWave2 {("G3" 2)}
-wvSetPosition -win $_nWave2 {("G3" 2)}
-wvAddSignal -win $_nWave2 -clear
-wvAddSignal -win $_nWave2 -group {"G1" \
-{/switch_sequential_tb/dut/clk} -height 16 \
-{/switch_sequential_tb/dut/rst_n} -height 16 \
-{/switch_sequential_tb/dut/mux0_i/data_out\[7:0\]} -height 16 \
-{/switch_sequential_tb/dut/port0_i/valid_in} -height 16 \
-}
-wvAddSignal -win $_nWave2 -group {"G4" \
-{/switch_sequential_tb/dut/mux3_i/data_out\[7:0\]} -height 16 \
-{/switch_sequential_tb/dut/port1_i/valid_in} -height 16 \
-}
-wvAddSignal -win $_nWave2 -group {"G2" \
-{/switch_sequential_tb/dut/mux1_i/data_out\[7:0\]} -height 16 \
-{/switch_sequential_tb/dut/port2_i/valid_in} -height 16 \
-}
-wvAddSignal -win $_nWave2 -group {"G3" \
-{/switch_sequential_tb/dut/mux2_i/data_out\[7:0\]} -height 16 \
-{/switch_sequential_tb/dut/port3_i/valid_in} -height 16 \
-}
-wvAddSignal -win $_nWave2 -group {"G5" \
-}
-wvAddSignal -win $_nWave2 -group {"G6" \
-}
-wvSelectSignal -win $_nWave2 {( "G1" 4 )} 
-wvSetPosition -win $_nWave2 {("G3" 2)}
+srcHBSelect "switch_simple_tb.dut.mux1_i" -win $_nTrace1
+srcSetScope "switch_simple_tb.dut.mux1_i" -delim "." -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.mux1_i" -win $_nTrace1
+srcSignalView -on
+verdiSetActWin -dock widgetDock_<Signal_List>
+srcSignalViewSelect "switch_simple_tb.dut.mux1_i.mux_sel\[1:0\]"
+srcSignalViewAddSelectedToWave
 wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvSelectSignal -win $_nWave2 {( "G1" 2 )} 
-wvScrollUp -win $_nWave2 2
+debReload
 wvSelectSignal -win $_nWave2 {( "G1" 1 )} 
-wvScrollDown -win $_nWave2 1
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
-wvZoomOut -win $_nWave2
+verdiSetActWin -win $_nWave2
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G2" 0)}
+wvSetPosition -win $_nWave2 {("G1" 0)}
+srcHBSelect "switch_simple_tb.dut.mux2_i" -win $_nTrace1
+srcSetScope "switch_simple_tb.dut.mux2_i" -delim "." -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.mux2_i" -win $_nTrace1
+verdiSetActWin -dock widgetDock_<Inst._Tree>
+srcSignalViewSelect "switch_simple_tb.dut.mux2_i.mux_sel\[1:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
 debExit

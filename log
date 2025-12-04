@@ -4,8 +4,8 @@ Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detec
 Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
 Chronologic VCS simulator copyright 1991-2025
 Contains Synopsys proprietary information.
-Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  3 16:53 2025
-Warning : License for product VCS-BASE-RUNTIME will expire within 29 days, on: 31-dec-2025.
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  4 09:19 2025
+Warning : License for product VCS-BASE-RUNTIME will expire within 28 days, on: 31-dec-2025.
 
 If you would like to temporarily disable this message, set 
  the VCS_LIC_EXPIRE_WARNING environment variable to the number of days
@@ -17,21 +17,12 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
 *Verdi* : Create FSDB file 'novas.fsdb'
 *Verdi* : Begin traversing the scopes, layer (0).
 *Verdi* : End of traversing.
-
-=== Starting Sequential Testbench ===
-[65] TEST 1: Sending Packet Port 0 -> Port 1
-   -> [Cycle 115] RECV at Port 1: Data=aa
-[275] TEST 2: Sending Packet Port 1 -> Port 2
-   -> [Cycle 325] RECV at Port 2: Data=bb
-[485] TEST 3: Sending Packet Port 2 -> Port 3
-   -> [Cycle 535] RECV at Port 3: Data=cc
-[695] TEST 4: Sending Packet Port 3 -> Port 0
-   -> [Cycle 745] RECV at Port 0: Data=dd
-
-=== Testbench Finished ===
-$finish called from file "switch_complex_tb.sv", line 110.
-$finish at simulation time                  905
+--- Starting Simulation ---
+Time 55: Driving Packet on Port 0 -> Port 1
+--- Simulation Finished ---
+$finish called from file "switch_simple_tb.sv", line 61.
+$finish at simulation time                  265
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 905
-CPU Time:      0.140 seconds;       Data structure size:   0.0Mb
-Wed Dec  3 16:53:21 2025
+Time: 265
+CPU Time:      0.230 seconds;       Data structure size:   0.0Mb
+Thu Dec  4 09:19:14 2025

@@ -46,13 +46,13 @@ initial begin
 	// Source=Port0 (0001), Target=Port1 (0010), Data=0xAA
 	$display("Time %0t: Driving Packet on Port 0 -> Port 1", $time);
 	
-	port0.valid_in = 1;
-	port0.source_in = 4'b0001; // Source: Port 0
-	port0.target_in = 4'b0010; // Target: Port 1
-	port0.data_in   = 8'hAA;   // Payload
+	port1.valid_in = 1;
+	port1.source_in = 4'b0010; // Source: Port 1
+	port1.target_in = 4'b0100; // Target: Port 2
+	port1.data_in   = 8'hAA;   // Payload
 	
 	@(posedge clk);
-	port0.valid_in = 0; // Pulse valid for 1 cycle (Single Packet)
+	port1.valid_in = 0; // Pulse valid for 1 cycle (Single Packet)
 
 	// D. Wait and Observe
 	repeat(20) @(posedge clk);
@@ -67,7 +67,7 @@ always @(posedge clk) begin
 		$display("SUCCESS: Time %0t: Packet Received at Port 1! Data=%h", $time, port1.data_out);
 	end
 	// Check for ghost packets on other ports
-	if (port2.valid_out) $display("Time %0t: Packet at Port 2 (Unexpected?)", $time);
+	if (port0.valid_out) $display("Time %0t: Packet at Port 2 (Unexpected?)", $time);
 	if (port3.valid_out) $display("Time %0t: Packet at Port 3 (Unexpected?)", $time);
 end
 

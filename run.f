@@ -7,4 +7,6 @@ output_mux.sv
 switch_port.sv
 switch_4port.sv
 switch_simple_tb.sv
-switch_complex_tb.sv 
+switch_complex_tb.sv
+switch_types_tb.sv
+switch_collision_tb.sv 

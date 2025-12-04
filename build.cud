@@ -27,7 +27,7 @@ switch_4port.sv
 # --- 5. Testbenches ---
 //vc_test.sv
 //switch_test.sv
-//switch_simple_tb.sv
+switch_simple_tb.sv
 
 //agent.sv
 //./
@@ -35,4 +35,6 @@ switch_4port.sv
 //./
 //output_mux.sv 
 //./
-switch_complex_tb.sv 
+//switch_complex_tb.sv 
+//switch_types_tb.sv
+//switch_collision_tb.sv
