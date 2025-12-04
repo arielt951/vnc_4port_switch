@@ -38,6 +38,10 @@ task drive_pkt(int p_idx, logic [3:0] src, logic [3:0] tgt, logic [7:0] payload)
 	endcase
 	@(posedge clk);
 	port0.valid_in=0; port1.valid_in=0; port2.valid_in=0; port3.valid_in=0;
+	port0.data_in=0; port1.data_in=0; port2.data_in=0; port3.data_in=0;
+	port0.source_in=0; port1.source_in=0; port2.source_in=0; port3.source_in=0;
+	port0.target_in=0; port1.target_in=0; port2.target_in=0; port3.target_in=0;
+
 endtask
 
 // =========================================================================
@@ -107,10 +111,12 @@ initial begin
 	$display("\n--- SCENARIO 3: Three-way Multicast Chain Reaction ---");
 	
 	fork
-		drive_pkt(0, 4'b0001, 4'b0110, 8'hCC); // P0 -> {P1, P2}
 		drive_pkt(1, 4'b0010, 4'b1100, 8'hDD); // P1 -> {P2, P3}
-		drive_pkt(3, 4'b1000, 4'b1111, 8'hEE); // P3 -> {P1, P3}
+		drive_pkt(3, 4'b1000, 4'b1111, 8'hEE); // P3 -> broadcast
 	join
+	repeat(1) @(posedge clk);
+		drive_pkt(0, 4'b0010, 4'b0101, 8'hCC); // P1 -> {P2, P0}
+
 
 	repeat(40) @(posedge clk); // Give plenty of time to resolve
 	$display("   [CHECK] Verify all packets arrived eventually without dropping.");

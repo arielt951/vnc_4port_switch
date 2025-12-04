@@ -368,7 +368,9 @@ qDockerWindowMgr_C\qBaseWindowRestoreStateGroup\VERDI_LAST_RUN_LAYOUT\qDockerWin
 qDockerWindowMgr_C\qBaseWindowRestoreStateGroup\VERDI_LAST_RUN_LAYOUT\qDockerWindow_qDockContentType\signalList=1
 
 [qBaseWindow_saveRestoreSession_group]
+1=/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/signals/arrengment_simple.ses
 10=/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/verdiLog/novas_autosave.ses
+qBaseWindow_saveRestoreSession_index=1
 
 [qDockerWindow_C]
 Verdi_1\height=752

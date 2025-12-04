@@ -228,13 +228,13 @@ autoSaveSession = FALSE
 TclAutoSource = 
 cmd_enter_form = FALSE
 SyncBrowserDir = TRUE
-FindBarVisible = 
 ColorThemeModern = bright
 version = Verdi_X-2025.06-1
-recent_commands_Verdi = hbReload,hbInvokeSignalPane,schCreateWindowByScopeGroup
-recent_commands_nWave = editCut,Event,editCopy,selectStuckSignals,cloneWaveformWindow,getSignal,renameSignal,openFile,cloneWaveformWindow
+recent_commands_nWave = nextEvent,digitalFBin,editBus,editCut,renameSignal,changeColor,getSignal,previousEvent,groupAddPopUp,leftFullPage
+recent_commands_Verdi = hbSaveSession,hbReload,hbInvokeSignalPane
 prevColorThemeModern = bright
 SignalCaseInSensitive = FALSE
+FindBarVisible = nWave
 [GlobalProp]
 ErrWindow_Font = Helvetica_M_R_12
 [Globals]
@@ -390,14 +390,15 @@ saveWaveformStat = TRUE
 savePropStat = FALSE
 savePropDtl = TRUE
 [QtDialog]
-openFileDlg = 659,248,602,483
-qWaveSignalDialog = 584,262,800,479
-EventWindow = 545,289,829,402
-QwWarnMsgDlg = 651,368,600,250
 unknownSave = 489,277,461,245
-SigCPLDialog = 857,330,231,319
-fileWithNote = 632,218,655,543
-QwUserAskDlg = 548,297,324,128
+QwWarnMsgDlg = 651,368,600,250
+qWaveSignalDialog = 584,262,800,479
+SigCPLDialog = 856,301,231,319
+EditBusSimDialog = 745,407,428,165
+fileWithNote = 391,128,655,543
+QwUserAskDlg = 557,307,324,128
+openFileDlg = 659,248,602,483
+EventWindow = 545,289,829,402
 [Safety]
 RegisterObject = ID_RED4
 CoreObject = ID_ORANGE5
@@ -407,11 +408,11 @@ ErrorObject = ID_GRAY5
 AnnotateSignal = TRUE
 HighlightSafetyObject = TRUE
 [Session Cache]
-3 = string (session file name)
 4 = string (session file name)
 5 = string (session file name)
 1 = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/verdiLog/novas_autosave.ses
-2 = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simple_operation_waves.ses
+2 = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/signals/arreng_complex.ses
+3 = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simple_operation_waves.ses
 [Signal List]
 sigListBackgroundColor = ID_WHITE
 [Simulation]
@@ -477,14 +478,14 @@ iscCmdSep = FALSE
 ScsDebugAll = FALSE
 NoAppendOption = FALSE
 invokeSimPath = work
-restoreSimState = FALSE
-enableReverseDebug = FALSE
 simType = vcssv
 bSVTBMode = TRUE
 SimMode = TRUE
 interactiveDebugging = TRUE
 KeepBreakPoints = FALSE
 vcs_svPath = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv
+restoreSimState = FALSE
+enableReverseDebug = FALSE
 [SimulationPlus2]
 eventDumpUnfinish = FALSE
 [Source]
@@ -602,7 +603,7 @@ pdmlMacro = ID_BLACK
 font = COURIER12
 annotFont = FIXED12
 [Text.1]
-viewport = 0 24 1440 752 45
+viewport = 0 24 1438 751 45
 [TextPrinter]
 Orientation = Landscape
 Indicator = FALSE
@@ -700,10 +701,10 @@ isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
-name = "Severity"
+name = "Code"
 width = 60
-visualIndex = 2
-isHidden = FALSE
+visualIndex = 3
+isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
@@ -714,24 +715,24 @@ isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
-name = "Message"
-width = 2000
-visualIndex = 5
-isHidden = FALSE
-isUserChangeColumnVisible = FALSE
-isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
 name = "Time"
 width = 60
 visualIndex = 0
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column5]
-name = "Code"
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+name = "Severity"
 width = 60
-visualIndex = 3
-isHidden = TRUE
+visualIndex = 2
+isHidden = FALSE
+isUserChangeColumnVisible = FALSE
+isColFilterColorCoding = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column5]
+name = "Message"
+width = 2000
+visualIndex = 5
+isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
 [VIA.ruleHistory]
@@ -810,8 +811,8 @@ AutoApplySeverityColor = TRUE
 scope_to_save_with_macro
 open_file_dir
 open_rc_file_dir
-getSignalForm = 1 29 800 479 266 389 290 92
-viewPort = 0 11 1440 400 191 65
+getSignalForm = 560 250 800 479 165 389 391 92
+viewPort = 0 11 1438 522 429 50
 legendBackground = -c ID_BLACK
 valueBackground = -c ID_BLACK
 curveBackground = -c ID_BLACK
@@ -1614,9 +1615,9 @@ AddImportArgument = FALSE
 LineBreakWithScope = TRUE
 StopAfterCompileOption = -s
 [wave.0]
-viewPort = 0 11 1440 400 191 65
+viewPort = 0 11 1438 522 429 50
 [wave.1]
-viewPort = 0 11 1440 546 191 65
+viewPort = 127 219 960 332 100 65
 [wave.2]
 viewPort = 38 314 686 205 100 65
 [wave.3]

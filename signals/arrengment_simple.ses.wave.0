@@ -1,0 +1,91 @@
+Magic 271485
+Revision Verdi_X-2025.06-1
+
+; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
+viewPort 0 11 1438 400 191 65
+
+; File list:
+; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
+openDirFile -d / "" "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb"
+
+; file time scale:
+; fileTimeScale ### s|ms|us|ns|ps
+
+; signal spacing:
+signalSpacing 5
+
+; windowTimeUnit is used for zoom, cursor & marker
+; waveform viewport range
+zoom 0.000000 267.650000
+cursor 95.000000
+marker 0.000000
+
+; user define markers
+; userMarker time_pos marker_name color linestyle
+; visible top row signal index
+top 1
+; marker line index
+markerPos 19
+
+; event list
+; addEvent event_name event_expression
+; curEvent event_name
+
+
+
+COMPLEX_EVENT_BEGIN
+
+
+COMPLEX_EVENT_END
+
+
+
+; toolbar current search type
+; curSTATUS search_type
+curSTATUS ByChange
+
+
+addGroup "G1"
+activeDirFile "" "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb"
+addSignal -h 16 /switch_simple_tb/dut/port1/valid_in
+addSignal -h 16 -UNSIGNED -HEX -holdScope data_in[7:0]
+addSignal -h 16 -UNSIGNED -HEX /switch_simple_tb/dut/mux2_i/mux_sel[1:0]
+addSignal -h 16 -holdScope valid_out
+addGroup "arbiter"
+addSignal -h 16 /switch_simple_tb/dut/top_arb_i/clk
+addSignal -h 16 -UNSIGNED /switch_simple_tb/dut/port1_i/current_state[1:0]
+addGroup "comb arbiter logic"
+addSignal -h 16 /switch_simple_tb/dut/top_arb_i/port_reqs[1]
+addSignal -h 16 -holdScope port1_dst[2]
+addSignal -h 16 -UNSIGNED -HEX -holdScope reqs_out2[3:0]
+addSignal -expanded -h 16 -UNSIGNED -HEX -holdScope grant_bus[3:0]
+addSignal -h 16 -holdScope grant_bus[1]
+addGroup "seq arbiter logic"
+addSignal -h 16 -UNSIGNED -HEX /switch_simple_tb/dut/top_arb_i/ptr2[1:0]
+addSignal -h 16 -holdScope port1_dst[2]
+addSignal -h 16 -holdScope win_out2[1]
+addSignal -h 16 -UNSIGNED -HEX -holdScope mux_sel2[1:0]
+addSignal -h 16 /switch_simple_tb/dut/mux2_i/arb_active
+addGroup "G5"
+
+; getSignalForm Scope Hierarchy Status
+; active file of getSignalForm
+activeDirFile "" "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb"
+
+GETSIGNALFORM_SCOPE_HIERARCHY_BEGIN
+getSignalForm close
+
+"/_vcs_unit__1210967606"
+"/switch_simple_tb"
+"/switch_simple_tb/dut"
+
+SCOPE_LIST_BEGIN
+"/_vcs_unit__1210967606"
+"/switch_simple_tb/dut/mux2_i"
+"/switch_simple_tb/dut/mux1_i"
+"/switch_simple_tb/dut/port1"
+SCOPE_LIST_END
+
+GETSIGNALFORM_SCOPE_HIERARCHY_END
+
+

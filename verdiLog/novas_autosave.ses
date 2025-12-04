@@ -27,15 +27,15 @@ fdb_campaign =
 fdb_tool = 
 [hb]
 postSimFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
-syncTime = 0
-viewport = 0 24 1440 752 0 0 471 1438
-activeNode = "switch_simple_tb.dut.mux2_i"
-activeScope = "switch_simple_tb.dut.mux2_i"
-activeFile = "output_mux.sv"
+syncTime = 605
+viewport = 0 24 1438 751 0 0 555 1916
+activeNode = "switch_collision_tb.dut.top_arb_i"
+activeScope = "switch_collision_tb.dut.top_arb_i"
+activeFile = "arbiter.sv"
 interactiveMode = False
 viewType = Source
 simulatorMode = False
-sourceBeginLine = 1
+sourceBeginLine = 95
 baMode = False
 srcLineNum = True
 AutoWrap = True
@@ -52,24 +52,23 @@ DnDtraceCrossHierOnly = True
 leadingZero = False
 signalPane = True
 SourceVerticalScrollLines = 5
-Scope1 = "switch_simple_tb.dut.mux2_i"
-Scope2 = "switch_simple_tb.dut.mux1_i"
-multipleSelection = 1 2 22 0 0
+Scope1 = "switch_collision_tb.dut.top_arb_i"
+multipleSelection = 1 1 2 0 0
 sdfCheckUndef = FALSE
 simFlow = FALSE
 [hb.design]
 importCmd = "-dbdir" "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir" 
 invokeDir = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
 [hb.sourceTab.1]
-scope = switch_simple_tb.dut.mux2_i
-File = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/output_mux.sv
-Line = 2
+scope = switch_collision_tb.dut.top_arb_i
+File = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/arbiter.sv
+Line = 96
 [nMemoryManager]
 WaveformFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
 UserActionNum = 0
 nMemWindowNum = 0
 [wave.0]
-viewPort = 0 11 1440 400 191 65
+viewPort = 0 11 1438 522 429 50
 primaryWindow = TRUE
 SessionFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/verdiLog/novas_autosave.ses.wave.0
 displayGrid = FALSE

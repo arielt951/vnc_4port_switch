@@ -131,9 +131,12 @@ always_comb begin
 		// -----------------------------------------------------------------
 		TRANSMIT: begin
 			port_req = 1'b0;
-			next_state = IDLE;      // Return to IDLE
+			if(!fifo_empty) begin
+				next_state = ROUTE; // NEXT PACKET
+			end else begin
+				next_state = IDLE; // All data sent, return to IDLE
+			end
 		end 
-
 		default: next_state = IDLE;
 	endcase
 end

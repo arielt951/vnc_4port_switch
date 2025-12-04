@@ -7,36 +7,606 @@ debLoadSimResult \
            /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
 wvCreateWindow
 verdiSetActWin -win $_nWave2
-verdiWindowResize -win $_Verdi_1 "0" "24" "1440" "752"
-verdiWindowResize -win $_Verdi_1 "0" "24" "1440" "752"
+verdiWindowResize -win $_Verdi_1 "0" "24" "1438" "751"
+verdiWindowResize -win $_Verdi_1 "0" "24" "1438" "751"
 verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
 verdiSetActWin -dock widgetDock_<Inst._Tree>
-srcHBSelect "switch_simple_tb.dut.mux1_i" -win $_nTrace1
-srcSetScope "switch_simple_tb.dut.mux1_i" -delim "." -win $_nTrace1
-srcHBSelect "switch_simple_tb.dut.mux1_i" -win $_nTrace1
-srcSignalView -on
-verdiSetActWin -dock widgetDock_<Signal_List>
-srcSignalViewSelect "switch_simple_tb.dut.mux1_i.mux_sel\[1:0\]"
+srcHBSelect "switch_simple_tb.dut.mux2_i" -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.mux2_i" -win $_nTrace1
+srcSetScope "switch_simple_tb.dut.mux2_i" -delim "." -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.mux2_i" -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.mux2_i" -win $_nTrace1
+srcSignalViewSelect "switch_simple_tb.dut.mux2_i.mux_sel\[1:0\]"
 srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
+wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
 wvZoomOut -win $_nWave2
 debReload
-wvSelectSignal -win $_nWave2 {( "G1" 1 )} 
+srcSignalViewSelect "switch_simple_tb.dut.mux2_i.valid_out"
+srcSignalViewAddSelectedToWave
+wvSelectGroup -win $_nWave2 {G2}
+verdiSetActWin -win $_nWave2
+srcHBSelect "switch_simple_tb.dut.port1_i" -win $_nTrace1
+srcSetScope "switch_simple_tb.dut.port1_i" -delim "." -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.port1_i" -win $_nTrace1
+verdiSetActWin -dock widgetDock_<Inst._Tree>
+srcHBSelect "switch_simple_tb.dut.top_arb_i" -win $_nTrace1
+srcSetScope "switch_simple_tb.dut.top_arb_i" -delim "." -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.top_arb_i" -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.port1_i" -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.port1_i" -win $_nTrace1
+srcSetScope "switch_simple_tb.dut.port1_i" -delim "." -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.port1_i" -win $_nTrace1
+srcSignalViewSelect "switch_simple_tb.dut.port1_i.current_state\[1:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+srcHBSelect "switch_simple_tb.dut.top_arb_i" -win $_nTrace1
+srcSetScope "switch_simple_tb.dut.top_arb_i" -delim "." -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.top_arb_i" -win $_nTrace1
+verdiSetActWin -dock widgetDock_<Inst._Tree>
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.clk"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+wvSetPosition -win $_nWave2 {("G2" 0)}
+verdiSetActWin -win $_nWave2
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("G2" 1)}
+wvSetPosition -win $_nWave2 {("G2" 1)}
+wvSelectGroup -win $_nWave2 {G2}
+wvRenameGroup -win $_nWave2 {G2} {arbiter}
+wvSelectGroup -win $_nWave2 {G3}
+wvRenameGroup -win $_nWave2 {G3} {comp arbiter logic}
+wvSetCursor -win $_nWave2 37.974274 -snap {("comp arbiter logic" 0)}
+wvSelectGroup -win $_nWave2 {comp arbiter logic}
+wvRenameGroup -win $_nWave2 {comp arbiter logic} {comb arbiter logic}
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.reqs_out0\[3:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 0)}
+verdiSetActWin -win $_nWave2
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+wvSelectGroup -win $_nWave2 {comb arbiter logic}
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.reqs_out1\[3:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.reqs_out2\[3:0\]"
+srcSignalViewAddSelectedToWave
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.reqs_out3\[3:0\]"
+srcSignalViewAddSelectedToWave
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 4 )} 
 verdiSetActWin -win $_nWave2
 wvCut -win $_nWave2
-wvSetPosition -win $_nWave2 {("G2" 0)}
-wvSetPosition -win $_nWave2 {("G1" 0)}
+wvSetPosition -win $_nWave2 {("G4" 0)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 3)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 2 )} 
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G4" 0)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 2)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G4" 0)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.grant_bus\[3:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+wvSelectGroup -win $_nWave2 {G4}
+verdiSetActWin -win $_nWave2
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "ptr0" -line 144 -pos 1 -win $_nTrace1
+srcAction -pos 143 1 1 -win $_nTrace1 -name "ptr0" -ctrlKey off
+wvSetPosition -win $_nWave2 {("arbiter" 1)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 0)}
+wvSetPosition -win $_nWave2 {("G4" 0)}
+wvAddSignal -win $_nWave2 "/switch_simple_tb/dut/top_arb_i/ptr0\[1:0\]"
+wvSetPosition -win $_nWave2 {("G4" 0)}
+wvSetPosition -win $_nWave2 {("G4" 1)}
+wvSetPosition -win $_nWave2 {("G4" 1)}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "ptr1" -line 144 -pos 1 -win $_nTrace1
+srcAction -pos 143 8 2 -win $_nTrace1 -name "ptr1" -ctrlKey off
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.ptr1\[1:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.ptr2\[1:0\]"
+srcSignalViewAddSelectedToWave
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.ptr3\[1:0\]"
+srcSignalViewAddSelectedToWave
+wvSelectSignal -win $_nWave2 {( "G4" 1 )} 
+verdiSetActWin -win $_nWave2
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G5" 0)}
+wvSetPosition -win $_nWave2 {("G4" 3)}
+wvSelectSignal -win $_nWave2 {( "G4" 1 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G5" 0)}
+wvSetPosition -win $_nWave2 {("G4" 2)}
+wvSelectSignal -win $_nWave2 {( "G4" 2 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G5" 0)}
+wvSetPosition -win $_nWave2 {("G4" 1)}
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.win_out2\[3:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.win_out1\[3:0\]"
+srcSignalViewAddSelectedToWave
+wvSelectSignal -win $_nWave2 {( "G4" 3 )} 
+verdiSetActWin -win $_nWave2
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G5" 0)}
+wvSetPosition -win $_nWave2 {("G4" 2)}
+srcDeselectAll -win $_nTrace1
+srcAction -pos 71 3 2 -win $_nTrace1 -name "winner" -ctrlKey off
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+verdiFindBar -show -widget MTB_SOURCE_TAB_1
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.mux_sel2\[1:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.port2_dst\[3:0\]"
+srcSignalViewAddSelectedToWave
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.port1_dst\[3:0\]"
+srcSignalViewAddSelectedToWave
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.port2_dst\[3:0\]"
+wvSelectSignal -win $_nWave2 {( "G4" 4 )} 
+verdiSetActWin -win $_nWave2
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("G5" 0)}
+wvSetPosition -win $_nWave2 {("G4" 4)}
+wvSelectSignal -win $_nWave2 {( "G4" 4 )} 
+wvSetPosition -win $_nWave2 {("G4" 3)}
+wvSetPosition -win $_nWave2 {("G4" 2)}
+wvSetPosition -win $_nWave2 {("G4" 1)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("G4" 1)}
+wvSetPosition -win $_nWave2 {("G4" 2)}
+srcHBSelect "switch_simple_tb.dut.top_arb_i" -win $_nTrace1
+verdiSetActWin -dock widgetDock_<Inst._Tree>
+schCreateWindow -delim "." -win $_nSchema1 -scope \
+           "switch_simple_tb.dut.top_arb_i"
+verdiSetActWin -win $_nSchema_3
+verdiDockWidgetSetCurTab -dock widgetDock_MTB_SOURCE_TAB_1
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+wvSelectGroup -win $_nWave2 {G4}
+verdiSetActWin -win $_nWave2
+wvRenameGroup -win $_nWave2 {G4} {seq arbiter logic}
+wvSelectSignal -win $_nWave2 {( "arbiter" 1 )} 
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+wvExpandBus -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 2)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 2 )} 
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 2 )} 
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+wvCollapseBus -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 2)}
+wvScrollDown -win $_nWave2 0
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 3 )} 
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 4 )} 
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 3 )} 
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 3 )} 
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+wvExpandBus -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 4 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 7)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 6)}
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 4 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 6)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 5)}
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 5 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 5)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 3 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 4 )} 
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 2 )} 
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 2)}
+wvExpandBus -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 3 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 3 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 4 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "grant_bus\[0\]" -line 107 -pos 1 -win $_nTrace1
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "grant_bus\[0\]" -line 107 -pos 1 -win $_nTrace1
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.port_reqs\[3:0\]"
+srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_<Signal_List>
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 1)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 3)}
+verdiSetActWin -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 2)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 0)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 0)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.port1_dst\[3:0\]"
+verdiSetActWin -dock widgetDock_<Signal_List>
+srcSignalViewSelect "switch_simple_tb.dut.top_arb_i.port1_dst\[3:0\]"
+srcSignalViewAddSelectedToWave
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+verdiFindBar -hide -widget <Signal_List>
+debReload
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 1)}
+wvExpandBus -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 6)}
+verdiSetActWin -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 2 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 6)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 5)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 2 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 5)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 4)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 3 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 3)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 2 )} 
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 3 )} 
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 3 )} 
+wvExpandBus -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 4 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 7)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 6)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 5 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 6)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 5)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 5 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 5)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 4)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 3 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 3)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 3)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 2)}
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 5 )} 
+wvScrollDown -win $_nWave2 0
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 2 )} 
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "port_reqs\[0\]" -line 107 -pos 1 -win $_nTrace1
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "port_reqs\[0\]" -line 107 -pos 1 -win $_nTrace1
+verdiFindBar -show -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "port_reqs" -previous -widget MTB_SOURCE_TAB_1
+srcShowCalling -win $_nTrace1
+srcSelect -win $_nTrace1 -range {78 78 3 4 1 1}
+srcHBSelect "switch_simple_tb.dut" -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "port_reqs" -line 86 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "port_reqs" -line 86 -pos 2 -win $_nTrace1
+srcAction -pos 85 5 6 -win $_nTrace1 -name "port_reqs" -ctrlKey off
+verdiFindBar -pattern "port_req" -next -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "port_req" -previous -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "port_req" -previous -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "port_req" -next -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "port_req" -next -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "port_req" -next -widget MTB_SOURCE_TAB_1
+wvScrollDown -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+verdiSetActWin -win $_nWave2
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "port_req" -line 119 -pos 1 -win $_nTrace1
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+srcHBSelect "switch_simple_tb.dut.top_arb_i" -win $_nTrace1
+srcSetScope "switch_simple_tb.dut.top_arb_i" -delim "." -win $_nTrace1
+srcHBSelect "switch_simple_tb.dut.top_arb_i" -win $_nTrace1
+verdiSetActWin -dock widgetDock_<Inst._Tree>
+srcDeselectAll -win $_nTrace1
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "port_reqs" -line 6 -pos 1 -win $_nTrace1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+verdiSetActWin -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "G1" 3 )} {( "arbiter" 1 )} 
+wvSetPosition -win $_nWave2 {("G1" 3)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 0)}
+wvSetPosition -win $_nWave2 {("arbiter" 1)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("arbiter" 2)}
+wvScrollDown -win $_nWave2 1
+wvSetPosition -win $_nWave2 {("arbiter" 1)}
+wvSetPosition -win $_nWave2 {("arbiter" 2)}
+wvSetPosition -win $_nWave2 {("comb arbiter logic" 0)}
+wvSetPosition -win $_nWave2 {("arbiter" 2)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("arbiter" 2)}
+wvSelectSignal -win $_nWave2 {( "arbiter" 2 )} 
+wvSetPosition -win $_nWave2 {("arbiter" 1)}
+wvSetPosition -win $_nWave2 {("arbiter" 0)}
+wvSetPosition -win $_nWave2 {("G1" 2)}
+wvSetPosition -win $_nWave2 {("G1" 1)}
+wvSetPosition -win $_nWave2 {("G1" 2)}
+wvSetPosition -win $_nWave2 {("arbiter" 0)}
+wvSetPosition -win $_nWave2 {("arbiter" 1)}
+wvSetPosition -win $_nWave2 {("arbiter" 0)}
+wvMoveSelected -win $_nWave2
+wvSetPosition -win $_nWave2 {("arbiter" 0)}
+wvSetPosition -win $_nWave2 {("arbiter" 1)}
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "mux_sel2" -line 22 -pos 1 -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "mux_sel3" -line 23 -pos 1 -win $_nTrace1
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "mux_sel2" -line 22 -pos 1 -win $_nTrace1
+verdiFindBar -show -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "mux_sel2" -next -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "mux_sel2" -next -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "mux_sel2" -next -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "mux_sel2" -next -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "mux_sel2" -previous -widget MTB_SOURCE_TAB_1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvSelectSignal -win $_nWave2 {( "G1" 2 )} 
+verdiSetActWin -win $_nWave2
+wvGetSignalOpen -win $_nWave2
+wvGetSignalSetScope -win $_nWave2 "/_vcs_unit__1210967606"
+wvGetSignalSetScope -win $_nWave2 "/switch_simple_tb/dut/mux2_i"
+wvGetSignalSetScope -win $_nWave2 "/switch_simple_tb/dut/mux1_i"
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 2 )} 
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 2)}
+wvExpandBus -win $_nWave2
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 3 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 6)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 5)}
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 4 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 5)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 4 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 2 )} 
+wvCut -win $_nWave2
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 3)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 2)}
+wvSelectSignal -win $_nWave2 {( "seq arbiter logic" 2 )} 
+wvSelectSignal -win $_nWave2 {( "arbiter" 1 )} 
+wvGetSignalOpen -win $_nWave2
+wvGetSignalSetScope -win $_nWave2 "/switch_simple_tb/dut/port1"
+wvSetPosition -win $_nWave2 {("G1" 2)}
+wvSetPosition -win $_nWave2 {("G1" 2)}
+wvAddSignal -win $_nWave2 -clear
+wvAddSignal -win $_nWave2 -group {"G1" \
+{/switch_simple_tb/dut/port1/valid_in} -height 16 \
+{/switch_simple_tb/dut/port1/data_in\[7:0\]} -height 16 \
+{/switch_simple_tb/dut/mux2_i/mux_sel\[1:0\]} -height 16 \
+{/switch_simple_tb/dut/mux2_i/valid_out} -height 16 \
+}
+wvAddSignal -win $_nWave2 -group {"arbiter" \
+{/switch_simple_tb/dut/top_arb_i/clk} -height 16 \
+{/switch_simple_tb/dut/port1_i/current_state\[1:0\]} -height 16 \
+}
+wvAddSignal -win $_nWave2 -group {"comb arbiter logic" \
+{/switch_simple_tb/dut/top_arb_i/port_reqs\[1\]} -height 16 \
+{/switch_simple_tb/dut/top_arb_i/port1_dst\[2\]} -height 16 \
+{/switch_simple_tb/dut/top_arb_i/reqs_out2\[3:0\]} -height 16 \
+{/switch_simple_tb/dut/top_arb_i/grant_bus\[3:0\]} -height 16 \
+{/switch_simple_tb/dut/top_arb_i/grant_bus\[1\]} -height 16 \
+}
+wvAddSignal -win $_nWave2 -group {"seq arbiter logic" \
+{/switch_simple_tb/dut/top_arb_i/ptr2\[1:0\]} -height 16 \
+{/switch_simple_tb/dut/top_arb_i/port1_dst\[2\]} -height 16 \
+{/switch_simple_tb/dut/top_arb_i/win_out2\[1\]} -height 16 \
+{/switch_simple_tb/dut/top_arb_i/mux_sel2\[1:0\]} -height 16 \
+}
+wvAddSignal -win $_nWave2 -group {"G5" \
+}
+wvSelectSignal -win $_nWave2 {( "G1" 2 )} 
+wvSetPosition -win $_nWave2 {("G1" 2)}
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvSetCursor -win $_nWave2 54.872881 -snap {("G1" 2)}
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 0
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvSetCursor -win $_nWave2 64.597189 -snap {("G1" 1)}
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 0
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvSetCursor -win $_nWave2 88.213365 -snap {("comb arbiter logic" 5)}
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 5 )} 
+wvScrollDown -win $_nWave2 1
 srcHBSelect "switch_simple_tb.dut.mux2_i" -win $_nTrace1
 srcSetScope "switch_simple_tb.dut.mux2_i" -delim "." -win $_nTrace1
 srcHBSelect "switch_simple_tb.dut.mux2_i" -win $_nTrace1
 verdiSetActWin -dock widgetDock_<Inst._Tree>
-srcSignalViewSelect "switch_simple_tb.dut.mux2_i.mux_sel\[1:0\]"
-srcSignalViewAddSelectedToWave
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+verdiFindBar -pattern "active" -next -widget MTB_SOURCE_TAB_1
+verdiFindBar -pattern "active" -next -widget MTB_SOURCE_TAB_1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "arb_active" -line 18 -pos 1 -win $_nTrace1
+srcSelect -win $_nTrace1 -range {23 31 1 1 16 1}
+srcDeselectAll -win $_nTrace1
+srcSignalViewSelect "switch_simple_tb.dut.mux2_i.arb_active"
 verdiSetActWin -dock widgetDock_<Signal_List>
+srcSignalViewSelect "switch_simple_tb.dut.mux2_i.arb_active"
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 1)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("G5" 0)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvAddSignal -win $_nWave2 "/switch_simple_tb/dut/mux2_i/arb_active"
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 4)}
+wvSetPosition -win $_nWave2 {("seq arbiter logic" 5)}
+wvSetCursor -win $_nWave2 84.971929 -snap {("comb arbiter logic" 5)}
+verdiSetActWin -win $_nWave2
+wvSetCursor -win $_nWave2 90.065614 -snap {("arbiter" 2)}
+wvScrollDown -win $_nWave2 1
+wvSelectSignal -win $_nWave2 {( "comb arbiter logic" 1 )} 
+debReload
+wvScrollDown -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
+wvScrollDown -win $_nWave2 1
 wvScrollDown -win $_nWave2 0
-wvScrollDown -win $_nWave2 0
-wvScrollDown -win $_nWave2 0
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvScrollUp -win $_nWave2 1
+wvSelectStuckSignals -win $_nWave2
+wvScrollUp -win $_nWave2 5
+wvSelectGroup -win $_nWave2 {G1}
+wvScrollDown -win $_nWave2 8
+wvSelectGroup -win $_nWave2 {G1} {arbiter} {comb arbiter logic} \
+           {seq arbiter logic} {G5}
+wvScrollUp -win $_nWave2 7
+wvSaveSignal -win $_nWave2 \
+           "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/signals/signal.rc"
+debSaveSession \
+           /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/signals/arrengment_simple.ses \
+           -keynote \
+           {invoke directory: /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
+command line: -elab /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/kdb.elab++ -ba 
+current trace scope: switch_simple_tb.dut.mux2_i
+memo:} \
+           -saveDB on
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            wvSelectGroup -win $_nWave2 {port 1 in}
+wvScrollDown -win $_nWave2 1
+debReload
+wvScrollUp -win $_nWave2 1
+debSaveSession \
+           /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/signals/arreng_complex.ses \
+           -keynote \
+           {invoke directory: /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
+command line: -elab /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/kdb.elab++ -ba 
+current trace scope: switch_collision_tb.dut.top_arb_i
+memo:} \
+           -saveDB on
 debExit
