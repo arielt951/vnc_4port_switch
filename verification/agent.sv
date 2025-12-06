@@ -22,12 +22,12 @@ class agent extends component_base;
 
   // 3. Configuration & Connection
   function void configure(virtual port_if vif, int port_id);
-    [cite_start]// Pass configuration down to children [cite: 42]
+    // Pass configuration down to children [cite: 42]
     seq.configure(port_id);
     drv.configure(vif, port_id);
     mon.configure(vif, port_id);
     
-    [cite_start]// Connect the Mailbox [cite: 42]
+    // Connect the Mailbox [cite: 42]
     // Both sequencer and driver now share the exact same mailbox instance
     seq.mbx = this.mbx;
     drv.mbx = this.mbx;

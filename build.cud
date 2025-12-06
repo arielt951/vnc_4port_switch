@@ -7,35 +7,31 @@
 # Each path or command, should be in a separate line.
 # For content assistance which shows all available flags, type '-' in a new line outside the commented area, and press CTRL+SPACE.
 
-# --- 1. Global Constants (MUST BE FIRST) ---
-//defines.sv
-
-# --- 2. Packages (Contains component_base, driver, monitor, etc.) ---
+# --- 1. Packages (MUST BE FIRST) ---
+# This package includes all your classes: packet, sequencer, driver, monitor, agent, checker
 design/packet_pkg.sv
 
-# --- 3. Interfaces ---
+# --- 2. Interfaces ---
 design/port_if.sv
 
-# --- 4. RTL Modules (Hardware) ---
+# --- 3. RTL Modules (Hardware) ---
 design/FIFO.sv
 design/parser.sv
 design/arbiter.sv
-design/output_mux.sv # (Optional: Include only if you are using it, otherwise remove)
+design/output_mux.sv
 design/switch_port.sv
 design/switch_4port.sv
 
-# --- 5. Testbenches ---
-//verification/vc_test.sv
-//verification/switch_test.sv
-//tb/switch_simple_tb.sv
+# --- 4. Testbenches ---
+# STEP A: Sanity Check (Uncomment this now)
+verification/vc_test.sv
 
-//verification/agent.sv
-//./
-//verification/component_base.sv
-//./
-//output_mux.sv 
-//./
-//tb/switch_complex_tb.sv 
+# STEP B: Final Project (Uncomment this later when vc_test passes)
+# verification/switch_test.sv
+
+# --- 5. Legacy/Old Files (Keep commented out) ---
+# tb/switch_simple_tb.sv
+# tb/switch_complex_tb.sv
+# tb/switch_overflow_tb.sv
 //tb/switch_types_tb.sv
 //tb/switch_collision_tb.sv
-tb/switch_overflow_tb.sv

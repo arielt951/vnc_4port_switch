@@ -1,6 +1,6 @@
 #!/bin/sh -h 
 
-FILE_PATH="/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch"
+FILE_PATH="/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch"
 lockfile="${FILE_PATH}"/lock
 
 FSearch_lock_release() {
@@ -32,13 +32,13 @@ if [ -d "$dir_name"/../../../../../../../../.. ]; then
     cd "$dir_name"/../../../../../../../../..
 fi
 
-if [ -f "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch/.create_fsearch_db" ]; then
-    if [ ! -f "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch/fsearch.db" ]; then
+if [ -f "/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch/.create_fsearch_db" ]; then
+    if [ ! -f "/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch/fsearch.db" ]; then
         if [ "$#" -eq 1 ] && [ "x$1" == "x-background" ]; then
             trap FSearch_lock_release EXIT
             (
                 flock 193
-                create_fsearch_db_ctrl "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch/.create_fsearch_db"
+                create_fsearch_db_ctrl "/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch/.create_fsearch_db"
                 exit 193
             ) 193> "$lockfile"
             rstat=$?
@@ -46,12 +46,12 @@ if [ -f "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir
                 exit $rstat
             fi
         else
-            "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch/.create_fsearch_db"
-            if [ -f "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch/fsearch.stat" ]; then
-               rm -f "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch/fsearch.stat"
+            "/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch/.create_fsearch_db"
+            if [ -f "/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch/fsearch.stat" ]; then
+               rm -f "/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch/fsearch.stat"
             fi
         fi
-    elif [ -f "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch/fsearch.stat" ]; then
-       rm -f "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/debug_dump/fsearch/fsearch.stat"
+    elif [ -f "/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch/fsearch.stat" ]; then
+       rm -f "/project/verif/users/yh3/ws/vnc_4port_switch/simv.daidir/debug_dump/fsearch/fsearch.stat"
     fi
 fi
