@@ -28,7 +28,7 @@ class monitor extends component_base;
       
       // B. CLASSIFY: Determine packet type (SDP/MDP/BDP) 
       // utilizing the logic we defined in packet_pkg
-      pkt.calc_type();
+      pkt.calc_type(); 
       
       // C. LOG: Print what we saw
       pkt.print($sformatf("Monitor_%0d", port_id));
