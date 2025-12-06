@@ -1,7 +1,7 @@
 rc file Version 1.0
 
 [Design]
-COMPILE_PATH=/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
+COMPILE_PATH=/project/verif/users/yh3/ws/vnc_4port_switch
 VCS_HOME=/tools/synopsys/vcs/X-2025.06-1
 VERDI_HOME=/tools/synopsys/verdi/X-2025.06-1
 SystemC=FALSE

@@ -4,7 +4,7 @@ Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detec
 Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
 Chronologic VCS simulator copyright 1991-2025
 Contains Synopsys proprietary information.
-Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  6 14:52 2025
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  6 15:27 2025
 Warning : License for product VCS-BASE-RUNTIME will expire within 26 days, on: 31-dec-2025.
 
 If you would like to temporarily disable this message, set 
@@ -55,5 +55,5 @@ $finish called from file "tb/switch_collision_tb.sv", line 201.
 $finish at simulation time                 1035
            V C S   S i m u l a t i o n   R e p o r t 
 Time: 1035
-CPU Time:      0.280 seconds;       Data structure size:   0.0Mb
-Sat Dec  6 14:52:49 2025
+CPU Time:      0.380 seconds;       Data structure size:   0.0Mb
+Sat Dec  6 15:27:28 2025
