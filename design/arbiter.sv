@@ -128,10 +128,25 @@ module arbiter (
     // we do NOT rotate Output 1's pointer (Port 0 keeps priority for next retry).
     
     
-			active0 <= (|win_out0) & |grant_bus; // Reduction OR: returns 1 if any bit is 1
-			active1 <= (|win_out1) & |grant_bus;
-			active2 <= (|win_out2) & |grant_bus;
-			active3 <= (|win_out3) & |grant_bus;
+            active0 <= (win_out0[0] & grant_bus[0]) | 
+                       (win_out0[1] & grant_bus[1]) | 
+                       (win_out0[2] & grant_bus[2]) | 
+                       (win_out0[3] & grant_bus[3]);
+
+            active1 <= (win_out1[0] & grant_bus[0]) | 
+                       (win_out1[1] & grant_bus[1]) | 
+                       (win_out1[2] & grant_bus[2]) | 
+                       (win_out1[3] & grant_bus[3]);
+
+            active2 <= (win_out2[0] & grant_bus[0]) | 
+                       (win_out2[1] & grant_bus[1]) | 
+                       (win_out2[2] & grant_bus[2]) | 
+                       (win_out2[3] & grant_bus[3]);
+
+            active3 <= (win_out3[0] & grant_bus[0]) | 
+                       (win_out3[1] & grant_bus[1]) | 
+                       (win_out3[2] & grant_bus[2]) | 
+                       (win_out3[3] & grant_bus[3]);
 			
 			// C. Encode Mux Selects (Map One-Hot to 2-bit Binary)
 			mux_sel0 <= (win_out0[1]) ? 2'd1 : (win_out0[2]) ? 2'd2 : (win_out0[3]) ? 2'd3 : 2'd0;
