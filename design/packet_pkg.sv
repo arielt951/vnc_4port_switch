@@ -19,9 +19,9 @@ package packet_pkg;
 	// -----------------------------------------------------------
 	class packet;
 		// Randomizable fields
-		rand logic [3:0] source;
-		rand logic [3:0] target;
-		rand logic [7:0] data;
+		rand logic [ADDR_WIDTH-1:0] source;
+		rand logic [ADDR_WIDTH-1:0] target;
+		rand logic [DATA_WIDTH-1:0] data;
 		
 		// Internal variables
 		string name;
