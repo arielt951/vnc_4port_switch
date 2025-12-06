@@ -3,10 +3,10 @@ package packet_pkg;
 	// 1. GLOBAL CONSTANTS
 	// -----------------------------------------------------------
 	parameter int PACKET_WIDTH = 16;
-	parameter int ADDR_WIDTH = 4;
-	parameter int DEPTH      = 8;
-	parameter int DATA_WIDTH  = 8;
-	parameter int NUM_PORTS = 4 ;
+	parameter int ADDR_WIDTH   = 4;
+	parameter int DEPTH        = 8;
+	parameter int DATA_WIDTH   = 8;
+	parameter int NUM_PORTS    = 4 ;
 
 	// -----------------------------------------------------------
 	// 2. ENUMS

@@ -4,7 +4,7 @@ Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detec
 Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
 Chronologic VCS simulator copyright 1991-2025
 Contains Synopsys proprietary information.
-Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  6 14:07 2025
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  6 14:52 2025
 Warning : License for product VCS-BASE-RUNTIME will expire within 26 days, on: 31-dec-2025.
 
 If you would like to temporarily disable this message, set 
@@ -18,53 +18,42 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
 *Verdi* : Begin traversing the scopes, layer (0).
 *Verdi* : End of traversing.
 
-=== STARTING FIFO OVERFLOW TEST ===
+=== STARTING OOP COLLISION TESTS ===
 
---- Step 1: Burst 10 packets to Port 0 (Targeting Port 1) ---
---- FIFO Depth is 8. We expect packet drops after ~8 packets. ---
-[DRIVING] ID:0 Name:Flood_Pkt_0 | Src:0100 Tgt:0010 | Data(Hex):41 Data(Dec):65 | Type:SDP
-[DRIVING] ID:1 Name:Flood_Pkt_1 | Src:1000 Tgt:0010 | Data(Hex):13 Data(Dec):19 | Type:SDP
-[DRIVING] ID:2 Name:Flood_Pkt_2 | Src:0100 Tgt:0010 | Data(Hex):a7 Data(Dec):167 | Type:SDP
-[DRIVING] ID:3 Name:Flood_Pkt_3 | Src:1000 Tgt:0010 | Data(Hex):6d Data(Dec):109 | Type:SDP
-[DRIVING] ID:4 Name:Flood_Pkt_4 | Src:0001 Tgt:0010 | Data(Hex):bc Data(Dec):188 | Type:SDP
-[DRIVING] ID:5 Name:Flood_Pkt_5 | Src:1000 Tgt:0010 | Data(Hex):70 Data(Dec):112 | Type:SDP
-   [RECV] @145 Port 1 Output: 41
-[DRIVING] ID:6 Name:Flood_Pkt_6 | Src:0100 Tgt:0010 | Data(Hex):86 Data(Dec):134 | Type:SDP
-[DRIVING] ID:7 Name:Flood_Pkt_7 | Src:0100 Tgt:0010 | Data(Hex):d3 Data(Dec):211 | Type:SDP
-[DRIVING] ID:8 Name:Flood_Pkt_8 | Src:0100 Tgt:0010 | Data(Hex):0c Data(Dec):12 | Type:SDP
-   [RECV] @175 Port 1 Output: 13
-[DRIVING] ID:9 Name:Flood_Pkt_9 | Src:0001 Tgt:0010 | Data(Hex):40 Data(Dec):64 | Type:SDP
-[DRIVING] ID:10 Name:Flood_Pkt_10 | Src:1000 Tgt:0010 | Data(Hex):09 Data(Dec):9 | Type:SDP
-[DRIVING] ID:11 Name:Flood_Pkt_11 | Src:0100 Tgt:0010 | Data(Hex):bc Data(Dec):188 | Type:SDP
-   [RECV] @205 Port 1 Output: a7
-[DRIVING] ID:12 Name:Flood_Pkt_12 | Src:1000 Tgt:0010 | Data(Hex):b6 Data(Dec):182 | Type:SDP
-   [ALERT] @215 FIFO FULL DETECTED on Port 0!
-[DRIVING] ID:13 Name:Flood_Pkt_13 | Src:0100 Tgt:0010 | Data(Hex):a6 Data(Dec):166 | Type:SDP
-   [ALERT] @225 FIFO FULL DETECTED on Port 0!
-[DRIVING] ID:14 Name:Flood_Pkt_14 | Src:0001 Tgt:0010 | Data(Hex):93 Data(Dec):147 | Type:SDP
-   [RECV] @235 Port 1 Output: 6d
-[DRIVING] ID:15 Name:Flood_Pkt_15 | Src:0100 Tgt:0010 | Data(Hex):f4 Data(Dec):244 | Type:SDP
-   [ALERT] @245 FIFO FULL DETECTED on Port 0!
-[DRIVING] ID:16 Name:Flood_Pkt_16 | Src:1000 Tgt:0010 | Data(Hex):4f Data(Dec):79 | Type:SDP
-   [ALERT] @255 FIFO FULL DETECTED on Port 0!
-   [RECV] @265 Port 1 Output: bc
-   [ALERT] @275 FIFO FULL DETECTED on Port 0!
-   [ALERT] @285 FIFO FULL DETECTED on Port 0!
-   [RECV] @295 Port 1 Output: 70
-   [RECV] @325 Port 1 Output: 86
-   [RECV] @355 Port 1 Output: d3
-   [RECV] @385 Port 1 Output: 0c
-   [RECV] @415 Port 1 Output: 40
-   [RECV] @445 Port 1 Output: 09
-   [RECV] @475 Port 1 Output: a6
-   [RECV] @505 Port 1 Output: 4f
+--- SCENARIO 1: Multicast Clash (P0 vs P1 targeting P2 & P3) ---
+[DRIVING] ID:0 Name:P0_MDP | Src:0010 Tgt:1100 | Data(Hex):a0 Data(Dec):160 | Type:MDP
+[DRIVING] ID:1 Name:P1_MDP | Src:0001 Tgt:1100 | Data(Hex):b0 Data(Dec):176 | Type:MDP
+   [RECV] @155 Port 2 Output: a0
+   [RECV] @155 Port 3 Output: a0
+   [RECV] @165 Port 2 Output: b0
+   [RECV] @165 Port 3 Output: b0
 
-=== TEST FINISHED ===
-Check waveform: 'fifo_full' signal on Port 0 should go high.
-Packets sent after 'fifo_full' is high should NOT appear at output.
-$finish called from file "tb/switch_overflow_tb.sv", line 133.
-$finish at simulation time                  765
+--- SCENARIO 2: Broadcast (P2) vs Unicast (P3 -> P0) ---
+[DRIVING] ID:2 Name:P2_BDP | Src:0100 Tgt:1111 | Data(Hex):ff Data(Dec):255 | Type:BDP
+[DRIVING] ID:3 Name:P3_SDP | Src:1000 Tgt:0001 | Data(Hex):33 Data(Dec):51 | Type:SDP
+   [RECV] @375 Port 0 Output: ff
+   [RECV] @375 Port 1 Output: ff
+   [RECV] @375 Port 2 Output: ff
+   [RECV] @375 Port 3 Output: ff
+   [RECV] @385 Port 0 Output: 33
+
+--- SCENARIO 3: Three-way Multicast Chain Reaction ---
+[DRIVING] ID:4 Name:P1_Traffic | Src:0010 Tgt:1100 | Data(Hex):dd Data(Dec):221 | Type:MDP
+[DRIVING] ID:5 Name:P3_Traffic | Src:1000 Tgt:1111 | Data(Hex):ee Data(Dec):238 | Type:BDP
+[DRIVING] ID:6 Name:P1_Followup | Src:1000 Tgt:0101 | Data(Hex):cc Data(Dec):204 | Type:MDP
+   [RECV] @645 Port 0 Output: ee
+   [RECV] @645 Port 1 Output: ee
+   [RECV] @645 Port 2 Output: ee
+   [RECV] @645 Port 3 Output: ee
+   [RECV] @655 Port 2 Output: dd
+   [RECV] @655 Port 3 Output: dd
+   [RECV] @685 Port 0 Output: cc
+   [RECV] @685 Port 2 Output: cc
+
+=== TESTS FINISHED ===
+$finish called from file "tb/switch_collision_tb.sv", line 201.
+$finish at simulation time                 1035
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 765
-CPU Time:      0.160 seconds;       Data structure size:   0.0Mb
-Sat Dec  6 14:07:46 2025
+Time: 1035
+CPU Time:      0.280 seconds;       Data structure size:   0.0Mb
+Sat Dec  6 14:52:49 2025

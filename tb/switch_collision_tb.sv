@@ -28,8 +28,10 @@ module switch_collision_tb;
 	// HELPER TASKS
 	// =========================================================================
 
-	task drive_pkt(int p_idx, packet pkt);
-		pkt.print("DRIVING"); // Use the new print method
+	// *** CRITICAL FIX: Added 'automatic' keyword ***
+	// This ensures each call in the fork gets its own copy of arguments
+	task automatic drive_pkt(int p_idx, packet pkt);
+		pkt.print("DRIVING");
 		
 		// Sync to clock to start driving
 		@(posedge clk);
@@ -97,12 +99,11 @@ module switch_collision_tb;
 	// MAIN TEST SEQUENCE
 	// =========================================================================
 	initial begin
-		// --- MOVED DECLARATIONS TO TOP OF BLOCK ---
+		// Declarations
 		packet p0_pkt, p1_pkt, p2_pkt, p3_pkt;
 		mdp_packet mdp_test;
 		bdp_packet bdp_test;
 		sdp_packet sdp_test;
-		// ------------------------------------------
 
 		$dumpfile("switch_collision.vcd");
 		$dumpvars(0, switch_collision_tb);
@@ -123,42 +124,39 @@ module switch_collision_tb;
 		
 		fork
 			begin
-				// Create P0 Packet (Multicast)
-				mdp_test = new("P0_MDP", 0); // Port 0
+				// Create P0 Packet
+				mdp_test = new("P0_MDP", 0); 
 				if (!mdp_test.randomize() with { target == 4'b1100; data == 8'hA0; }) 
 					$fatal("P0 Randomize Failed");
 				drive_pkt(0, mdp_test);
 			end
 			begin
-				// Create P1 Packet (Multicast)
-				mdp_test = new("P1_MDP", 1); // Port 1
+				// Create P1 Packet
+				mdp_test = new("P1_MDP", 1); 
 				if (!mdp_test.randomize() with { target == 4'b1100; data == 8'hB0; }) 
 					$fatal("P1 Randomize Failed");
 				drive_pkt(1, mdp_test);
 			end
 		join
 
+		// Wait enough time to see BOTH packets come out (one after the other)
 		repeat(20) @(posedge clk);
 
 
 		// ---------------------------------------------------------------------
 		// SCENARIO 2: Broadcast vs Unicast
-		// P2 -> Broadcast (All) vs P3 -> Unicast to P0
 		// ---------------------------------------------------------------------
 		$display("\n--- SCENARIO 2: Broadcast (P2) vs Unicast (P3 -> P0) ---");
 		
 		fork
 			begin
-				// P2 Broadcast
 				bdp_test = new("P2_BDP", 2);
-				// Turn OFF loopback check for Broadcast because 1111 overlaps with everything
 				bdp_test.no_loopback_c.constraint_mode(0); 
 				if (!bdp_test.randomize() with { data == 8'hFF; }) 
 					$fatal("P2 Randomize Failed");
 				drive_pkt(2, bdp_test);
 			end
 			begin
-				// P3 Unicast
 				sdp_test = new("P3_SDP", 3);
 				if (!sdp_test.randomize() with { target == 4'b0001; data == 8'h33; }) 
 					$fatal("P3 Randomize Failed");
@@ -184,14 +182,15 @@ module switch_collision_tb;
 			begin
 				// P3 -> Broadcast
 				bdp_test = new("P3_Traffic", 3);
-				bdp_test.no_loopback_c.constraint_mode(0); // Disable loopback check
+				bdp_test.no_loopback_c.constraint_mode(0);
 				bdp_test.randomize() with { data == 8'hEE; };
 				drive_pkt(3, bdp_test);
 			end
 		join
 		
-		// P1 sends another packet quickly
 		repeat(1) @(posedge clk);
+		
+		// P1 sends another packet quickly
 		mdp_test = new("P1_Followup", 1);
 		mdp_test.randomize() with { target == 4'b0101; data == 8'hCC; }; // {P2, P0}
 		drive_pkt(1, mdp_test);
@@ -202,7 +201,7 @@ module switch_collision_tb;
 		$finish;
 	end
 
-	// Monitor remains same...
+	// Monitor
 	always @(posedge clk) begin
 		if (port0.valid_out) $display("   [RECV] @%0t Port 0 Output: %h", $time, port0.data_out);
 		if (port1.valid_out) $display("   [RECV] @%0t Port 1 Output: %h", $time, port1.data_out);

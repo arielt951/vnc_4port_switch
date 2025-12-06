@@ -1,3 +1,3 @@
 Command Line: /tools/synopsys/vcs/X-2025.06-1/linux64/bin/elabcom -simflow -KDBRESOLVER -simvdaidir simv.daidir -saveLevel -enable_vfsXCmp -enable_smXCmp -ssv -ssy -q -logdir simv.daidir/kdbresolverLog -elabcom_partial_load
 uname(Linux micron1.eng.tau.ac.il 4.18.0-553.el8_10.x86_64 #1 SMP Fri May 24 13:05:10 UTC 2024 x86_64)
-au time 0.071926 0.029577 0.019862 delta 103944192 103944192 total 417624064 417624064
+au time 0.069430 0.022746 0.019895 delta 106078208 106078208 total 419758080 419758080
