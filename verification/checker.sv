@@ -2,12 +2,12 @@ class checker extends component_base;
 
   monitor mon_h[4]; 
   packet scb_queue[4][$];
-  int matches;
+  int matchess;
   int mismatches;
 
   function new(string n, component_base p=null);
     super.new(n,p);
-    matches = 0;
+    matchess = 0;
     mismatches = 0;
   endfunction
 
@@ -68,7 +68,7 @@ class checker extends component_base;
         if (compare_packets(expected_pkt, received_pkt)) begin
           $display("[Checker] SUCCESS: Packet ID %0d matched on Port %0d", 
                    received_pkt.packet_id, port_idx);
-          matches++;
+          matchess++;
         end else begin
           $error("[Checker] ERROR: Data Corruption on Port %0d. ID: %0d", 
                  port_idx, received_pkt.packet_id);
@@ -92,7 +92,7 @@ class checker extends component_base;
   function void report();
     $display("\n-----------------------------------------");
     $display(" CHECKER SUMMARY");
-    $display(" Matches:    %0d", matches);
+    $display(" Matches:    %0d", matchess);
     $display(" Mismatches: %0d", mismatches);
     $display("-----------------------------------------\n");
   endfunction
