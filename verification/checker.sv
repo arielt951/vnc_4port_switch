@@ -103,11 +103,21 @@ function bit compare_packets(packet exp, packet rcv);
 endfunction
 
 function void report();
-  $display("\n-----------------------------------------");
-  $display(" CHECKER SUMMARY");
-  $display(" Matches:    %0d", matchess);
-  $display(" Mismatches: %0d", mismatches);
-  $display("-----------------------------------------\n");
-endfunction
+    int pending_packets = 0;
+    
+    // Calculate total remaining items in all queues
+    foreach(scb_queue[i]) begin
+      pending_packets += scb_queue[i].size();
+    end
+
+    $display("\n-----------------------------------------");
+    $display(" CHECKER SUMMARY");
+    $display(" Matches:          %0d", matches);
+    $display(" Mismatches:       %0d", mismatches);
+    $display(" Pending (Lost):   %0d", pending_packets); // <--- NEW LINE
+    $display("-----------------------------------------\n");
+    
+    if (pending_packets > 0) $error("TEST FAILED: %0d packets were expected but never arrived!", pending_packets);
+  endfunction
 
 endclass
