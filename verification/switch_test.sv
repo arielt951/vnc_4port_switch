@@ -94,6 +94,9 @@ module switch_test;
       
       // 2. Create a packet for that port
       p = new($sformatf("pkt_%0d", input_port), input_port);
+
+      // Disable randomization for Source so it stays One-Hot matching the port
+      p.source.rand_mode(0);
       
       // 3. Randomize content (Target & Data)
       if (!p.randomize()) $error("Randomization failed");
