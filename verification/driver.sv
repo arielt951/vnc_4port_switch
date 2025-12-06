@@ -1,28 +1,42 @@
 class driver extends component_base;
-	mailbox #(packet) mbx;
-	virtual port_if vif;
-	int port_id;
+  
+  // 1. Communication Resources
+  mailbox #(packet) mbx;  // Inbox from Sequencer
+  virtual port_if vif;    // Connection to Physical Pins
+  int port_id;            // ID (0-3) to identify this driver instance
 
-	function new(string name, component_base parent);
-		super.new(name, parent);
-	endfunction
+  // 2. Constructor
+  function new(string name, component_base parent);
+    super.new(name, parent);
+  endfunction
 
-	function void configure(virtual port_if vif, int port_id);
-		this.vif = vif;
-		this.port_id = port_id;
-	endfunction
+  // 3. Configuration
+  // Called by the Agent to connect the Virtual Interface
+  function void configure(virtual port_if vif, int port_id);
+    this.vif = vif;
+    this.port_id = port_id;
+  endfunction
 
-	task run(int num_packets);
-		packet pkt;
-		repeat(num_packets) begin
-			// 1. Get packet from sequencer
-			mbx.get(pkt);
-			
-			// 2. Print/Log
-			pkt.print($sformatf("Driver_%0d", port_id));
-			
-			// 3. Drive to DUT (using interface task)
-			vif.drive_packet(pkt);
-		end
-	endtask
+  // 4. Main Runtime Task
+  task run(int num_packets);
+    packet pkt;
+    
+    // Loop for the specific number of packets requested by the test
+    repeat(num_packets) begin
+      
+      // A. GET: Retrieve a packet from the mailbox.
+      // This is BLOCKING. If the mailbox is empty, the driver waits here.
+      mbx.get(pkt);
+      
+      // B. LOG: Print the packet so we know what is being sent.
+      // We add a tag "Driver_X" to distinguish logs from different ports.
+      pkt.print($sformatf("Driver_%0d", port_id));
+      
+      // C. DRIVE: Pass the object to the interface.
+      // The interface task 'drive_packet' handles the actual pin wiggling (clock cycles).
+      vif.drive_packet(pkt);
+      
+    end
+  endtask
+  
 endclass
