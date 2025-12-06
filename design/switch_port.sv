@@ -4,20 +4,20 @@ module switch_port (
   input  logic        clk,
   input  logic        rst_n,
   input  logic        valid_in,
-  input  logic [3:0]  source_in,
-  input  logic [3:0]  target_in,
-  input  logic [7:0]  data_in,
+  input  logic [ADDR_WIDTH-1:0]  source_in,
+  input  logic [ADDR_WIDTH-1:0]  target_in,
+  input  logic [DATA_WIDTH-1:0]  data_in,
   input  logic        grant,
   //4:1 mux interface  
-  output logic [3:0] pkt_dst, //to arbiter
-  output logic [15:0] fifo_data_out,
+  output logic [ADDR_WIDTH-1:0] pkt_dst, //to arbiter
+  output logic [PACKET_WIDTH-1:0] fifo_data_out,
   //output logic valid_out
   output logic port_req
 
 ); 
 logic fifo_full;
 logic fifo_empty;
-logic [7:0] header_out;
+logic [DATA_WIDTH-1:0] header_out;
 
 // State Encoding
 state_t current_state, next_state;
@@ -31,13 +31,13 @@ logic  pkt_valid;
 // Parser Instantiation
 parser parser_inst (
 	//inputs
-	.source    (header_out[3:0]), 
-	.target    (header_out[7:4]), 
+	.source    (header_out[ADDR_WIDTH-1:0]), 
+	.target    (header_out[DATA_WIDTH-1:ADDR_WIDTH]), 
 	//outputs
 	.pkt_type  (pkt_type),
 	.pkt_valid (pkt_valid)
 );
-assign pkt_dst = header_out[7:4]; //target for arbiter
+assign pkt_dst = header_out[DATA_WIDTH-1:ADDR_WIDTH]; //target for arbiter
 
 //fifo instance
 fifo port_fifo (

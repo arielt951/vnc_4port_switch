@@ -1,12 +1,12 @@
 import packet_pkg::*;
 module output_mux (
     input logic [($clog2(ADDR_WIDTH) - 1) : 0]  mux_sel,
-    input logic [(DATA_WIDTH - 1) : 0] data_in0,
-    input logic [(DATA_WIDTH - 1) : 0] data_in1,
-    input logic [(DATA_WIDTH - 1) : 0] data_in2,
-    input logic [(DATA_WIDTH - 1) : 0] data_in3,
+    input logic [(PACKET_WIDTH - 1) : 0] data_in0,
+    input logic [(PACKET_WIDTH - 1) : 0] data_in1,
+    input logic [(PACKET_WIDTH - 1) : 0] data_in2,
+    input logic [(PACKET_WIDTH - 1) : 0] data_in3,
     input logic arb_active,
-    output logic [((DATA_WIDTH >> 1) - 1) : 0] data_out,
+    output logic [((PACKET_WIDTH >> 1) - 1) : 0] data_out,
     output logic valid_out        
 );
     // 4:1 MUX to select data output based on arbiter mux_select
@@ -18,19 +18,19 @@ module output_mux (
         if (arb_active) begin
             case (mux_sel)
                     2'b00: begin 
-                    data_out  = data_in0[DATA_WIDTH - 1:(DATA_WIDTH >> 1)];
+                    data_out  = data_in0[PACKET_WIDTH - 1:(PACKET_WIDTH >> 1)];
                     valid_out = 1'b1; 
                 end
                     2'b01: begin 
-                    data_out  = data_in1[DATA_WIDTH - 1:(DATA_WIDTH >> 1)];
+                    data_out  = data_in1[PACKET_WIDTH - 1:(PACKET_WIDTH >> 1)];
                     valid_out = 1'b1; 
                 end
                     2'b10: begin 
-                    data_out  = data_in2[DATA_WIDTH - 1:(DATA_WIDTH >> 1)];
+                    data_out  = data_in2[PACKET_WIDTH - 1:(PACKET_WIDTH >> 1)];
                     valid_out = 1'b1; 
                 end
                     2'b11: begin 
-                    data_out  = data_in3[DATA_WIDTH - 1:(DATA_WIDTH >> 1)];
+                    data_out  = data_in3[PACKET_WIDTH - 1:(PACKET_WIDTH >> 1)];
                     valid_out = 1'b1; 
                 end
             endcase

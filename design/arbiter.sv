@@ -3,7 +3,7 @@ module arbiter (
     input  logic       clk,
     input  logic       rst_n,
 	
-	input logic [3:0] port_reqs,
+	input logic [NUM_PORTS-1:0] port_reqs,
 
     // Inputs: One-hot target masks from each port
     // port0_dst[1] = 1 means Port 0 wants to go to Output 1
@@ -14,7 +14,7 @@ module arbiter (
 
     // Outputs: 1 Grant bit per port (All-or-Nothing)
     // [0]=Port0 Grant, [1]=Port1 Grant...
-    output logic [3:0] grant_bus, 
+    output logic [NUM_PORTS-1:0] grant_bus, 
 
     // Outputs: Mux controls for the Output Ports
     output logic [1:0] mux_sel0,
@@ -33,16 +33,16 @@ module arbiter (
 
     // Internal wires: Who 'won' the local arbitration for each output?
     // win_out0[3] = 1 means Port 3 was selected for Output 0
-    logic [3:0] win_out0, win_out1, win_out2, win_out3;
+    logic [NUM_PORTS-1:0] win_out0, win_out1, win_out2, win_out3;
     
     // Request vectors (Transposed inputs)
-    logic [3:0] reqs_out0, reqs_out1, reqs_out2, reqs_out3;
+    logic [NUM_PORTS-1:0] reqs_out0, reqs_out1, reqs_out2, reqs_out3;
 
     // =========================================================================
     // 2. HELPER FUNCTION: Round Robin Selection
     // =========================================================================
-    function automatic logic [3:0] pick_winner(input logic [3:0] req_vec, input logic [1:0] ptr);
-        logic [3:0] winner = 4'b0000;
+    function automatic logic [3:0] pick_winner(input logic [NUM_PORTS-1:0] req_vec, input logic [1:0] ptr);
+        logic [NUM_PORTS-1:0] winner = 4'b0000;
         case (ptr)
             2'd0: begin // Priority 0 -> 1 -> 2 -> 3
                 if      (req_vec[0]) winner[0] = 1'b1;

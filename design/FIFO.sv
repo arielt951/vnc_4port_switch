@@ -3,21 +3,21 @@ module fifo(
 	input logic rst_n,
 	input logic clk,
 	//write logic
-	input logic [DATA_WIDTH - 1 : 0] data_in,
+	input logic [PACKET_WIDTH - 1 : 0] data_in,
 	input logic wr_en,
 	output logic fifo_full,
 	//inspect logic - for packet patser
-	output logic [(DATA_WIDTH >> 1) - 1 : 0] header_out,
+	output logic [(PACKET_WIDTH >> 1) - 1 : 0] header_out,
 	//read logic
 	input logic rd_en,
-	output logic [DATA_WIDTH - 1 : 0] data_out,
+	output logic [PACKET_WIDTH - 1 : 0] data_out,
 	output logic fifo_empty
 );
 
 localparam PTR_BWIDTH = $clog2(DEPTH); // pointer bit width
 
 //memory array
-logic [DATA_WIDTH - 1 : 0] mem [ DEPTH - 1 : 0];
+logic [PACKET_WIDTH - 1 : 0] mem [ DEPTH - 1 : 0];
 //FIFO pointers
 logic [PTR_BWIDTH -1 : 0] wr_ptr, rd_ptr;
 logic [PTR_BWIDTH : 0] fifo_count;
