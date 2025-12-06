@@ -139,4 +139,17 @@ package packet_pkg;
 		endfunction
 	endclass
 
+	// -----------------------------------------------------------
+    // 5. COMPONENT INCLUDES
+    // -----------------------------------------------------------
+    // NOTE: Order matters! Base classes must come before children.
+    
+    `include "component_base.sv"
+    `include "sequencer.sv"
+    `include "driver.sv"
+    `include "monitor.sv"
+    `include "agent.sv"
+    `include "checker.sv"   
+    `include "packet_vc.sv"
+
 endpackage
