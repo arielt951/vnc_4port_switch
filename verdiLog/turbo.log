@@ -1,6 +1,5 @@
-Command Line: /tools/synopsys/verdi/X-2025.06-1/platform/LINUXAMD64/bin/Novas -ssf novas.fsdb
-uname(Linux micron1.eng.tau.ac.il 4.18.0-553.el8_10.x86_64 #1 SMP Fri May 24 13:05:10 UTC 2024 x86_64)
-KdbImportParallelMixAllLib time 0.006309 0.006411 0.002943 delta 6250496 6250496 total 1259520000 1259520000
-KdbImportParallelMixAllLib time 0.008313 0.004597 0.007032 delta 12533760 12533760 total 1443835904 1443835904
-KdbImportParallelMixAllLib time 0.007063 0.002959 0.006848 delta 12599296 12599296 total 1473212416 1473212416
-KdbImportParallelMixAllLib time 0.007720 0.006734 0.003871 delta 8404992 8404992 total 1498394624 1498394624
+Command Line: /tools/synopsys/verdi/X-2025.06-1/platform/LINUXAMD64/bin/Novas -i -simflow -simBin ./simv -simOpt  
+uname(Linux micron-x01.eng.tau.ac.il 3.10.0-1160.105.1.el7.x86_64 #1 SMP Thu Dec 7 15:39:45 UTC 2023 x86_64)
+
+[ERROR] Could not checkout Verdi Elite (Verdi) license. Use verdi -licdebug for more information.
+au time 1.981351 2.823460 0.247508 delta 86405120 86405120 total 1139453952 1139453952

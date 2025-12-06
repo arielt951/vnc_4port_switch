@@ -13,4 +13,4 @@
 /project/verif/users/yh3/ws/vnc_4port_switch/verification/monitor.sv
 /project/verif/users/yh3/ws/vnc_4port_switch/verification/packet_vc.sv
 /project/verif/users/yh3/ws/vnc_4port_switch/verification/sequencer.sv
-/project/verif/users/yh3/ws/vnc_4port_switch/verification/vc_test.sv
+/project/verif/users/yh3/ws/vnc_4port_switch/verification/switch_test.sv

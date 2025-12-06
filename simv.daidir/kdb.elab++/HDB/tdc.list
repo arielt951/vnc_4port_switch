@@ -6,4 +6,11 @@ design/parser.sv
 design/port_if.sv
 design/switch_4port.sv
 design/switch_port.sv
-tb/switch_overflow_tb.sv
+verification/agent.sv
+verification/checker.sv
+verification/component_base.sv
+verification/driver.sv
+verification/monitor.sv
+verification/packet_vc.sv
+verification/sequencer.sv
+verification/switch_test.sv

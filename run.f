@@ -18,10 +18,10 @@ design/switch_port.sv
 design/switch_4port.sv
 
 # 5. TESTBENCH (Sanity Check)
-verification/vc_test.sv
+//verification/vc_test.sv
 
 # 6. FUTURE TESTBENCH (Keep commented until needed)
-# verification/switch_test.sv
+verification/switch_test.sv
 
 
 // switch_test.sv

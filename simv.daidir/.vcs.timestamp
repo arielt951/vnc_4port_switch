@@ -55,7 +55,7 @@
 -sverilog
 -top
 /tools/synopsys/vcs/X-2025.06-1/linux64/bin/vcs1fe
-vc_test
+switch_test
 /tools/synopsys/verdi/X-2025.06-1/share/PLI/VCS/LINUX64/verdi.tab
 design/packet_pkg.sv
 design/port_if.sv
@@ -65,7 +65,7 @@ design/arbiter.sv
 design/output_mux.sv
 design/switch_port.sv
 design/switch_4port.sv
-verification/vc_test.sv
+verification/switch_test.sv
 136
 kit_dir=/tech/tsmc/65LP/pdk
 __MODULES_SHARE_PATH=/tools/common/sge/8.1.9/bin/lx-amd64:2
@@ -176,10 +176,10 @@ LESSOPEN=||/usr/bin/lesspipe.sh %s
 LC_ALL=C
 LBS_BASE_SYSTEM=LBS_SGE
 KDEDIRS=/usr
-JOURNAL_STREAM=9:42368
+JOURNAL_STREAM=9:40511
 JOB_SCRIPT=QRSH
 JOB_NAME=vcs
-INVOCATION_ID=089234d56b1d4450a44bbddd327a8293
+INVOCATION_ID=38c9753080894b75b3694397c0466af3
 ICV_HOME=/tools/synopsys/icv/X-2025.06-SP1-3
 HOSTTYPE=x86_64-linux
 GTK_OVERLAY_SCROLLING=0
@@ -214,7 +214,7 @@ ARC=lx-amd64
 1765028597 verification/sequencer.sv
 1765027224 verification/component_base.sv
 1752732158 /tools/synopsys/vcs/X-2025.06-1/linux64/packages/snps_msv_nettype_pkg/AN.DB
-1765033658 verification/vc_test.sv
+1765038712 verification/switch_test.sv
 1765027224 design/switch_4port.sv
 1765027224 design/switch_port.sv
 1765027223 design/output_mux.sv
@@ -223,7 +223,7 @@ ARC=lx-amd64
 1765027223 design/FIFO.sv
 1765027223 design/port_if.sv
 1765034873 design/packet_pkg.sv
-1765034563 run.f
+1765037415 run.f
 1752984263 /tools/synopsys/verdi/X-2025.06-1/share/PLI/VCS/LINUX64/verdi.tab
 1752721624 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/vcsdp_lite.tab
 4
@@ -231,5 +231,5 @@ ARC=lx-amd64
 1752722876 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/liberrorinf.so
 1752722871 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libsnpsmalloc.so
 1752722863 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libvfs.so
-1765035844 simv.daidir
+1765038720 simv.daidir
 -1 partitionlib

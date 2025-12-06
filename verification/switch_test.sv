@@ -34,6 +34,8 @@ module switch_test;
   checker   chk;
 
   initial begin
+	 //$dumpfile("waves.vcd");
+	 //$dumpvars(0, switch_test);
     // Objects
     packet p;
     int input_port;
