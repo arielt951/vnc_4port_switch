@@ -107,14 +107,13 @@ module arbiter (
 		reqs_out1 = {port3_dst[1], port2_dst[1], port1_dst[1], port0_dst[1]};
 		reqs_out2 = {port3_dst[2], port2_dst[2], port1_dst[2], port0_dst[2]};
 		reqs_out3 = {port3_dst[3], port2_dst[3], port1_dst[3], port0_dst[3]};
+		
 		// B. Pick Winner for each output independently
 		win_out0 = pick_winner(reqs_out0, ptr0);
 		win_out1 = pick_winner(reqs_out1, ptr1);
 		win_out2 = pick_winner(reqs_out2, ptr2);
 		win_out3 = pick_winner(reqs_out3, ptr3);
-		
-		
-		
+
 	end
 	
 	always_ff @(posedge clk or negedge rst_n) begin

@@ -13,9 +13,10 @@ package packet_pkg;
 	typedef enum logic [1:0] {ERR, SDP, MDP, BDP} p_type;
 
 	// -----------------------------------------------------------
-	// 3. PACKET CLASS
+	// 3. BASE PACKET CLASS
 	// -----------------------------------------------------------
 	class packet;
+		// Randomizable fields
 		rand logic [3:0] source;
 		rand logic [3:0] target;
 		rand logic [7:0] data;
@@ -23,39 +24,117 @@ package packet_pkg;
 		// Internal variables
 		string name;
 		p_type pkt_type; // Derived type
+		
+		// Static counter for tracking packet instances
+		static int pkt_count = 0;
+		int packet_id;
 
-		function new(string name = "packet_obj");
+		// -------------------------------------------------------
+		// CONSTRAINTS (Validity Rules)
+		// -------------------------------------------------------
+		// Source must be One-Hot (only 1 bit set)
+		constraint valid_source_c {
+			$countones(source) == 1;
+		}
+
+		// Target cannot be empty
+		constraint valid_target_c {
+			target != 4'b0000;
+		}
+
+		// No Self-Loop (Source and Target cannot overlap)
+		constraint no_loopback_c {
+			(source & target) == 0;
+		}
+
+		// -------------------------------------------------------
+		// CONSTRUCTOR
+		// Accepts name and numeric port index (0-3)
+		// -------------------------------------------------------
+		function new(string name = "packet_obj", int port_index = 0);
 			this.name = name;
 			this.pkt_type = ERR; // Default
+			
+			// Auto-generate one-hot encoding from integer index
+			// e.g., index 0 -> 0001, index 2 -> 0100
+			this.source = 1 << port_index; 
+
+			// Manage Static ID
+			this.packet_id = pkt_count;
+			pkt_count++;
 		endfunction
 
-		// --- NEW: Print Method (Required by Driver/Monitor) ---
+		// -------------------------------------------------------
+		// GETTERS
+		// -------------------------------------------------------
+		function p_type get_type();
+			return pkt_type;
+		endfunction
+
+		function string get_name();
+			return name;
+		endfunction
+
+		// -------------------------------------------------------
+		// METHODS
+		// -------------------------------------------------------
+		
+		// Enhanced Print Method (Supports multiple formats)
 		function void print(string tag = "");
-			$display("[%s] %s: Src=%b Tgt=%b Data=%h Type=%s", 
-					 tag, name, source, target, data, pkt_type.name());
+			$display("[%s] ID:%0d Name:%s | Src:%b Tgt:%b | Data(Hex):%h Data(Dec):%0d | Type:%s", 
+					 tag, packet_id, name, source, target, data, data, pkt_type.name());
 		endfunction
 
-		// --- NEW: Calculate Type Method (Required by Monitor) ---
+		// Calculate Type Method (Updates pkt_type based on target)
 		function void calc_type();
 			int ones;
 			ones = $countones(target);
-			if (ones == 1)      pkt_type = SDP;
+			if (ones == 1)             pkt_type = SDP;
 			else if (ones > 1 && ones < 4) pkt_type = MDP;
-			else if (ones == 4) pkt_type = BDP;
-			else                pkt_type = ERR;
+			else if (ones == 4)        pkt_type = BDP;
+			else                       pkt_type = ERR;
+		endfunction
+		
+		// Optional: Post-randomize to ensure type is updated immediately after randomization
+		function void post_randomize();
+			calc_type();
 		endfunction
 
 	endclass
 
 	// -----------------------------------------------------------
-	// 4. INCLUDES
+	// 4. DERIVED CLASSES (Structure Constraints)
 	// -----------------------------------------------------------
-//	`include "component_base.sv"
-//	`include "sequencer.sv"
-//	`include "driver.sv"
-//	`include "monitor.sv"
-//	`include "agent.sv"
-//	`include "packet_vc.sv"
-//	`include "checker.sv"
+
+	// Single Destination Packet
+	class sdp_packet extends packet;
+		constraint target_sdp_c {
+			$countones(target) == 1;
+		}
+		function new(string name = "sdp_obj", int port_index = 0);
+			super.new(name, port_index);
+		endfunction
+	endclass
+
+	// Multicast Destination Packet
+	class mdp_packet extends packet;
+		constraint target_mdp_c {
+			$countones(target) > 1;
+			$countones(target) < 4;
+		}
+		function new(string name = "mdp_obj", int port_index = 0);
+			super.new(name, port_index);
+		endfunction
+	endclass
+
+	// Broadcast Destination Packet
+	class bdp_packet extends packet;
+		constraint target_bdp_c {
+			target == 4'b1111;
+		}
+		function new(string name = "bdp_obj", int port_index = 0);
+			super.new(name, port_index);
+		endfunction
+	endclass
 
 endpackage

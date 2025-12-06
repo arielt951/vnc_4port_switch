@@ -4,7 +4,7 @@ Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detec
 Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
 Chronologic VCS simulator copyright 1991-2025
 Contains Synopsys proprietary information.
-Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  6 13:01 2025
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  6 13:34 2025
 Warning : License for product VCS-BASE-RUNTIME will expire within 26 days, on: 31-dec-2025.
 
 If you would like to temporarily disable this message, set 
@@ -18,46 +18,41 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
 *Verdi* : Begin traversing the scopes, layer (0).
 *Verdi* : End of traversing.
 
-=== STARTING ADVANCED COLLISION TESTS ===
+=== STARTING FIFO OVERFLOW TEST ===
 
---- SCENARIO 1: Multicast Clash (P0 vs P1 targeting P2 & P3) ---
-[95] DRIVING Port 0 -> Target 1100 (Data=a0)
-[95] DRIVING Port 1 -> Target 1100 (Data=b0)
-   [RECV] @145 Port 2 Output: a0
-   [RECV] @145 Port 3 Output: a0
-   [RECV] @155 Port 2 Output: b0
-   [RECV] @155 Port 3 Output: b0
-   [CHECK] Ports 2 & 3 should receive A0 then B0 (or vice versa).
+--- Step 1: Burst 10 packets to Port 0 (Targeting Port 1) ---
+--- FIFO Depth is 8. We expect packet drops after ~8 packets. ---
+[DRIVING] ID:0 Name:Flood_Pkt_0 | Src:0100 Tgt:0010 | Data(Hex):41 Data(Dec):65 | Type:SDP
+[DRIVING] ID:1 Name:Flood_Pkt_1 | Src:1000 Tgt:0010 | Data(Hex):13 Data(Dec):19 | Type:SDP
+[DRIVING] ID:2 Name:Flood_Pkt_2 | Src:0100 Tgt:0010 | Data(Hex):a7 Data(Dec):167 | Type:SDP
+[DRIVING] ID:3 Name:Flood_Pkt_3 | Src:1000 Tgt:0010 | Data(Hex):6d Data(Dec):109 | Type:SDP
+   [RECV] @155 Port 1 Output: 41
+[DRIVING] ID:4 Name:Flood_Pkt_4 | Src:0001 Tgt:0010 | Data(Hex):bc Data(Dec):188 | Type:SDP
+   [RECV] @185 Port 1 Output: 13
+[DRIVING] ID:5 Name:Flood_Pkt_5 | Src:1000 Tgt:0010 | Data(Hex):70 Data(Dec):112 | Type:SDP
+[DRIVING] ID:6 Name:Flood_Pkt_6 | Src:0100 Tgt:0010 | Data(Hex):86 Data(Dec):134 | Type:SDP
+   [RECV] @215 Port 1 Output: a7
+[DRIVING] ID:7 Name:Flood_Pkt_7 | Src:0100 Tgt:0010 | Data(Hex):d3 Data(Dec):211 | Type:SDP
+   [RECV] @245 Port 1 Output: 6d
+[DRIVING] ID:8 Name:Flood_Pkt_8 | Src:0100 Tgt:0010 | Data(Hex):0c Data(Dec):12 | Type:SDP
+[DRIVING] ID:9 Name:Flood_Pkt_9 | Src:0001 Tgt:0010 | Data(Hex):40 Data(Dec):64 | Type:SDP
+   [RECV] @275 Port 1 Output: bc
+[DRIVING] ID:10 Name:Flood_Pkt_10 | Src:1000 Tgt:0010 | Data(Hex):09 Data(Dec):9 | Type:SDP
+   [RECV] @305 Port 1 Output: 70
+[DRIVING] ID:11 Name:Flood_Pkt_11 | Src:0100 Tgt:0010 | Data(Hex):bc Data(Dec):188 | Type:SDP
+   [RECV] @335 Port 1 Output: 86
+   [RECV] @365 Port 1 Output: d3
+   [RECV] @395 Port 1 Output: 0c
+   [RECV] @425 Port 1 Output: 40
+   [RECV] @455 Port 1 Output: 09
+   [RECV] @485 Port 1 Output: bc
 
---- SCENARIO 2: Broadcast (P2) vs Unicast (P3 -> P0) ---
-[305] DRIVING Port 2 -> Target 1111 (Data=ff)
-[305] DRIVING Port 3 -> Target 0001 (Data=33)
-   [RECV] @355 Port 0 Output: ff
-   [RECV] @355 Port 1 Output: ff
-   [RECV] @355 Port 2 Output: ff
-   [RECV] @355 Port 3 Output: ff
-   [RECV] @365 Port 0 Output: 33
-   [CHECK] IF P3 wins P0 first: P0 sees 33, then FF. Others see FF later.
-   [CHECK] IF P2 wins P0 first: P0 sees FF, then 33. Others see FF immediately.
-
---- SCENARIO 3: Three-way Multicast Chain Reaction ---
-[565] DRIVING Port 1 -> Target 1100 (Data=dd)
-[565] DRIVING Port 3 -> Target 1111 (Data=ee)
-[585] DRIVING Port 1 -> Target 0101 (Data=cc)
-   [RECV] @615 Port 0 Output: ee
-   [RECV] @615 Port 1 Output: ee
-   [RECV] @615 Port 2 Output: ee
-   [RECV] @615 Port 3 Output: ee
-   [RECV] @625 Port 2 Output: dd
-   [RECV] @625 Port 3 Output: dd
-   [RECV] @655 Port 0 Output: cc
-   [RECV] @655 Port 2 Output: cc
-   [CHECK] Verify all packets arrived eventually without dropping.
-
-=== TESTS FINISHED ===
-$finish called from file "tb/switch_collision_tb.sv", line 125.
-$finish at simulation time                  995
+=== TEST FINISHED ===
+Check waveform: 'fifo_full' signal on Port 0 should go high.
+Packets sent after 'fifo_full' is high should NOT appear at output.
+$finish called from file "tb/switch_overflow_tb.sv", line 132.
+$finish at simulation time                  835
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 995
-CPU Time:      0.250 seconds;       Data structure size:   0.0Mb
-Sat Dec  6 13:01:26 2025
+Time: 835
+CPU Time:      0.350 seconds;       Data structure size:   0.0Mb
+Sat Dec  6 13:34:27 2025

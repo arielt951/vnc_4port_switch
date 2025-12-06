@@ -3,3 +3,6 @@ uname(Linux micron1.eng.tau.ac.il 4.18.0-553.el8_10.x86_64 #1 SMP Fri May 24 13:
 KdbImportParallelMixAllLib time 0.007702 0.006900 0.003844 delta 7987200 7987200 total 1260986368 1260986368
 file I/O: rcFileP.cpp:69, fgetc(), errno: 21, msg: Is a directory
 KdbImportParallelMixAllLib time 0.007997 0.007327 0.003933 delta 12607488 12607488 total 1385107456 1385107456
+KdbImportParallelMixAllLib time 0.004795 0.005768 0.002536 delta 9453568 9453568 total 1469833216 1469833216
+KdbImportParallelMixAllLib time 0.005898 0.006186 0.002446 delta 12107776 12107776 total 1498718208 1498718208
+KdbImportParallelMixAllLib time 0.005859 0.005069 0.004359 delta 8404992 8404992 total 1523900416 1523900416
