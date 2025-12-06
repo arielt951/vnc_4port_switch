@@ -1,8 +1,6 @@
 Command Line: /tools/synopsys/verdi/X-2025.06-1/platform/LINUXAMD64/bin/Novas -ssf novas.fsdb
 uname(Linux micron1.eng.tau.ac.il 4.18.0-553.el8_10.x86_64 #1 SMP Fri May 24 13:05:10 UTC 2024 x86_64)
-KdbImportParallelMixAllLib time 0.007702 0.006900 0.003844 delta 7987200 7987200 total 1260986368 1260986368
-file I/O: rcFileP.cpp:69, fgetc(), errno: 21, msg: Is a directory
-KdbImportParallelMixAllLib time 0.007997 0.007327 0.003933 delta 12607488 12607488 total 1385107456 1385107456
-KdbImportParallelMixAllLib time 0.004795 0.005768 0.002536 delta 9453568 9453568 total 1469833216 1469833216
-KdbImportParallelMixAllLib time 0.005898 0.006186 0.002446 delta 12107776 12107776 total 1498718208 1498718208
-KdbImportParallelMixAllLib time 0.005859 0.005069 0.004359 delta 8404992 8404992 total 1523900416 1523900416
+KdbImportParallelMixAllLib time 0.006309 0.006411 0.002943 delta 6250496 6250496 total 1259520000 1259520000
+KdbImportParallelMixAllLib time 0.008313 0.004597 0.007032 delta 12533760 12533760 total 1443835904 1443835904
+KdbImportParallelMixAllLib time 0.007063 0.002959 0.006848 delta 12599296 12599296 total 1473212416 1473212416
+KdbImportParallelMixAllLib time 0.007720 0.006734 0.003871 delta 8404992 8404992 total 1498394624 1498394624

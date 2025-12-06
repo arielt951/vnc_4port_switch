@@ -28,13 +28,11 @@ module switch_overflow_tb;
 	// HELPER TASKS
 	// =========================================================================
 
-	// Drive Packet Task: Precise 1-cycle drive
+	// Drive Packet Task: Burst Mode (No gaps between calls)
 	task drive_pkt(int p_idx, packet pkt);
 		pkt.print("DRIVING");
 		
-		// Sync to clock to start driving
-		@(posedge clk);
-		
+		// Setup data on the interface (Non-blocking to be ready for next edge)
 		case(p_idx)
 			0: begin 
 				port0.valid_in <= 1'b1; 
@@ -62,15 +60,18 @@ module switch_overflow_tb;
 			end
 		endcase
 
-		// Wait exactly 1 cycle
+		// Wait for the clock edge to "send" this packet
 		@(posedge clk);
 
-		// Clear signals
+		// Immediately clear valid. 
+		// If the testbench loop calls this task again immediately, 
+		// this '0' will be overwritten by the next packet's '1' 
+		// in the same delta cycle, creating a continuous stream.
 		case(p_idx)
-			0: begin port0.valid_in <= 1'b0; port0.source_in <= '0; port0.target_in <= '0; port0.data_in <= '0; end
-			1: begin port1.valid_in <= 1'b0; port1.source_in <= '0; port1.target_in <= '0; port1.data_in <= '0; end
-			2: begin port2.valid_in <= 1'b0; port2.source_in <= '0; port2.target_in <= '0; port2.data_in <= '0; end
-			3: begin port3.valid_in <= 1'b0; port3.source_in <= '0; port3.target_in <= '0; port3.data_in <= '0; end
+			0: begin port0.valid_in <= 1'b0; end
+			1: begin port1.valid_in <= 1'b0; end
+			2: begin port2.valid_in <= 1'b0; end
+			3: begin port3.valid_in <= 1'b0; end
 		endcase
 	endtask
 
@@ -104,13 +105,13 @@ module switch_overflow_tb;
 		// faster than the switch can process (back-to-back), filling the FIFO.
 		// Assuming FIFO Depth is 8 (from packet_pkg).
 
-		$display("--- Step 1: Burst 10 packets to Port 0 (Targeting Port 1) ---");
+		$display("--- Step 1: Burst 17 packets to Port 0 (Targeting Port 1) ---");
 		$display("--- FIFO Depth is %0d. We expect packet drops after ~8 packets. ---", DEPTH);
 
 		// We drive packets back-to-back.
 		// Since it takes >1 cycle to route and transmit, the FIFO should fill up.
-		
-		for (i = 0; i < 12; i++) begin
+		 
+		for (i = 0; i < 17; i++) begin
 			sdp_flood = new($sformatf("Flood_Pkt_%0d", i), 0); // Source Port 0
 			if (!sdp_flood.randomize() with { target == 4'b0010; }) // Target Port 1
 				$fatal("Randomize Failed");

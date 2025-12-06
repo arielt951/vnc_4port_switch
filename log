@@ -4,7 +4,7 @@ Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detec
 Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
 Chronologic VCS simulator copyright 1991-2025
 Contains Synopsys proprietary information.
-Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  6 13:34 2025
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec  6 14:07 2025
 Warning : License for product VCS-BASE-RUNTIME will expire within 26 days, on: 31-dec-2025.
 
 If you would like to temporarily disable this message, set 
@@ -26,33 +26,45 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
 [DRIVING] ID:1 Name:Flood_Pkt_1 | Src:1000 Tgt:0010 | Data(Hex):13 Data(Dec):19 | Type:SDP
 [DRIVING] ID:2 Name:Flood_Pkt_2 | Src:0100 Tgt:0010 | Data(Hex):a7 Data(Dec):167 | Type:SDP
 [DRIVING] ID:3 Name:Flood_Pkt_3 | Src:1000 Tgt:0010 | Data(Hex):6d Data(Dec):109 | Type:SDP
-   [RECV] @155 Port 1 Output: 41
 [DRIVING] ID:4 Name:Flood_Pkt_4 | Src:0001 Tgt:0010 | Data(Hex):bc Data(Dec):188 | Type:SDP
-   [RECV] @185 Port 1 Output: 13
 [DRIVING] ID:5 Name:Flood_Pkt_5 | Src:1000 Tgt:0010 | Data(Hex):70 Data(Dec):112 | Type:SDP
+   [RECV] @145 Port 1 Output: 41
 [DRIVING] ID:6 Name:Flood_Pkt_6 | Src:0100 Tgt:0010 | Data(Hex):86 Data(Dec):134 | Type:SDP
-   [RECV] @215 Port 1 Output: a7
 [DRIVING] ID:7 Name:Flood_Pkt_7 | Src:0100 Tgt:0010 | Data(Hex):d3 Data(Dec):211 | Type:SDP
-   [RECV] @245 Port 1 Output: 6d
 [DRIVING] ID:8 Name:Flood_Pkt_8 | Src:0100 Tgt:0010 | Data(Hex):0c Data(Dec):12 | Type:SDP
+   [RECV] @175 Port 1 Output: 13
 [DRIVING] ID:9 Name:Flood_Pkt_9 | Src:0001 Tgt:0010 | Data(Hex):40 Data(Dec):64 | Type:SDP
-   [RECV] @275 Port 1 Output: bc
 [DRIVING] ID:10 Name:Flood_Pkt_10 | Src:1000 Tgt:0010 | Data(Hex):09 Data(Dec):9 | Type:SDP
-   [RECV] @305 Port 1 Output: 70
 [DRIVING] ID:11 Name:Flood_Pkt_11 | Src:0100 Tgt:0010 | Data(Hex):bc Data(Dec):188 | Type:SDP
-   [RECV] @335 Port 1 Output: 86
-   [RECV] @365 Port 1 Output: d3
-   [RECV] @395 Port 1 Output: 0c
-   [RECV] @425 Port 1 Output: 40
-   [RECV] @455 Port 1 Output: 09
-   [RECV] @485 Port 1 Output: bc
+   [RECV] @205 Port 1 Output: a7
+[DRIVING] ID:12 Name:Flood_Pkt_12 | Src:1000 Tgt:0010 | Data(Hex):b6 Data(Dec):182 | Type:SDP
+   [ALERT] @215 FIFO FULL DETECTED on Port 0!
+[DRIVING] ID:13 Name:Flood_Pkt_13 | Src:0100 Tgt:0010 | Data(Hex):a6 Data(Dec):166 | Type:SDP
+   [ALERT] @225 FIFO FULL DETECTED on Port 0!
+[DRIVING] ID:14 Name:Flood_Pkt_14 | Src:0001 Tgt:0010 | Data(Hex):93 Data(Dec):147 | Type:SDP
+   [RECV] @235 Port 1 Output: 6d
+[DRIVING] ID:15 Name:Flood_Pkt_15 | Src:0100 Tgt:0010 | Data(Hex):f4 Data(Dec):244 | Type:SDP
+   [ALERT] @245 FIFO FULL DETECTED on Port 0!
+[DRIVING] ID:16 Name:Flood_Pkt_16 | Src:1000 Tgt:0010 | Data(Hex):4f Data(Dec):79 | Type:SDP
+   [ALERT] @255 FIFO FULL DETECTED on Port 0!
+   [RECV] @265 Port 1 Output: bc
+   [ALERT] @275 FIFO FULL DETECTED on Port 0!
+   [ALERT] @285 FIFO FULL DETECTED on Port 0!
+   [RECV] @295 Port 1 Output: 70
+   [RECV] @325 Port 1 Output: 86
+   [RECV] @355 Port 1 Output: d3
+   [RECV] @385 Port 1 Output: 0c
+   [RECV] @415 Port 1 Output: 40
+   [RECV] @445 Port 1 Output: 09
+   [RECV] @475 Port 1 Output: a6
+   [RECV] @505 Port 1 Output: 4f
 
 === TEST FINISHED ===
 Check waveform: 'fifo_full' signal on Port 0 should go high.
 Packets sent after 'fifo_full' is high should NOT appear at output.
-$finish called from file "tb/switch_overflow_tb.sv", line 132.
-$finish at simulation time                  835
+$finish called from file "tb/switch_overflow_tb.sv", line 133.
+$finish at simulation time                  765
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 835
-CPU Time:      0.350 seconds;       Data structure size:   0.0Mb
-Sat Dec  6 13:34:27 2025
+Time: 765
+CPU Time:      0.160 seconds;       Data structure size:   0.0Mb
+Sat Dec  6 14:07:46 2025
