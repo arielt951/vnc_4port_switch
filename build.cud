@@ -11,30 +11,30 @@
 //defines.sv
 
 # --- 2. Packages (Contains component_base, driver, monitor, etc.) ---
-packet_pkg.sv
+design/packet_pkg.sv
 
 # --- 3. Interfaces ---
-port_if.sv
+design/port_if.sv
 
 # --- 4. RTL Modules (Hardware) ---
-FIFO.sv
-parser.sv
-arbiter.sv
-output_mux.sv # (Optional: Include only if you are using it, otherwise remove)
-switch_port.sv
-switch_4port.sv
+design/FIFO.sv
+design/parser.sv
+design/arbiter.sv
+design/output_mux.sv # (Optional: Include only if you are using it, otherwise remove)
+design/switch_port.sv
+design/switch_4port.sv
 
 # --- 5. Testbenches ---
-//vc_test.sv
-//switch_test.sv
-//switch_simple_tb.sv
+//verification/vc_test.sv
+//verification/switch_test.sv
+//tb/switch_simple_tb.sv
 
-//agent.sv
+//verification/agent.sv
 //./
-//component_base.sv
+//verification/component_base.sv
 //./
 //output_mux.sv 
 //./
-//switch_complex_tb.sv 
-//switch_types_tb.sv
-switch_collision_tb.sv
+//tb/switch_complex_tb.sv 
+//tb/switch_types_tb.sv
+tb/switch_collision_tb.sv

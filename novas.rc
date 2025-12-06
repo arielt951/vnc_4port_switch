@@ -230,7 +230,7 @@ SyncBrowserDir = TRUE
 ColorThemeModern = bright
 version = Verdi_X-2025.06-1
 cmd_enter_form = FALSE
-recent_commands_nWave = editCut,getSignal,renameSignal,changeColor,nextEvent,leftFullPage,rightFullPage,digitalFBin,editBus,previousEvent
+recent_commands_nWave = getSignal,editCut,renameSignal,changeColor,nextEvent,leftFullPage,rightFullPage,digitalFBin,editBus,previousEvent
 recent_commands_Verdi = hbReload,hbRestoreSession,hbSaveSession,hbInvokeSignalPane
 prevColorThemeModern = bright
 SignalCaseInSensitive = FALSE
@@ -391,16 +391,16 @@ savePropStat = FALSE
 savePropDtl = TRUE
 [QtDialog]
 unknownSave = 489,277,461,245
-QwWarnMsgDlg = 651,368,600,250
 EditBusSimDialog = 745,407,428,165
 openFileDlg = 659,248,602,483
 EventWindow = 545,289,829,402
 fileWithNote = 392,157,655,543
 SigCPLDialog = 617,240,231,319
-FileWithNoteForm_base = 391,128,655,543
-qWaveSignalDialog = 319,160,800,479
 QwInfoMsgDlg = 345,289,750,250
-QwUserAskDlg = 557,307,324,128
+FileWithNoteForm_base = 392,157,655,543
+qWaveSignalDialog = 320,189,800,479
+QwWarnMsgDlg = 652,397,600,250
+QwUserAskDlg = 788,387,324,128
 [Safety]
 RegisterObject = ID_RED4
 CoreObject = ID_ORANGE5
@@ -606,7 +606,7 @@ pdmlMacro = ID_BLACK
 font = COURIER12
 annotFont = FIXED12
 [Text.1]
-viewport = 0 24 1438 751 45
+viewport = 0 24 1920 932 45
 [TextPrinter]
 Orientation = Landscape
 Indicator = FALSE
@@ -704,37 +704,37 @@ isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
-name = "Time"
+name = "Severity"
 width = 60
-visualIndex = 0
+visualIndex = 2
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
-name = "Message"
-width = 2000
-visualIndex = 5
-isHidden = FALSE
-isUserChangeColumnVisible = FALSE
-isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
 name = "Code"
 width = 60
 visualIndex = 3
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
 name = "Type"
 width = 60
 visualIndex = 4
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column5]
-name = "Severity"
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
+name = "Time"
 width = 60
-visualIndex = 2
+visualIndex = 0
+isHidden = FALSE
+isUserChangeColumnVisible = FALSE
+isColFilterColorCoding = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column5]
+name = "Message"
+width = 2000
+visualIndex = 5
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 isColFilterColorCoding = FALSE
@@ -814,8 +814,8 @@ AutoApplySeverityColor = TRUE
 scope_to_save_with_macro
 open_file_dir
 open_rc_file_dir
-getSignalForm = 1 29 800 479 237 389 319 92
-viewPort = 0 11 1438 400 191 65
+getSignalForm = 1 29 800 479 165 389 391 92
+viewPort = 0 11 1920 522 429 50
 legendBackground = -c ID_BLACK
 valueBackground = -c ID_BLACK
 curveBackground = -c ID_BLACK
@@ -1618,7 +1618,7 @@ AddImportArgument = FALSE
 LineBreakWithScope = TRUE
 StopAfterCompileOption = -s
 [wave.0]
-viewPort = 0 11 1438 400 191 65
+viewPort = 0 11 1920 522 429 50
 [wave.1]
 viewPort = 127 219 960 332 100 65
 [wave.2]

@@ -33,15 +33,15 @@
 -sverilog
 /tools/synopsys/vcs/X-2025.06-1/linux64/bin/vcs1
 /tools/synopsys/verdi/X-2025.06-1/share/PLI/VCS/LINUX64/verdi.tab
-packet_pkg.sv
-port_if.sv
-FIFO.sv
-parser.sv
-arbiter.sv
-output_mux.sv
-switch_port.sv
-switch_4port.sv
-switch_collision_tb.sv
+design/packet_pkg.sv
+design/port_if.sv
+design/FIFO.sv
+design/parser.sv
+design/arbiter.sv
+design/output_mux.sv
+design/switch_port.sv
+design/switch_4port.sv
+tb/switch_collision_tb.sv
 141
 kit_dir=/tech/tsmc/65LP/pdk
 __MODULES_SHARE_PATH=/tools/common/sge/8.1.9/bin/lx-amd64:2
@@ -188,16 +188,16 @@ ARC=lx-amd64
 0
 13
 1752732158 /tools/synopsys/vcs/X-2025.06-1/linux64/packages/snps_msv_nettype_pkg/AN.DB
-1764860875 switch_collision_tb.sv
-1764772743 switch_4port.sv
-1764865893 switch_port.sv
-1764860315 output_mux.sv
-1764866292 arbiter.sv
-1764771412 parser.sv
-1764780902 FIFO.sv
-1764754507 port_if.sv
-1764754507 packet_pkg.sv
-1764866307 build.cud
+1764860875 tb/switch_collision_tb.sv
+1764772743 design/switch_4port.sv
+1764865893 design/switch_port.sv
+1764860315 design/output_mux.sv
+1764867832 design/arbiter.sv
+1764771412 design/parser.sv
+1764780902 design/FIFO.sv
+1764754507 design/port_if.sv
+1764754507 design/packet_pkg.sv
+1765018858 build.cud
 1752984263 /tools/synopsys/verdi/X-2025.06-1/share/PLI/VCS/LINUX64/verdi.tab
 1752721624 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/vcsdp_lite.tab
 4
@@ -205,5 +205,5 @@ ARC=lx-amd64
 1752722876 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/liberrorinf.so
 1752722871 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libsnpsmalloc.so
 1752722863 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libvfs.so
-1764866315 simv.daidir
+1765018869 simv.daidir
 -1 partitionlib
