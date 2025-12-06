@@ -112,7 +112,7 @@ function void report();
 
     $display("\n-----------------------------------------");
     $display(" CHECKER SUMMARY");
-    $display(" Matches:          %0d", matches);
+    $display(" Matches:          %0d", matchess);
     $display(" Mismatches:       %0d", mismatches);
     $display(" Pending (Lost):   %0d", pending_packets); // <--- NEW LINE
     $display("-----------------------------------------\n");
