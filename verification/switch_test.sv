@@ -1,6 +1,6 @@
 module switch_test;
   import packet_pkg::*;
-
+  localparam num_packets = 20;
   // 1. Signals & Interface
   bit clk = 0; always #5 clk = ~clk; 
   bit rst_n;
@@ -43,7 +43,7 @@ module switch_test;
     join_none
 
     fork
-      vc0.agt.drv.run(20); vc1.agt.drv.run(20); vc2.agt.drv.run(20); vc3.agt.drv.run(20);
+      vc0.agt.drv.run(num_packets); vc1.agt.drv.run(num_packets); vc2.agt.drv.run(num_packets); vc3.agt.drv.run(num_packets);
     join_none
     
     // Reset
@@ -51,10 +51,10 @@ module switch_test;
 
     // Run Sequencers (Parallel Generation)
     fork
-      vc0.agt.seq.run(20);
-      vc1.agt.seq.run(20);
-      vc2.agt.seq.run(20);
-      vc3.agt.seq.run(20);
+      vc0.agt.seq.run(num_packets);
+      vc1.agt.seq.run(num_packets);
+      vc2.agt.seq.run(num_packets);
+      vc3.agt.seq.run(num_packets);
     join
 
 // -------------------------------------------------------------
