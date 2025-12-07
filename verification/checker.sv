@@ -6,7 +6,7 @@ class checker extends component_base;
   // 2. Scoreboard
   packet scb_queue[4][$];
   
-  // 3. Stats (Renamed variable)
+  // 3. Stats
   int matchess; 
   int mismatches;
 
@@ -46,7 +46,7 @@ class checker extends component_base;
   endtask
 
   // ----------------------------------------------------------------
-  // TASK: Check Port (Smart Search + Renamed Variable)
+  // TASK: Check Port (Content-Based Search)
   // ----------------------------------------------------------------
   task check_port(int port_idx);
     packet received_pkt;
@@ -57,10 +57,11 @@ class checker extends component_base;
       // 1. Wait for packet
       mon_h[port_idx].mon_mbx.get(received_pkt);
       
-      // 2. SEARCH the queue for this ID (Handles Out-of-Order)
+      // 2. SEARCH the queue for DATA MATCH (Fix for ID mismatch)
       match_idx = -1;
       foreach(scb_queue[port_idx][i]) begin
-        if (scb_queue[port_idx][i].packet_id == received_pkt.packet_id) begin
+        // Use the compare function to find the packet, not the ID
+        if (compare_packets(scb_queue[port_idx][i], received_pkt)) begin
             match_idx = i;
             break; // Found it
         end
@@ -70,6 +71,7 @@ class checker extends component_base;
       if (match_idx == -1) begin
         $error("[Checker] ERROR: Unexpected/Unknown packet on Port %0d. ID: %0d", 
                port_idx, received_pkt.packet_id);
+        received_pkt.print("RECEIVED_UNKNOWN");
         mismatches++;
       end 
       else begin
@@ -77,22 +79,14 @@ class checker extends component_base;
         expected_pkt = scb_queue[port_idx][match_idx];
         scb_queue[port_idx].delete(match_idx);
         
-        // Verify Data Integrity
-        if (compare_packets(expected_pkt, received_pkt)) begin
-          $display("[Checker] SUCCESS: Packet ID %0d matched on Port %0d", 
-                   received_pkt.packet_id, port_idx);
-          matchess++; // <--- UPDATED VARIABLE
-        end else begin
-          $error("[Checker] ERROR: Data Corruption on Port %0d. ID: %0d", 
-                 port_idx, received_pkt.packet_id);
-          received_pkt.print("RECEIVED");
-          expected_pkt.print("EXPECTED");
-          mismatches++;
-        end
+        $display("[Checker] SUCCESS: Packet matched on Port %0d (DrvID:%0d -> MonID:%0d)", 
+                 port_idx, expected_pkt.packet_id, received_pkt.packet_id);
+        matchess++;
       end
     end
   endtask
 
+  // Helper: Compare fields
   function bit compare_packets(packet exp, packet rcv);
     if (exp.source !== rcv.source) return 0;
     if (exp.target !== rcv.target) return 0;
@@ -108,7 +102,7 @@ class checker extends component_base;
 
     $display("\n-----------------------------------------");
     $display(" CHECKER SUMMARY");
-    $display(" Matches:          %0d", matchess); // <--- UPDATED VARIABLE
+    $display(" Matches:          %0d", matchess); 
     $display(" Mismatches:       %0d", mismatches);
     $display(" Pending (Lost):   %0d", pending_packets);
     $display("-----------------------------------------\n");
