@@ -97,26 +97,57 @@ always @(posedge clk) begin
     wait (vc2.agt.drv.mbx.num() == 0);
     wait (vc3.agt.drv.mbx.num() == 0);
 
-   $display("--- Drivers Done. Waiting for Switch Hardware to drain... ---");
-    // Wait for the Switch Hardware to process the very last packets
-    // This proves if packets are just slow or actually dead.
-    wait (dut.port0_i.port_fifo.fifo_empty);
-    wait (dut.port1_i.port_fifo.fifo_empty);
-    wait (dut.port2_i.port_fifo.fifo_empty);
-    wait (dut.port3_i.port_fifo.fifo_empty);
-    
+$display("--- Drivers Done. Waiting for Switch to drain... ---");
+    // Wait for internal FIFOs to empty (with timeout)
+    fork
+        begin
+            wait (dut.port0_i.port_fifo.fifo_empty);
+            wait (dut.port1_i.port_fifo.fifo_empty);
+            wait (dut.port2_i.port_fifo.fifo_empty);
+            wait (dut.port3_i.port_fifo.fifo_empty);
+        end
+        begin
+            repeat(100000) @(posedge clk);
+            $display("[TEST] WARNING: Timeout waiting for FIFOs to drain.");
+        end
+    join_any
+    disable fork;
+
     repeat(1000) @(posedge clk);
     
-    $display("\n-----------------------------------------");
-    $display(" EFFECTIVE DROP STATISTICS (Targets Lost)");
-    $display(" Port 0 Drops: %0d", drops[0]);
-    $display(" Port 1 Drops: %0d", drops[1]);
-    $display(" Port 2 Drops: %0d", drops[2]);
-    $display(" Port 3 Drops: %0d", drops[3]);
-    $display(" TOTAL DROPS:  %0d", drops[0] + drops[1] + drops[2] + drops[3]);
-    $display("-----------------------------------------\n");
+    // -------------------------------------------------------------
+    // FINAL CALCULATION: PROOF OF INTERNAL INTEGRITY
+    // -------------------------------------------------------------
+    begin
+        int total_hw_drops;
+        int total_pending;
+        int internal_loss;
+        
+        // 1. Get Checker Pending Count
+        total_pending = 0;
+        foreach(chk.scb_queue[i]) total_pending += chk.scb_queue[i].size();
+        
+        // 2. Get Hardware Drop Count
+        total_hw_drops = drops[0] + drops[1] + drops[2] + drops[3];
+
+        // 3. Calculate Internal Loss
+        internal_loss = total_pending - total_hw_drops;
+
+        $display("\n=========================================");
+        $display(" INTEGRITY REPORT");
+        $display(" 1. Total Pending (Checker):  %0d", total_pending);
+        $display(" 2. Input Rejections (FIFO):  %0d", total_hw_drops);
+        $display(" -----------------------------------------");
+        $display(" 3. INTERNAL LOSS:            %0d", internal_loss);
+        $display("=========================================\n");
+
+        if (internal_loss == 0) 
+            $display("[TEST] PASSED: All accepted packets were delivered.");
+        else 
+            $error("[TEST] FAILED: %0d packets were accepted but LOST inside.", internal_loss);
+    end
+
     chk.report();
-    
     $finish;
   end
 
