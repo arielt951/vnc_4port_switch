@@ -97,7 +97,14 @@ always @(posedge clk) begin
     wait (vc2.agt.drv.mbx.num() == 0);
     wait (vc3.agt.drv.mbx.num() == 0);
 
+   $display("--- Drivers Done. Waiting for Switch Hardware to drain... ---");
     // Wait for the Switch Hardware to process the very last packets
+    // This proves if packets are just slow or actually dead.
+    wait (dut.port0_i.port_fifo.fifo_empty);
+    wait (dut.port1_i.port_fifo.fifo_empty);
+    wait (dut.port2_i.port_fifo.fifo_empty);
+    wait (dut.port3_i.port_fifo.fifo_empty);
+    
     repeat(1000) @(posedge clk);
     
     $display("\n-----------------------------------------");
