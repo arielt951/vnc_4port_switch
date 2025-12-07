@@ -230,11 +230,11 @@ SyncBrowserDir = TRUE
 cmd_enter_form = FALSE
 recent_commands_nWave = getSignal,editCut,renameSignal,changeColor,nextEvent,leftFullPage,rightFullPage,digitalFBin,editBus,previousEvent
 recent_commands_Verdi = hbReload,hbRestoreSession,hbSaveSession,hbInvokeSignalPane
-ColorThemeModern = bright
 version = Verdi_X-2025.06-1
-prevColorThemeModern = bright
 SignalCaseInSensitive = FALSE
 FindBarVisible = nWave,hdlSrc
+ColorThemeModern = bright
+prevColorThemeModern = bright
 [GlobalProp]
 ErrWindow_Font = Helvetica_M_R_12
 [Globals]
