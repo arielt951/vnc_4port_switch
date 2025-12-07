@@ -111,6 +111,7 @@ module switch_test;
     $display(" TOTAL DROPS:  %0d", drops[0] + drops[1] + drops[2] + drops[3]);
     $display("-----------------------------------------\n");
     chk.report();
+    
     $finish;
   end
 
