@@ -94,20 +94,40 @@ class checker extends component_base;
     return 1;
   endfunction
   
-  function void report();
+function void report();
     int pending_packets = 0;
+    int src_stuck[4] = '{0,0,0,0}; // Count lost packets by SOURCE
+    
+    // 1. Calculate Statistics
     foreach(scb_queue[i]) begin
       pending_packets += scb_queue[i].size();
+      
+      // Analyze WHO generated these missing packets
+      foreach(scb_queue[i][j]) begin
+        case (scb_queue[i][j].source)
+          4'b0001: src_stuck[0]++;
+          4'b0010: src_stuck[1]++;
+          4'b0100: src_stuck[2]++;
+          4'b1000: src_stuck[3]++;
+        endcase
+      end
     end
 
-    $display("\n-----------------------------------------");
+    // 2. Print Summary
+    $display("\n=========================================");
     $display(" CHECKER SUMMARY");
-    $display(" Matches:          %0d", matchess); 
+    $display(" Matches:          %0d", matchess);
     $display(" Mismatches:       %0d", mismatches);
     $display(" Pending (Lost):   %0d", pending_packets);
-    $display("-----------------------------------------\n");
+    $display("-----------------------------------------");
+    $display(" LOST PACKET ANALYSIS (By Source)");
+    $display(" Stuck from Port 0: %0d", src_stuck[0]);
+    $display(" Stuck from Port 1: %0d", src_stuck[1]);
+    $display(" Stuck from Port 2: %0d", src_stuck[2]);
+    $display(" Stuck from Port 3: %0d", src_stuck[3]);
+    $display("=========================================\n");
     
-    if (pending_packets > 0) $error("TEST FAILED: %0d packets were expected but never arrived!", pending_packets);
+    if (pending_packets > 0) $error("TEST FAILED: %0d packets lost.", pending_packets);
   endfunction
 
 endclass

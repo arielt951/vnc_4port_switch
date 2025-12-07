@@ -145,6 +145,15 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
             $display("[TEST] PASSED: All accepted packets were delivered.");
         else 
             $error("[TEST] FAILED: %0d packets were accepted but LOST inside.", internal_loss);
+
+        $display("\n=========================================");
+        $display(" HARDWARE STATE INSPECTION");
+        // Peek at internal signals
+        $display(" Port 0 FIFO Usage: %0d / 8", dut.port0_i.port_fifo.fifo_count);
+        $display(" Port 1 FIFO Usage: %0d / 8", dut.port1_i.port_fifo.fifo_count);
+        $display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
+        $display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
+        $display("=========================================\n");
     end
 
     chk.report();
