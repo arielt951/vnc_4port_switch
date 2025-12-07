@@ -1,40 +1,29 @@
 class sequencer extends component_base;
-  
-  // Communication channel to the Driver
   mailbox #(packet) mbx;
-  
-  // ID of the port this sequencer controls (0, 1, 2, or 3)
   int port_id;
 
   function new(string name, component_base parent);
     super.new(name, parent);
   endfunction
 
-  // Called by Agent to set the ID
   function void configure(int port_id);
     this.port_id = port_id;
   endfunction
 
-  // Main generation loop
   task run(int num_packets);
-    packet pkt;
-    
+    packet p;
     repeat(num_packets) begin
-      // 1. Create Packet
-      // We pass 'port_id' here so the packet automatically sets 
-      // the correct One-Hot source address (e.g., 0 -> 0001).
-      pkt = new("pkt", this.port_id);
+      // 1. Create & Randomize
+      p = new($sformatf("pkt_%0d", port_id), port_id);
+      p.source.rand_mode(0); 
+      void'(p.randomize());
+      p.calc_type();
+
+      // 2. Send to Driver
+      mbx.put(p);
       
-      // 2. Randomize
-      // We only randomize target and data. Source is already fixed.
-      if (!pkt.randomize()) begin
-        $error("%s: Randomization failed", pathname());
-      end
-      
-      // 3. Send to Driver
-      // This is a blocking put; it waits if the mailbox is full.
-      mbx.put(pkt);
+      // 3. Inter-packet Delay
+      repeat($urandom_range(5, 15)) #10; // Simple delay
     end
   endtask
-  
 endclass

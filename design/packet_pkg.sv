@@ -14,6 +14,8 @@ package packet_pkg;
 	typedef enum logic [1:0] {IDLE, ROUTE, ARB_WAIT, TRANSMIT} state_t;
 	typedef enum logic [1:0] {ERR, SDP, MDP, BDP} p_type;
 
+	typedef class checker;
+
 	// -----------------------------------------------------------
 	// 3. BASE PACKET CLASS
 	// -----------------------------------------------------------
