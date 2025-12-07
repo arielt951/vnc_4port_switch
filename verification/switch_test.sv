@@ -57,8 +57,22 @@ module switch_test;
       vc3.agt.seq.run(20);
     join
 
-    repeat(200) @(posedge clk);
+// -------------------------------------------------------------
+    // FIX: WAIT FOR DRIVERS TO FINISH
+    // -------------------------------------------------------------
+    $display("--- Sequencers Done. Waiting for Drivers to drain... ---");
+    
+    // Wait until all driver mailboxes are empty
+    wait (vc0.agt.drv.mbx.num() == 0);
+    wait (vc1.agt.drv.mbx.num() == 0);
+    wait (vc2.agt.drv.mbx.num() == 0);
+    wait (vc3.agt.drv.mbx.num() == 0);
+
+    // Wait for the Switch Hardware to process the very last packets
+    repeat(1000) @(posedge clk);
+    
     chk.report();
+    $display("--- Simulation Finished ---");
     $finish;
   end
 
