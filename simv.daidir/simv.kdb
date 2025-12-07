@@ -6,19 +6,20 @@ VCS_HOME=/tools/synopsys/vcs/X-2025.06-1
 VERDI_HOME=/tools/synopsys/verdi/X-2025.06-1
 SystemC=FALSE
 UUM=FALSE
-KDB=TRUE
+KDB=FALSE
 USE_NOVAS_HOME=FALSE
 COSIM=FALSE
+<<<<<<< HEAD
 TOP=switch_collision_tb 
+=======
+TOP=switch_test 
+>>>>>>> yuval_vc_branch
 OPTION=-ssv -ssy 
 ELAB_OPTION=-ssv -ssy 
-ELAB=TRUE
-COMMON_ELAB=TRUE
-SIMV_WRAPPER=FALSE
-ELABCOM_PARTAIL_LOAD=TRUE
+
 [Value]
 WREALX=ffff534e50535f58
 WREALZ=ffff534e50535f5a
 
 [CompInfo]
-FLOW_OPTS=-kdb=common_elab -ssv -ssy 
+FLOW_OPTS=-ssv -ssy 

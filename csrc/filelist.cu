@@ -4,6 +4,7 @@ ifeq ($(LDVERSION), 0)
 endif
 
 ARCHIVE_OBJS=
+<<<<<<< HEAD
 ARCHIVE_OBJS += _3837651_archive_1.so
 _3837651_archive_1.so : archive.80/_3837651_archive_1.a
 	@$(AR) -s $<
@@ -14,6 +15,18 @@ _3837651_archive_1.so : archive.80/_3837651_archive_1.a
 
 ARCHIVE_OBJS += _prev_archive_1.so
 _prev_archive_1.so : archive.80/_prev_archive_1.a
+=======
+ARCHIVE_OBJS += _783003_archive_1.so
+_783003_archive_1.so : archive.82/_783003_archive_1.a
+	@$(AR) -s $<
+	@$(PIC_LD) -shared  -Bsymbolic $(LD_NORELAX_FLAG)  -o .//../simv.daidir//_783003_archive_1.so --whole-archive $< --no-whole-archive
+	@rm -f $@
+	@ln -sf .//../simv.daidir//_783003_archive_1.so $@
+
+
+ARCHIVE_OBJS += _prev_archive_1.so
+_prev_archive_1.so : archive.82/_prev_archive_1.a
+>>>>>>> yuval_vc_branch
 	@$(AR) -s $<
 	@$(PIC_LD) -shared  -Bsymbolic $(LD_NORELAX_FLAG)  -o .//../simv.daidir//_prev_archive_1.so --whole-archive $< --no-whole-archive
 	@rm -f $@
