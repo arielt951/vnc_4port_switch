@@ -155,28 +155,28 @@ module arbiter (
 			mux_sel3 <= (win_out3[1]) ? 2'd1 : (win_out3[2]) ? 2'd2 : (win_out3[3]) ? 2'd3 : 2'd0;
 			
             // Rotate Output 0 Pointer if winner used it
-            if (win_out0[0] && grant_bus[0]) ptr0 <= 2'd1;
-            if (win_out0[1] && grant_bus[1]) ptr0 <= 2'd2;
-            if (win_out0[2] && grant_bus[2]) ptr0 <= 2'd3;
-            if (win_out0[3] && grant_bus[3]) ptr0 <= 2'd0;
+            if (win_out0[0] ) ptr0 <= 2'd1;
+            if (win_out0[1] ) ptr0 <= 2'd2;
+            if (win_out0[2] ) ptr0 <= 2'd3;
+            if (win_out0[3] ) ptr0 <= 2'd0;
 
             // Rotate Output 1 Pointer
-            if (win_out1[0] && grant_bus[0]) ptr1 <= 2'd1;
-            if (win_out1[1] && grant_bus[1]) ptr1 <= 2'd2;
-            if (win_out1[2] && grant_bus[2]) ptr1 <= 2'd3;
-            if (win_out1[3] && grant_bus[3]) ptr1 <= 2'd0;
+            if (win_out1[0] ) ptr1 <= 2'd1;
+            if (win_out1[1] ) ptr1 <= 2'd2;
+            if (win_out1[2] ) ptr1 <= 2'd3;
+            if (win_out1[3] ) ptr1 <= 2'd0;
 
             // Rotate Output 2 Pointer
-            if (win_out2[0] && grant_bus[0]) ptr2 <= 2'd1;
-            if (win_out2[1] && grant_bus[1]) ptr2 <= 2'd2;
-            if (win_out2[2] && grant_bus[2]) ptr2 <= 2'd3;
-            if (win_out2[3] && grant_bus[3]) ptr2 <= 2'd0;
+            if (win_out2[0] ) ptr2 <= 2'd1;
+            if (win_out2[1] ) ptr2 <= 2'd2;
+            if (win_out2[2] ) ptr2 <= 2'd3;
+            if (win_out2[3] ) ptr2 <= 2'd0;
 
             // Rotate Output 3 Pointer
-            if (win_out3[0] && grant_bus[0]) ptr3 <= 2'd1;
-            if (win_out3[1] && grant_bus[1]) ptr3 <= 2'd2;
-            if (win_out3[2] && grant_bus[2]) ptr3 <= 2'd3;
-            if (win_out3[3] && grant_bus[3]) ptr3 <= 2'd0;
+            if (win_out3[0] ) ptr3 <= 2'd1;
+            if (win_out3[1] ) ptr3 <= 2'd2;
+            if (win_out3[2] ) ptr3 <= 2'd3;
+            if (win_out3[3] ) ptr3 <= 2'd0;
         end
     end
 
