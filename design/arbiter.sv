@@ -18,8 +18,10 @@ module arbiter (
     output logic active0, active1, active2, active3
 );
 
-    // Priority Pointers (Round Robin state)
-    logic [1:0] ptr0, ptr1, ptr2, ptr3;
+    // Instead of independent ptr0..3, we use one pointer for the whole switch.
+    // This ensures that in any given cycle, ONE port has priority on ALL outputs,
+    // making it mathematically impossible to have a circular "All-or-Nothing" deadlock.
+    logic [1:0] common_ptr;
     
     // Internal wires: Who won each specific output?
     logic [NUM_PORTS-1:0] win_out0, win_out1, win_out2, win_out3;
@@ -74,10 +76,10 @@ module arbiter (
         reqs_out3 = {port3_dst[3], port2_dst[3], port1_dst[3], port0_dst[3]};
         
         // 2. Pick Local Winners
-        win_out0 = pick_winner(reqs_out0, ptr0);
-        win_out1 = pick_winner(reqs_out1, ptr1);
-        win_out2 = pick_winner(reqs_out2, ptr2);
-        win_out3 = pick_winner(reqs_out3, ptr3);
+        win_out0 = pick_winner(reqs_out0, common_ptr);
+        win_out1 = pick_winner(reqs_out1, common_ptr);
+        win_out2 = pick_winner(reqs_out2, common_ptr);
+        win_out3 = pick_winner(reqs_out3, common_ptr);
 
         // 3. Calculate Global Grants (All-or-Nothing)
         // A port only gets a grant if it won ALL the outputs it requested.
@@ -133,29 +135,13 @@ module arbiter (
             // Rotate the pointer if a port won the local output arbitration, 
             // even if it was denied the global grant.
             
-            // Output 0
-            if (win_out0[0]) ptr0 <= 2'd1;
-            else if (win_out0[1]) ptr0 <= 2'd2;
-            else if (win_out0[2]) ptr0 <= 2'd3;
-            else if (win_out0[3]) ptr0 <= 2'd0;
-
-            // Output 1
-            if (win_out1[0]) ptr1 <= 2'd1;
-            else if (win_out1[1]) ptr1 <= 2'd2;
-            else if (win_out1[2]) ptr1 <= 2'd3;
-            else if (win_out1[3]) ptr1 <= 2'd0;
-
-            // Output 2
-            if (win_out2[0]) ptr2 <= 2'd1;
-            else if (win_out2[1]) ptr2 <= 2'd2;
-            else if (win_out2[2]) ptr2 <= 2'd3;
-            else if (win_out2[3]) ptr2 <= 2'd0;
-
-            // Output 3
-            if (win_out3[0]) ptr3 <= 2'd1;
-            else if (win_out3[1]) ptr3 <= 2'd2;
-            else if (win_out3[2]) ptr3 <= 2'd3;
-            else if (win_out3[3]) ptr3 <= 2'd0;
+            //SMARTER ROTATION
+            // -----------------------------------------------------------------
+            // We rotate the global priority every clock cycle.
+            // This ensures fairness and prevents starvation.
+            // Even if nobody sends, we rotate (harmless). 
+            // If deadlock occurs at ptr=0, next cycle ptr=1 will fix it.
+            common_ptr <= common_ptr + 1'b1;
         end
     end
 endmodule
