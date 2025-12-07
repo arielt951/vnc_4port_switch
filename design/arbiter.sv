@@ -113,7 +113,7 @@ module arbiter (
     // -------------------------------------------------------------------------
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            ptr0 <= 0; ptr1 <= 0; ptr2 <= 0; ptr3 <= 0;
+            common_ptr <= 0;
             active0 <= 0; active1 <= 0; active2 <= 0; active3 <= 0;
             mux_sel0 <= 0; mux_sel1 <= 0; mux_sel2 <= 0; mux_sel3 <= 0;
         end else begin
