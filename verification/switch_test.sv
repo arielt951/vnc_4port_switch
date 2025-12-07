@@ -18,29 +18,27 @@ module switch_test;
   // -------------------------------------------------------------
   int drops[4] = '{0, 0, 0, 0}; // Initialize to 0
 
-  always @(posedge clk) begin
-    // Check Port 0: If Valid is High (Write) BUT FIFO is Full -> DROP
+always @(posedge clk) begin
+    // Check Port 0
     if (port0.valid_in && dut.port0_i.port_fifo.fifo_full) begin
-      drops[0]++;
-      $display("[HW-DROP] Packet dropped at Port 0 input due to FIFO Full at time %0t", $time);
+      // COUNT EFFECTIVE DROPS:
+      // If a packet targets 3 ports and is dropped, we lose 3 output packets.
+      drops[0] += $countones(port0.target_in);
     end
 
     // Check Port 1
     if (port1.valid_in && dut.port1_i.port_fifo.fifo_full) begin
-      drops[1]++;
-      $display("[HW-DROP] Packet dropped at Port 1 input due to FIFO Full at time %0t", $time);
+      drops[1] += $countones(port1.target_in);
     end
 
     // Check Port 2
     if (port2.valid_in && dut.port2_i.port_fifo.fifo_full) begin
-      drops[2]++;
-      $display("[HW-DROP] Packet dropped at Port 2 input due to FIFO Full at time %0t", $time);
+      drops[2] += $countones(port2.target_in);
     end
 
     // Check Port 3
     if (port3.valid_in && dut.port3_i.port_fifo.fifo_full) begin
-      drops[3]++;
-      $display("[HW-DROP] Packet dropped at Port 3 input due to FIFO Full at time %0t", $time);
+      drops[3] += $countones(port3.target_in);
     end
   end
 
@@ -103,7 +101,7 @@ module switch_test;
     repeat(1000) @(posedge clk);
     
     $display("\n-----------------------------------------");
-    $display(" HARDWARE DROP STATISTICS");
+    $display(" EFFECTIVE DROP STATISTICS (Targets Lost)");
     $display(" Port 0 Drops: %0d", drops[0]);
     $display(" Port 1 Drops: %0d", drops[1]);
     $display(" Port 2 Drops: %0d", drops[2]);
