@@ -195,7 +195,7 @@ ARC=lx-amd64
 1765371713 ./verification/sequencer.sv
 1764754507 ./verification/component_base.sv
 1752732158 /tools/synopsys/vcs/X-2025.06-1/linux64/packages/snps_msv_nettype_pkg/AN.DB
-1765371718 verification/switch_test.sv
+1765374754 verification/switch_test.sv
 1765095906 design/switch_4port.sv
 1765022705 design/switch_port.sv
 1765095906 design/output_mux.sv
@@ -212,5 +212,5 @@ ARC=lx-amd64
 1752722876 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/liberrorinf.so
 1752722871 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libsnpsmalloc.so
 1752722863 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libvfs.so
-1765372120 simv.daidir
+1765374758 simv.daidir
 -1 partitionlib

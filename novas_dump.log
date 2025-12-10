@@ -127,19 +127,19 @@ VCS compile option:
  option[37]: nusym_mode
 Chronologic Simulation VCS Release X-2025.06-1_Full64
 Linux 4.18.0-553.el8_10.x86_64 #1 SMP Fri May 24 13:05:10 UTC 2024 x86_64
-CPU cores: 112
+CPU cores: 80
 Limit information:
 ======================================
 cputime		unlimited
 filesize		unlimited
 datasize		unlimited
-stacksize		unlimited
+stacksize		8192 kbytes
 coredumpsize		0 kbytes
 memoryuse		unlimited
 vmemoryuse		unlimited
 descriptors		1024
 memorylocked		64 kbytes
-maxproc		4124534
+maxproc		4123432
 ======================================
 (Special)Runtime environment variables:
 
@@ -150,7 +150,7 @@ SGE_CELL=default
 PWD=/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
 JOURNAL_STREAM=9:40511
 SHLVL=4
-PATH=/tools/cadence/PVS/23.11/tools/bin:/tools/siemens/CALIBRE/2025.1_33.17/aok_cal_2025.1_33.17/bin:/tools/synopsys/fm/W-2024.09-SP3/bin:/tools/synopsys/rtla/V-2023.12-SP4/bin:/tools/synopsys/lc/S-2021.06-SP5/bin:/tools/synopsys/euclide/X-2025.06-1/eclipse/bin:/tools/synopsys/icv/X-2025.06-SP1-3/bin:/tools/synopsys/starrc/X-2025.06-SP1/bin:/tools/synopsys/prime/W-2024.09-SP3/bin:/tools/synopsys/verdi/X-2025.06-1/bin:/tools/synopsys/vcs/X-2025.06-1/bin:/tools/synopsys/vcs/vcs_gnu_vX-2025.06/linux/gcc-12.3.0_64-shared/bin:/tools/synopsys/vcs/vcs_gnu_vX-2025.06/linux/binutils-2.33.1_64/bin:/tools/synopsys/fc/V-2023.12-SP3/bin:/tools/synopsys/lc/U-2022.12/bin:/usr/local.cc/bin:/tools/common/bin:/tools/cadence/QUANTUS/23.11/tools/bin:/tools/modules/5.5.0/bin:/tools/common/sge/8.1.9/bin:/tools/common/sge/8.1.9/bin/lx-amd64:/usr/share/Modules/bin:/tmp/166678.1.normal:/tools/synopsys/euclide/T-2022.06-SP1-1/linux.gtk.x86_64/eclipse/bin:/tools/synopsys/icv/T-2022.03-SP3-4/bin:/tools/synopsys/starrc/T-2022.03-SP5/bin:/tools/synopsys/prime/T-2022.03-SP3/bin:/tools/synopsys/icc2/S-2021.06-SP5/bin:/tools/synopsys/verdi/S-2021.09-SP1/bin:/tools/synopsys/euclide/S-2021.09-SP1/linux.gtk.x86_64/eclipse/bin:/tools/synopsys/vcs/T-2022.06-SP1-1/bin:/tools/synopsys/syn/S-2021.06-SP5/bin:/tools/synopsys/fc/T-2022.03-SP3/bin:/tools/common/sge/8.1.9/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:/usr/bin:/bin:/tools/cadence/DDI/22.15/bin
+PATH=/tools/cadence/PVS/23.11/tools/bin:/tools/siemens/CALIBRE/2025.1_33.17/aok_cal_2025.1_33.17/bin:/tools/synopsys/fm/W-2024.09-SP3/bin:/tools/synopsys/rtla/V-2023.12-SP4/bin:/tools/synopsys/lc/S-2021.06-SP5/bin:/tools/synopsys/euclide/X-2025.06-1/eclipse/bin:/tools/synopsys/icv/X-2025.06-SP1-3/bin:/tools/synopsys/starrc/X-2025.06-SP1/bin:/tools/synopsys/prime/W-2024.09-SP3/bin:/tools/synopsys/verdi/X-2025.06-1/bin:/tools/synopsys/vcs/X-2025.06-1/bin:/tools/synopsys/vcs/vcs_gnu_vX-2025.06/linux/gcc-12.3.0_64-shared/bin:/tools/synopsys/vcs/vcs_gnu_vX-2025.06/linux/binutils-2.33.1_64/bin:/tools/synopsys/fc/V-2023.12-SP3/bin:/tools/synopsys/lc/U-2022.12/bin:/usr/local.cc/bin:/tools/common/bin:/tools/cadence/QUANTUS/23.11/tools/bin:/tools/modules/5.5.0/bin:/tools/common/sge/8.1.9/bin:/tools/common/sge/8.1.9/bin/lx-amd64:/usr/share/Modules/bin:/tmp/166686.1.normal:/tools/synopsys/euclide/T-2022.06-SP1-1/linux.gtk.x86_64/eclipse/bin:/tools/synopsys/icv/T-2022.03-SP3-4/bin:/tools/synopsys/starrc/T-2022.03-SP5/bin:/tools/synopsys/prime/T-2022.03-SP3/bin:/tools/synopsys/icc2/S-2021.06-SP5/bin:/tools/synopsys/verdi/S-2021.09-SP1/bin:/tools/synopsys/euclide/S-2021.09-SP1/linux.gtk.x86_64/eclipse/bin:/tools/synopsys/vcs/T-2022.06-SP1-1/bin:/tools/synopsys/syn/S-2021.06-SP5/bin:/tools/synopsys/fc/T-2022.03-SP3/bin:/tools/common/sge/8.1.9/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin:/usr/bin:/bin:/tools/cadence/DDI/22.15/bin
 _=/tools/common/sge/8.1.9/bin/lx-amd64/qrsh
 TERM=xterm-256color
 QTINC=/usr/lib64/qt-3.3/include
@@ -163,7 +163,7 @@ MGC_CALIBRE_LVS_RUNSET_FILE=/tech/tsmc/65LP/pdk/../Calibre/runsets/lvsrunset
 DISPLAY=micron-x03:38
 SGE_O_HOST=micron9.eng.tau.ac.il
 VNCDESKTOP=micron-x03:38 (arielt)
-HOSTNAME=micron4.eng.tau.ac.il
+HOSTNAME=micron1.eng.tau.ac.il
 QTDIR=/usr/lib64/qt-3.3
 ENVIRONMENT=BATCH
 GTK_OVERLAY_SCROLLING=0
@@ -195,9 +195,9 @@ GROUP=enginer
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
 HOME=/a/home/cc/students/enginer/arielt
 NQUEUES=1
-TMP=/tmp/166678.1.normal
+TMP=/tmp/166686.1.normal
 MGC_CALIBRE_VIEWER_MENU_CMDS=/tech/tsmc/65LP/pdk/../Calibre/runsets/menu_custom.cmd
-HOST=micron4.eng.tau.ac.il
+HOST=micron1.eng.tau.ac.il
 SSH_CLIENT=132.66.48.122 58882 22
 SGE_O_HOME=/a/home/cc/students/enginer/arielt
 JOB_NAME=simv
@@ -209,7 +209,7 @@ MGC_CALIBRE_MAP_BUS_NAME=true
 SGE_TASK_LAST=undefined
 SGE_ACCOUNT=sge
 GDK_CORE_DEVICE_EVENTS=1
-TMPDIR=/tmp/166678.1.normal
+TMPDIR=/tmp/166686.1.normal
 RESTARTED=0
 SGE_O_PATH=/tools/synopsys/euclide/T-2022.06-SP1-1/linux.gtk.x86_64/eclipse/bin:/tools/synopsys/icv/T-2022.03-SP3-4/bin:/tools/synopsys/starrc/T-2022.03-SP5/bin:/tools/synopsys/prime/T-2022.03-SP3/bin:/tools/synopsys/icc2/S-2021.06-SP5/bin:/tools/synopsys/verdi/S-2021.09-SP1/bin:/tools/synopsys/euclide/S-2021.09-SP1/linux.gtk.x86_64/eclipse/bin:/tools/synopsys/vcs/T-2022.06-SP1-1/bin:/tools/synopsys/syn/S-2021.06-SP5/bin:/tools/synopsys/fc/T-2022.03-SP3/bin:/tools/synopsys/lc/S-2021.06-SP5/bin:/tools/common/sge/8.1.9/bin:/tools/common/sge/8.1.9/bin/lx-amd64:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/bin
 SGE_O_SHELL=/bin/tcsh
@@ -223,8 +223,8 @@ SGE_TASK_STEPSIZE=undefined
 VTE_VERSION=5204
 SHELL=/bin/tcsh
 QT_GRAPHICSSYSTEM_CHECKED=1
-SGE_JOB_SPOOL_DIR=/tools/common/sge/8.1.9/default/spool/micron4/active_jobs/166678.1
-JOB_ID=166678
+SGE_JOB_SPOOL_DIR=/tools/common/sge/8.1.9/default/spool/micron1/active_jobs/166686.1
+JOB_ID=166686
 XDG_CURRENT_DESKTOP=MATE
 TECH_ROOT=/data
 MAKELEVEL=1
@@ -252,7 +252,7 @@ SGE_STDOUT_PATH=/tmp/euclide.o166677
 REQNAME=simv
 LESSOPEN=||/usr/bin/lesspipe.sh %s
 SGE_CLUSTER_NAME=p6444
-QRSH_PORT=micron9.eng.tau.ac.il:40421
+QRSH_PORT=micron9.eng.tau.ac.il:35121
 QRSH_COMMAND=./simv
 LD_LIBRARY_PATH=/tools/cadence/DDI/22.15/tools/cdsgcc/gcc/9.3/install/lib64
 SYNOPSYS_LC_ROOT=/tools/synopsys/lc/S-2021.06-SP5
@@ -302,13 +302,13 @@ LC_ALL=C
 VCS_STOP_SAFE=1
 DVE=/tools/synopsys/vcs/X-2025.06-1/gui/dve
 SPECMAN_OUTPUT_TO_TTY=1
-FLEXLM_BORROWFILE=/a/home/cc/students/enginer/arielt/.micron4.eng.tau.ac.il-borrow.txt
+FLEXLM_BORROWFILE=/a/home/cc/students/enginer/arielt/.micron1.eng.tau.ac.il-borrow.txt
 Runtime command line arguments:
 argv[0]=./simv
 **********Message Rewind**************
 307 profile - 100
-          CPU/Mem usage: 0.060 sys,  0.210 user,  285.07M mem
-308 Elapsed time:    0:00:00    Wed Dec 10 15:08:45 2025
+          CPU/Mem usage: 0.050 sys,  0.170 user,  285.08M mem
+308 Elapsed time:    0:00:01    Wed Dec 10 15:52:43 2025
 309 User CPU time used: 0 seconds
 310 System CPU time used: 0 seconds
 311 pliAppInit
@@ -340,7 +340,7 @@ argv[0]=./simv
 337 *Verdi* : Begin traversing the scopes, layer (0).
 338 *Verdi* : End of traversing.
 339 pliAppHDL_DumpVarComplete traverse var: profile - 
-          CPU/Mem usage: 0.060 sys,  0.220 user,  386.46M mem
+          CPU/Mem usage: 0.050 sys,  0.180 user,  386.47M mem
                    incr: 0.000 sys,  0.010 user,  11.98M mem
                    accu: 0.000 sys,  0.010 user,  11.98M mem
               accu incr: 0.000 sys,  0.010 user,  11.98M mem
@@ -350,11 +350,11 @@ argv[0]=./simv
                  accu: 274 var,  201 idcode,  121 callback
             accu incr: 274 var,  201 idcode,  121 callback
 340 Idcode  0 - bc1:0  mda:0
-341 Elapsed time:    0:00:00    Wed Dec 10 15:08:45 2025
+341 Elapsed time:    0:00:01    Wed Dec 10 15:52:43 2025
 342 User CPU time used: 0 seconds
 343 System CPU time used: 0 seconds
 344 pliAppHDL_DumpVarComplete: profile - 
-          CPU/Mem usage: 0.060 sys,  0.220 user,  386.46M mem
+          CPU/Mem usage: 0.050 sys,  0.180 user,  386.47M mem
                    incr: 0.000 sys,  0.000 user,  0.00M mem
                    accu: 0.000 sys,  0.010 user,  11.98M mem
               accu incr: 0.000 sys,  0.000 user,  0.00M mem
@@ -364,33 +364,33 @@ argv[0]=./simv
                  accu: 274 var,  201 idcode,  121 callback
             accu incr: 0 var,  0 idcode,  0 callback
 345 Idcode  0 - bc1:0  mda:0
-346 Elapsed time:    0:00:00    Wed Dec 10 15:08:45 2025
+346 Elapsed time:    0:00:01    Wed Dec 10 15:52:43 2025
 347 User CPU time used: 0 seconds
 348 System CPU time used: 0 seconds
-349 End of simulation at 12205
-350 Memory usage: 407.134 M
+349 End of simulation at 10245
+350 Memory usage: 407.142 M
 351 Maximum resident set size: 149 MB
-352 Hard page faults: 17
-353 Soft page faults: 13899
-354 Elapsed time:    0:00:00    Wed Dec 10 15:08:45 2025
+352 Hard page faults: 18
+353 Soft page faults: 13854
+354 Elapsed time:    0:00:01    Wed Dec 10 15:52:43 2025
 355 User CPU time used: 0 seconds
 356 System CPU time used: 0 seconds
 357 Begin FSDB profile info:
-358 FSDB Writer : bc1(6158) bcn(4557) mtf/stf(0/0)
-FSDB Writer elapsed time : flush(0.004221) io wait(0.000000) theadpool wait(0.000000)
+358 FSDB Writer : bc1(4176) bcn(1231) mtf/stf(0/0)
+FSDB Writer elapsed time : flush(0.003233) io wait(0.000000) theadpool wait(0.000000)
 FSDB Writer cpu time : MT Compression : 0
 359 End FSDB profile info
-360 FSDB closed. Name: novas.fsdb Size: 18986
+360 FSDB closed. Name: novas.fsdb Size: 13740
 361 Parallel profile     - ProducerThread:1 ConsumerThread:1 Buffer:64MB
-362                      - BlockUsed:1 Acquire:0 BufferUsed:180546
+362                      - BlockUsed:1 Acquire:0 BufferUsed:97520
 363                      - Flush:2 Expand:0 ProducerWait:0 ConsumerWait:0
-364                      - MainProducerTime:0.318010999 TotalConsumerTime:0.000000000
-365                      - ElapsedTime:0.053957000
-366 Producer   0 profile - BlockUsed:2 Acquire:0 BufferUsed:180546
+364                      - MainProducerTime:0.261742468 TotalConsumerTime:0.000000000
+365                      - ElapsedTime:0.044124000
+366 Producer   0 profile - BlockUsed:2 Acquire:0 BufferUsed:97520
 367 Consumer   0 profile - Affinity:-1 CPUTime:0.000000000 LifeTime:0.000000000 (-nan%)
-368                      - BlockUsed:2 Acquire:0 BufferUsed:180546
+368                      - BlockUsed:2 Acquire:0 BufferUsed:97520
 369 SimExit
-370 Elapsed time:    0:00:00    Wed Dec 10 15:08:45 2025
+370 Elapsed time:    0:00:01    Wed Dec 10 15:52:43 2025
 371 User CPU time used: 0 seconds
 372 System CPU time used: 0 seconds
 373 Sim process exit

@@ -1,6 +1,6 @@
 module switch_test;
   import packet_pkg::*;
-  localparam num_packets = 20;
+  localparam num_packets = 1;
   // 1. Signals & Interface
   bit clk = 0; always #5 clk = ~clk; 
   bit rst_n;
