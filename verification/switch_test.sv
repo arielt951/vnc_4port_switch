@@ -18,6 +18,19 @@ module switch_test;
   // -------------------------------------------------------------
   int drops[4] = '{0, 0, 0, 0}; // Initialize to 0
 
+  // Function to print details for one port to keep code clean
+    function void print_port_cov(int id, packet_vc vc);
+        $display("--- PORT %0d ---", id);
+        // 1. The Total Score
+        $display("  TOTAL:     %0.2f %%", vc.agt.mon.packet_cg.get_inst_coverage());
+        
+        // 2. The Individual Items (Drilling down)
+        $display("  - Types:   %0.2f %%", vc.agt.mon.packet_cg.cp_type.get_coverage());
+        $display("  - Sources: %0.2f %%", vc.agt.mon.packet_cg.cp_source.get_coverage());
+        $display("  - Targets: %0.2f %%", vc.agt.mon.packet_cg.cp_target.get_coverage());
+        $display("  - Cross:   %0.2f %%", vc.agt.mon.packet_cg.cross_type_src.get_coverage()); // Note: Verify cross name is correct based on monitor.sv
+    endfunction
+
 always @(posedge clk) begin
     // Check Port 0
     if (port0.valid_in && dut.port0_i.port_fifo.fifo_full) begin
@@ -115,6 +128,7 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
 
     repeat(1000) @(posedge clk);
     
+    
     // -------------------------------------------------------------
     // FINAL CALCULATION: PROOF OF INTERNAL INTEGRITY
     // -------------------------------------------------------------
@@ -154,7 +168,18 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
         $display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
         $display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
         $display("=========================================\n");
-    end
+        $display("\n=========================================");
+        $display(" FUNCTIONAL COVERAGE RESULTS");
+        $display("=========================================");
+        
+        // Call the function for each port
+        print_port_cov(0, vc0);
+        print_port_cov(1, vc1);
+        print_port_cov(2, vc2);
+        print_port_cov(3, vc3);
+
+        $display("=========================================\n");
+      end
 
     chk.report();
     $finish;
