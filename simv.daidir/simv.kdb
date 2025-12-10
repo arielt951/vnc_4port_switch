@@ -1,21 +1,24 @@
 rc file Version 1.0
 
 [Design]
-COMPILE_PATH=/project/verif/users/yh3/ws/vnc_4port_switch
+COMPILE_PATH=/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
 VCS_HOME=/tools/synopsys/vcs/X-2025.06-1
 VERDI_HOME=/tools/synopsys/verdi/X-2025.06-1
 SystemC=FALSE
 UUM=FALSE
-KDB=FALSE
+KDB=TRUE
 USE_NOVAS_HOME=FALSE
 COSIM=FALSE
 TOP=switch_test 
 OPTION=-ssv -ssy 
 ELAB_OPTION=-ssv -ssy 
-
+ELAB=TRUE
+COMMON_ELAB=TRUE
+SIMV_WRAPPER=FALSE
+ELABCOM_PARTAIL_LOAD=TRUE
 [Value]
 WREALX=ffff534e50535f58
 WREALZ=ffff534e50535f5a
 
 [CompInfo]
-FLOW_OPTS=-ssv -ssy 
+FLOW_OPTS=-kdb=common_elab -ssv -ssy 

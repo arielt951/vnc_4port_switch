@@ -1,0 +1,7 @@
+Command exited with non-zero status 255
+{"vcs1":{"timestamp_begin":1765122493.184524985, "rt":0.16, "ut":0.07, "st":0.05}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1765122492.608973367}
+{"VCS_COMP_START_TIME": 1765122492.608973367}
+{"VCS_COMP_END_TIME": 1765122493.456502266}
+{"VCS_USER_OPTIONS": "-f build.cud -sverilog -kdb +vcs+fsdbon"}
+{"vcs1": {"peak_mem": 527220}}

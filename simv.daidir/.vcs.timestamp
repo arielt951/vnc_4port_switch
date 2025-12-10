@@ -1,29 +1,7 @@
-21       
-0 component_base.sv
-0 /tools/synopsys/vcs/X-2025.06-1/etc/systemverilog/component_base.sv
-0 design/component_base.sv
-0 sequencer.sv
-0 /tools/synopsys/vcs/X-2025.06-1/etc/systemverilog/sequencer.sv
-0 design/sequencer.sv
-0 driver.sv
-0 /tools/synopsys/vcs/X-2025.06-1/etc/systemverilog/driver.sv
-0 design/driver.sv
-0 monitor.sv
-0 /tools/synopsys/vcs/X-2025.06-1/etc/systemverilog/monitor.sv
-0 design/monitor.sv
-0 agent.sv
-0 /tools/synopsys/vcs/X-2025.06-1/etc/systemverilog/agent.sv
-0 design/agent.sv
-0 checker.sv
-0 /tools/synopsys/vcs/X-2025.06-1/etc/systemverilog/checker.sv
-0 design/checker.sv
-0 packet_vc.sv
-0 /tools/synopsys/vcs/X-2025.06-1/etc/systemverilog/packet_vc.sv
-0 design/packet_vc.sv
-45
-+incdir+design
-+incdir+verification
+0
+42
 +itf+/tools/synopsys/vcs/X-2025.06-1/linux64/lib/vcsdp_lite.tab
++vcs+fsdbon
 +vcsd1
 +vpi
 -Mamsrun=
@@ -44,18 +22,16 @@
 -Mxcflags= -pipe -fPIC -I/tools/synopsys/vcs/X-2025.06-1/include
 -Mxllcflags=
 -P
--Xfile_begin_f=run.f
+-Xfile_begin_f=build.cud
 -Xfile_end
--Xhdlxmropt
--Xvcs_run_simv=1
--debug_access+all
+-Xufe=2steps
+-debug_access
 -fsdb
 -gen_obj
+-kdb
 -picarchive
 -sverilog
--top
-/tools/synopsys/vcs/X-2025.06-1/linux64/bin/vcs1fe
-switch_test
+/tools/synopsys/vcs/X-2025.06-1/linux64/bin/vcs1
 /tools/synopsys/verdi/X-2025.06-1/share/PLI/VCS/LINUX64/verdi.tab
 design/packet_pkg.sv
 design/port_if.sv
@@ -66,30 +42,29 @@ design/output_mux.sv
 design/switch_port.sv
 design/switch_4port.sv
 verification/switch_test.sv
-136
+141
 kit_dir=/tech/tsmc/65LP/pdk
 __MODULES_SHARE_PATH=/tools/common/sge/8.1.9/bin/lx-amd64:2
 __MODULES_SHARE_MANPATH=/tools/common/sge/8.1.9/man:2
+__MODULES_LMTAG=SNPSLIC/base&auto-loaded
 __MODULES_LMREFRESH=CALIBRE/2025.1_33.17
-__MODULES_LMCONFLICT=DDI/22.15&DDI&INNOVUS&GENUS&JOULES:QUANTUS/23.11&QUANTUS:SGE/8.1.9&SGE:FC/V-2023.12-SP3&FC:VCS/X-2025.06-1&VCS:VERDI/X-2025.06-1&VERDI:PT/W-2024.09-SP3&PT:STARRC/X-2025.06-SP1&STARRC:ICV/X-2025.06-SP1-3&ICV:EUCLIDE/X-2025.06-1&EUCLIDE:RTLA/V-2023.12-SP4&RTLA:FM/W-2024.09-SP3&FM:PVS/23.11&PVS:CALIBRE/2025.1_33.17&CALIBRE
-__MODULES_LMALTNAME=CDSLIC/base&CDSLIC/default&CDSLIC&as|CDSLIC/latest:DDI/22.15&DDI/default&DDI&as|DDI/latest:QUANTUS/23.11&QUANTUS/default&QUANTUS&as|QUANTUS/latest:COMMON/1.0&COMMON/default&COMMON&as|COMMON/latest:SGE/8.1.9&SGE/default&SGE&as|SGE/latest:SNPSLIC/base&SNPSLIC/default&SNPSLIC&as|SNPSLIC/latest:FC/V-2023.12-SP3&FC/default&FC:VCS/X-2025.06-1&VCS/default&VCS&as|VCS/latest:VERDI/X-2025.06-1&VERDI/default&VERDI&as|VERDI/latest:PT/W-2024.09-SP3&PT/default&PT&as|PT/latest:STARRC/X-2025.06-SP1&STARRC/default&STARRC&as|STARRC/latest:ICV/X-2025.06-SP1-3&ICV/default&ICV&as|ICV/latest:EUCLIDE/X-2025.06-1&EUCLIDE/default&EUCLIDE&as|EUCLIDE/latest:RTLA/V-2023.12-SP4&RTLA/default&RTLA&as|RTLA/latest:FM/W-2024.09-SP3&FM/default&FM&as|FM/latest:PVS/23.11&PVS/default&PVS:CALIBRE/2025.1_33.17&CALIBRE/default&CALIBRE&as|CALIBRE/latest
-_LMFILES_=/tools/modules/modulefiles/CDSLIC/base:/tools/modules/modulefiles/DDI/22.15:/tools/modules/modulefiles/QUANTUS/23.11:/tools/modules/modulefiles/COMMON/1.0:/tools/modules/modulefiles/SGE/8.1.9:/tools/modules/modulefiles/SNPSLIC/base:/tools/modules/modulefiles/FC/V-2023.12-SP3:/tools/modules/modulefiles/VCS/X-2025.06-1:/tools/modules/modulefiles/VERDI/X-2025.06-1:/tools/modules/modulefiles/PT/W-2024.09-SP3:/tools/modules/modulefiles/STARRC/X-2025.06-SP1:/tools/modules/modulefiles/ICV/X-2025.06-SP1-3:/tools/modules/modulefiles/EUCLIDE/X-2025.06-1:/tools/modules/modulefiles/RTLA/V-2023.12-SP4:/tools/modules/modulefiles/FM/W-2024.09-SP3:/tools/modules/modulefiles/PVS/23.11:/tools/modules/modulefiles/CALIBRE/2025.1_33.17
-XDG_SESSION_ID=5872
-XDG_RUNTIME_DIR=/run/user/99088
+__MODULES_LMPREREQ=FC/V-2023.12-SP3&SNPSLIC
+__MODULES_LMCONFLICT=DDI/22.15&DDI&INNOVUS&GENUS&JOULES:QUANTUS/23.11&QUANTUS:SGE/8.1.9&SGE:FC/V-2023.12-SP3&FC:VCS/X-2025.06-1&VCS:VERDI/X-2025.06-1&VERDI:PT/W-2024.09-SP3&PT:STARRC/X-2025.06-SP1&STARRC:ICV/X-2025.06-SP1-3&ICV:EUCLIDE/X-2025.06-1&EUCLIDE:RTLA/V-2023.12-SP4&RTLA:FM/W-2024.09-SP3&FM:CALIBRE/2025.1_33.17&CALIBRE
+__MODULES_LMALTNAME=CDSLIC/base&CDSLIC/default&CDSLIC&as|CDSLIC/latest:DDI/22.15&DDI/default&DDI&as|DDI/latest:QUANTUS/23.11&QUANTUS/default&QUANTUS&as|QUANTUS/latest:COMMON/1.0&COMMON/default&COMMON&as|COMMON/latest:SGE/8.1.9&SGE/default&SGE&as|SGE/latest:SNPSLIC/base&SNPSLIC/default&SNPSLIC&as|SNPSLIC/latest:FC/V-2023.12-SP3&FC/default&FC:VCS/X-2025.06-1&VCS/default&VCS&as|VCS/latest:VERDI/X-2025.06-1&VERDI/default&VERDI&as|VERDI/latest:PT/W-2024.09-SP3&PT/default&PT&as|PT/latest:STARRC/X-2025.06-SP1&STARRC/default&STARRC&as|STARRC/latest:ICV/X-2025.06-SP1-3&ICV/default&ICV&as|ICV/latest:EUCLIDE/X-2025.06-1&EUCLIDE/default&EUCLIDE&as|EUCLIDE/latest:RTLA/V-2023.12-SP4&RTLA/default&RTLA&as|RTLA/latest:FM/W-2024.09-SP3&FM/default&FM&as|FM/latest:CALIBRE/2025.1_33.17&CALIBRE/default&CALIBRE&as|CALIBRE/latest
+_LMFILES_=/tools/modules/modulefiles/CDSLIC/base:/tools/modules/modulefiles/DDI/22.15:/tools/modules/modulefiles/QUANTUS/23.11:/tools/modules/modulefiles/COMMON/1.0:/tools/modules/modulefiles/SGE/8.1.9:/tools/modules/modulefiles/SNPSLIC/base:/tools/modules/modulefiles/FC/V-2023.12-SP3:/tools/modules/modulefiles/VCS/X-2025.06-1:/tools/modules/modulefiles/VERDI/X-2025.06-1:/tools/modules/modulefiles/PT/W-2024.09-SP3:/tools/modules/modulefiles/STARRC/X-2025.06-SP1:/tools/modules/modulefiles/ICV/X-2025.06-SP1-3:/tools/modules/modulefiles/EUCLIDE/X-2025.06-1:/tools/modules/modulefiles/RTLA/V-2023.12-SP4:/tools/modules/modulefiles/FM/W-2024.09-SP3:/tools/modules/modulefiles/CALIBRE/2025.1_33.17
+XDG_SESSION_ID=5318
+XDG_RUNTIME_DIR=/run/user/99148
 XDG_CURRENT_DESKTOP=MATE
 W3264_NO_HOST_CHECK=1
-Virtuoso_IPVS_markerBrowser=PVSDRCDE
 VTE_VERSION=5204
-VNCDESKTOP=micron-x01.eng.tau.ac.il:39 (yh3)
+VNCDESKTOP=micron-x03:38 (arielt)
 VMR_MODE_FLAG=32
 VG_GNU_PACKAGE=/tools/synopsys/vcs/vcs_gnu_vX-2025.06/linux
 VERDI_HOME=/tools/synopsys/verdi/X-2025.06-1
 VENDOR=unknown
 VCS_TARGET_ARCH=suse64
-VCS_PYTHON3=/tools/synopsys/vcs/X-2025.06-1/linux64/bin/Python3/bin/python3
 VCS_PATHMAP_PRELOAD_DONE=1
 VCS_MX_HOME_INTERNAL=1
-VCS_INTERNAL_CONVERTEDLIBS=
 VCS_HOME=/tools/synopsys/vcs/X-2025.06-1
 VCS_EXEC_DONE=1
 VCS_DEPTH=0
@@ -101,41 +76,42 @@ TOOL_HOME=/tools/synopsys/vcs/X-2025.06-1/linux64
 TECH_ROOT=/data
 SYNOPSYS_LC_ROOT=/tools/synopsys/lc/S-2021.06-SP5
 STARRC_HOME=/tools/synopsys/starrc/X-2025.06-SP1
-SSH_CONNECTION=132.66.48.122 42626 132.66.48.122 22
-SSH_CLIENT=132.66.48.122 42626 22
-SSH_AUTH_SOCK=/run/user/99088/keyring/ssh
+SSH_CONNECTION=132.66.48.122 58882 132.66.48.124 22
+SSH_CLIENT=132.66.48.122 58882 22
+SSH_AUTH_SOCK=/run/user/99148/keyring/ssh
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
 SPACE=students
-SNPS_VCS_PYTHON3=/tools/synopsys/vcs/X-2025.06-1/linux64/bin/Python3/bin/python3
+SNPS_VERDI_INTERNAL_LP_XML_NEW_FLOW=1
+SNPS_VCS_VHDL_WRAPPER_KDB=1
 SNPS_VCS_CLANG_PATH=/tools/synopsys/vcs/X-2025.06-1/linux64/clang
 SNPS_INTERNAL_VCS_LINUX_OS=linux
 SGE_TASK_STEPSIZE=undefined
 SGE_TASK_LAST=undefined
 SGE_TASK_ID=undefined
 SGE_TASK_FIRST=undefined
-SGE_STDOUT_PATH=/dev/null
+SGE_STDOUT_PATH=/tmp/euclide.o166677
 SGE_STDIN_PATH=/dev/null
-SGE_STDERR_PATH=/dev/null
+SGE_STDERR_PATH=/tmp/euclide.e166677
 SGE_ROOT=/tools/common/sge/8.1.9
-SGE_O_WORKDIR=/project/verif/users/yh3/ws/vnc_4port_switch
+SGE_O_WORKDIR=/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
 SGE_O_SHELL=/bin/tcsh
 SGE_O_PATH=/tools/siemens/CALIBRE/2025.1_33.17/aok_cal_2025.1_33.17/bin:/tools/synopsys/fm/W-2024.09-SP3/bin:/tools/synopsys/rtla/V-2023.12-SP4/bin:/tools/synopsys/lc/S-2021.06-SP5/bin:/tools/synopsys/euclide/X-2025.06-1/eclipse/bin:/tools/synopsys/icv/X-2025.06-SP1-3/bin:/tools/synopsys/starrc/X-2025.06-SP1/bin:/tools/synopsys/prime/W-2024.09-SP3/bin:/tools/synopsys/verdi/X-2025.06-1/bin:/tools/synopsys/vcs/X-2025.06-1/bin:/tools/synopsys/vcs/vcs_gnu_vX-2025.06/linux/gcc-12.3.0_64-shared/bin:/tools/synopsys/vcs/vcs_gnu_vX-2025.06/linux/binutils-2.33.1_64/bin:/tools/synopsys/fc/V-2023.12-SP3/bin:/tools/synopsys/lc/U-2022.12/bin:/usr/local.cc/bin:/tools/common/bin:/tools/cadence/QUANTUS/23.11/tools/bin:/tools/common/sge/8.1.9/bin:/tools/common/sge/8.1.9/bin/lx-amd64:/tools/modules/5.5.0/bin:/tools/common/sge/8.1.9/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/bin:/bin:/usr/bin:/bin:/tools/cadence/DDI/22.15/bin
-SGE_O_MAIL=/var/spool/mail/yh3
-SGE_O_LOGNAME=yh3
-SGE_O_HOME=/a/home/cc/students/cs/yh3
-SGE_CWD_PATH=/project/verif/users/yh3/ws/vnc_4port_switch
+SGE_O_MAIL=/var/spool/mail/arielt
+SGE_O_LOGNAME=arielt
+SGE_O_HOME=/a/home/cc/students/enginer/arielt
+SGE_CWD_PATH=/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
 SGE_CLUSTER_NAME=p6444
 SGE_CELL=default
 SGE_BINARY_PATH=/tools/common/sge/8.1.9/bin/lx-amd64
 SGE_ARCH=lx-amd64
 SGE_ACCOUNT=sge
-SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/8170,unix/unix:/tmp/.ICE-unix/8170
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/16258,unix/unix:/tmp/.ICE-unix/16258
 SCRNAME=vcs
 SCRIPT_NAME=vcs
 RTLA_HOME=/tools/synopsys/rtla/V-2023.12-SP4
 RESTARTED=0
-REQUEST=vcs
-REQNAME=vcs
+REQUEST=euclide
+REQNAME=euclide
 QUEUE=normal
 QUANTUSHOME=/tools/cadence/QUANTUS/23.11
 QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
@@ -145,16 +121,16 @@ QTINC=/usr/lib64/qt-3.3/include
 QTDIR=/usr/lib64/qt-3.3
 QRC_HOME=/tools/cadence/QUANTUS/23.11
 QCI_DIR=/tech/tsmc/65LP/pdk/../Calibre/QCI/1.6a
-PVSUI_FORCE_DRCDE=ON
-PVSHOME=/tools/cadence/PVS/23.11
 PT_HOME=/tools/synopsys/prime/W-2024.09-SP3
 PROJECT=verif
+OXYGEN_DISABLE_INNER_SHADOWS_HACK=1
 OVA_UUM=0
+OS_LDFLAGS=
 OSTYPE=linux
 NSLOTS=1
 NQUEUES=1
 NHOSTS=1
-MY_WS=/project/verif/users/yh3/ws
+MY_WS=/project/verif/users/arielt/ws
 MOM_TECH_NAME=CRN65LP_1p9m_6X1Z1U
 MOM_MODULE_PATH=/tech/tsmc/65LP/pdk/../Momentum
 MODULES_USE_COMPAT_VERSION=0
@@ -170,60 +146,65 @@ MGC_CALIBRE_MAP_BUS_NAME=true
 MGC_CALIBRE_LVS_RUNSET_FILE=/tech/tsmc/65LP/pdk/../Calibre/runsets/lvsrunset
 MGC_CALIBRE_DRC_RUNSET_FILE=/tech/tsmc/65LP/pdk/../Calibre/runsets/drcrunset
 MGC_CALIBRE_DRC_CUSTOMIZATION_FILE=/tech/tsmc/65LP/pdk/../Calibre/runsets/drccustom
+MFLAGS=
 MATE_DESKTOP_SESSION_ID=this-is-deprecated
-LOADEDMODULES=CDSLIC/base:DDI/22.15:QUANTUS/23.11:COMMON/1.0:SGE/8.1.9:SNPSLIC/base:FC/V-2023.12-SP3:VCS/X-2025.06-1:VERDI/X-2025.06-1:PT/W-2024.09-SP3:STARRC/X-2025.06-SP1:ICV/X-2025.06-SP1-3:EUCLIDE/X-2025.06-1:RTLA/V-2023.12-SP4:FM/W-2024.09-SP3:PVS/23.11:CALIBRE/2025.1_33.17
+MAKELEVEL=1
+MAKEFLAGS=
+LOADEDMODULES=CDSLIC/base:DDI/22.15:QUANTUS/23.11:COMMON/1.0:SGE/8.1.9:SNPSLIC/base:FC/V-2023.12-SP3:VCS/X-2025.06-1:VERDI/X-2025.06-1:PT/W-2024.09-SP3:STARRC/X-2025.06-SP1:ICV/X-2025.06-SP1-3:EUCLIDE/X-2025.06-1:RTLA/V-2023.12-SP4:FM/W-2024.09-SP3:CALIBRE/2025.1_33.17
+LIBOVERLAY_SCROLLBAR=0
 LESSOPEN=||/usr/bin/lesspipe.sh %s
 LC_ALL=C
 LBS_BASE_SYSTEM=LBS_SGE
 KDEDIRS=/usr
-JOURNAL_STREAM=9:42368
-JOB_SCRIPT=QRSH
-JOB_NAME=vcs
-INVOCATION_ID=089234d56b1d4450a44bbddd327a8293
+JOURNAL_STREAM=9:40511
+JOB_SCRIPT=/tools/common/sge/8.1.9/default/spool/micron9/job_scripts/166677
+JOB_NAME=euclide
+INVOCATION_ID=38c9753080894b75b3694397c0466af3
 ICV_HOME=/tools/synopsys/icv/X-2025.06-SP1-3
 HOSTTYPE=x86_64-linux
 GTK_OVERLAY_SCROLLING=0
-GROUP=math1
+GROUP=enginer
+GDK_CORE_DEVICE_EVENTS=1
+GDK_BACKEND=x11
 FM_HOME=/tools/synopsys/fm/W-2024.09-SP3
 FC_HOME=/tools/synopsys/fc/V-2023.12-SP3
-EUCLIDE_HOME=/tools/synopsys/euclide/X-2025.06-1/eclipse
+EUCLIDE_HOME=/tech/synopsys/tools/Euclide/X-2025.06-1/eclipse
 ENVIRONMENT=BATCH
 DRMAA_LIBRARY_PATH=/tools/common/sge/8.1.9/lib//libdrmaa.so
 DEFAULTMODULES=CDSLIC DDI QUANTUS IC RubySKILL SPECTRE XCELIUM CALIBRE PVS ADS COMMON
 DEBUGINFOD_URLS=https://debuginfod.centos.org/
 DDIHOME=/tools/cadence/DDI/22.15
-DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-e2qpnx1YGq,guid=6e1c94a060c52d4017f2d45e690c6694
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-EwqHoxYSE8,guid=be8f2d2c37d6cd5496060c2e693970b0
 COMMONHOME=/tools/common
 COLORTERM=truecolor
-CDS_USE_XVFB=1
 CDS_LIC_ONLY=Yes
 CDS_LIC_FILE=5280@micron2.eng.tau.ac.il
 CDS_AUTO_64BIT=all
 CDSPLOTINIT=/tools/cadence/IC/local
-CDNSHELP_DOC=/tools/cadence/DDI/22.15/GENUS221/doc:/tools/cadence/DDI/22.15/INNOVUS221/doc:/tools/cadence/DDI/22.15/JOULES221/doc:/tools/cadence/QUANTUS/23.11/doc:/tools/cadence/PVS/23.11/doc
+CDNSHELP_DOC=/tools/cadence/DDI/22.15/GENUS221/doc:/tools/cadence/DDI/22.15/INNOVUS221/doc:/tools/cadence/DDI/22.15/JOULES221/doc:/tools/cadence/QUANTUS/23.11/doc
 CALIBRE_HOME=/tools/siemens/CALIBRE/2025.1_33.17/aok_cal_2025.1_33.17
 ARC=lx-amd64
 0
 0
 20
-1765027224 verification/packet_vc.sv
-1765095911 verification/checker.sv
-1765095911 verification/agent.sv
-1765095911 verification/monitor.sv
-1765095911 verification/driver.sv
-1765095911 verification/sequencer.sv
-1765027224 verification/component_base.sv
+1765026902 ./verification/packet_vc.sv
+1765371718 ./verification/checker.sv
+1765095906 ./verification/agent.sv
+1765095906 ./verification/monitor.sv
+1765371713 ./verification/driver.sv
+1765371713 ./verification/sequencer.sv
+1764754507 ./verification/component_base.sv
 1752732158 /tools/synopsys/vcs/X-2025.06-1/linux64/packages/snps_msv_nettype_pkg/AN.DB
-1765095911 verification/switch_test.sv
-1765095911 design/switch_4port.sv
-1765027224 design/switch_port.sv
-1765095911 design/output_mux.sv
-1765095911 design/arbiter.sv
-1765027223 design/parser.sv
-1765027223 design/FIFO.sv
-1765027223 design/port_if.sv
-1765096421 design/packet_pkg.sv
-1765095911 run.f
+1765371718 verification/switch_test.sv
+1765095906 design/switch_4port.sv
+1765022705 design/switch_port.sv
+1765095906 design/output_mux.sv
+1765371718 design/arbiter.sv
+1764771412 design/parser.sv
+1765022705 design/FIFO.sv
+1765022705 design/port_if.sv
+1765371952 design/packet_pkg.sv
+1765097459 build.cud
 1752984263 /tools/synopsys/verdi/X-2025.06-1/share/PLI/VCS/LINUX64/verdi.tab
 1752721624 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/vcsdp_lite.tab
 4
@@ -231,5 +212,5 @@ ARC=lx-amd64
 1752722876 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/liberrorinf.so
 1752722871 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libsnpsmalloc.so
 1752722863 /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libvfs.so
-1765096634 simv.daidir
+1765372120 simv.daidir
 -1 partitionlib

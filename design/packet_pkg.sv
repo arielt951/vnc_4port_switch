@@ -146,12 +146,13 @@ package packet_pkg;
     // -----------------------------------------------------------
     // NOTE: Order matters! Base classes must come before children.
     
-    `include "component_base.sv"
-    `include "sequencer.sv"
-    `include "driver.sv"
-    `include "monitor.sv"
-    `include "agent.sv"
-    `include "checker.sv"   
-    `include "packet_vc.sv"
+	`include "./verification/component_base.sv"
+	`include "./verification/sequencer.sv"
+	`include "./verification/driver.sv"
+	`include "./verification/monitor.sv"
+	`include "./verification/agent.sv"
+	`include "./verification/checker.sv"   
+	`include "./verification/packet_vc.sv"
+
 
 endpackage

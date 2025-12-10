@@ -1,0 +1,101 @@
+@verdi rc file Version 1.0
+[General]
+saveDB = TRUE
+relativePath = FALSE
+saveSingleView = FALSE
+saveNWaveWinId = 2
+VerdiVersion = Verdi_X-2025.06-1
+[KeyNote]
+Line1 = invoke directory: /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
+Line2 = command line: -elab /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/kdb.elab++ -ba 
+Line3 = current trace scope: switch_test.dut.top_arb_i
+Line4 = memo:
+Line5 = Save Open Database Information: Yes
+Line6 = Path Option: Absolute Paths
+Line7 = Windows Option: All Windows
+[OneSearch]
+isExisted = TRUE
+[TestBench]
+ConstrViewShow = 0
+InherViewShow = 0
+FSDBMsgShow = 0
+AnnotationShow = 0
+DeclViewShow = 0
+Console = FALSE
+powerDumped = 0
+[fusa]
+fdb_server = 
+fdb_proj = 
+fdb_campaign = 
+fdb_tool = 
+[hb]
+postSimFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
+syncTime = 315
+viewport = 0 24 1920 932 0 0 400 1918
+activeNode = "switch_test.dut.top_arb_i"
+activeScope = "switch_test.dut.top_arb_i"
+activeFile = "design/arbiter.sv"
+interactiveMode = False
+viewType = Source
+simulatorMode = False
+sourceBeginLine = 86
+baMode = False
+srcLineNum = True
+AutoWrap = True
+IdentifyFalseLogic = False
+syncSignal = False
+traceMode = Hierarchical
+showTraceInSchema = True
+paMode = False
+funcMode = False
+powerAwareAnnot = True
+safetyAwareAnnot = True
+amsAnnot = True
+DnDtraceCrossHierOnly = True
+leadingZero = False
+signalPane = True
+SourceVerticalScrollLines = 5
+Scope1 = "switch_test.dut.top_arb_i"
+Scope2 = "switch_test.dut.port3_i"
+multipleSelection = 1 1 2 0 0
+sdfCheckUndef = FALSE
+simFlow = FALSE
+[hb.design]
+importCmd = "-dbdir" "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir" 
+invokeDir = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel
+[hb.sourceTab.1]
+scope = switch_test.dut.top_arb_i
+File = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/arbiter.sv
+Line = 87
+[nMemoryManager]
+WaveformFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/novas.fsdb
+UserActionNum = 0
+nMemWindowNum = 0
+[wave.0]
+viewPort = 0 11 1920 703 429 50
+primaryWindow = TRUE
+SessionFile = /project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/signals/Verdistucksss.ses.wave.0
+displayGrid = FALSE
+hierarchicalName = FALSE
+waveformToolTip = FALSE
+snap = TRUE
+displayLeadingZeros = FALSE
+displayGridLine = FALSE
+fixDelta = FALSE
+displayCursorMarker = FALSE
+autoUpdate = FALSE
+highlightGlitchs = FALSE
+waveformSyncCursorMarker = FALSE
+waveformSyncHorizontalRange = FALSE
+waveformSyncVerticalscroll = FALSE
+displayErrors = TRUE
+displayMsgSymbols = TRUE
+showMsgDescriptions = TRUE
+autoFit = FALSE
+displayDeltaY = FALSE
+centerCursor = FALSE
+fsaRegMask = TRUE
+fsaCoreMask = TRUE
+fsaSfsmMask = TRUE
+fsaEcrMask = TRUE
+tPropMask = TRUE

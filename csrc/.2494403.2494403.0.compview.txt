@@ -1,0 +1,10 @@
+{"vcs1":{"timestamp_begin":1765105415.804328237, "rt":0.56, "ut":0.32, "st":0.14}}
+{"vcselab":{"timestamp_begin":1765105416.497871905, "rt":0.36, "ut":0.21, "st":0.10}}
+{"link":{"timestamp_begin":1765105416.950019933, "rt":0.28, "ut":0.15, "st":0.11}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1765105415.340660564}
+{"VCS_COMP_START_TIME": 1765105415.340660564}
+{"VCS_COMP_END_TIME": 1765105417.796033854}
+{"VCS_USER_OPTIONS": "-sverilog -f run.f -debug_access+all -top switch_test -R"}
+{"kdb": {"elabcom_name":"<Elabcom>", "log_dir":"simv.daidir/elabcomLog"}}
+{"vcs1": {"peak_mem": 378036}}
+{"vcselab": {"peak_mem": 219944}}

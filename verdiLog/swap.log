@@ -8,35 +8,65 @@ used block: 2 [memory(2) file(0)]
 overhead: (9514) bytes for (2) blocks [Average: (4757) bytes/block]
 
 write  => 0(times) 0K(bytes) [0K bytes to file]
-read   => 1(times) 29K(bytes) [4K bytes compressed data from file]
-access => 11670(times) 92M(bytes)
-          [hit ratio: 99.9914%]
+read   => 1(times) 20K(bytes) [4K bytes compressed data from file]
+access => 23694(times) 186M(bytes)
+          [hit ratio: 99.9958%]
 
 time: write(0) read(0)  unit: second
 
-swap file directory: (/project/verif/users/yh3/ws/vnc_4port_switch/verdiLog)
+swap file directory: (/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/verdiLog)
+version: (200506)
+
+available memory: 64M bytes
+used memory: 73728 bytes [need 72K bytes if disable swap]
+
+used block: 2 [memory(2) file(0)]
+                 [ 8K(1) 64K(1) { total 72K bytes } ]
+overhead: (9514) bytes for (2) blocks [Average: (4757) bytes/block]
+
+used swap file number: (1)
+
+write  => 0(times) 0K(bytes) [0K bytes to file]
+read   => 1(times) 20K(bytes) [4K bytes compressed data from file]
+access => 23694(times) 186M(bytes)
+          [hit ratio: 99.9958%]
+
+time: write(0) read(0)  unit: second
+
+swap file directory: (/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/verdiLog)
 used swap file number: (1)
 
 
 
 swap file manager:
+
+
+swap file manager:
+arrSize: (256)
 arrSize: (256)
 idxCnt: (4)
+idxCnt: (4)
+closeHead: (1)
 closeHead: (1)
 closeTail: (2)
+closeTail: (2)
 openCnt: (2)
-fid(3): fd(0) fileName(/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/kdb.elab++/work.lib++/port_if.sv.tdc)
-	size(1472) lastModTime(1765025563) curModTime(1765025563)
+openCnt: (2)
+fid(3): fd(0) fid(3): fd(0) fileName(/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/kdb.elab++/work.lib++/port_if.sv.tdc)
+	size(1472) lastModTime(1765371956) curModTime(1765371956)
 	mode(rb)	hot(0) cool(0) pos(0)
-fid(2): fd(25) fileName(/project/verif/users/yh3/ws/vnc_4port_switch/verdiLog/_swap_0001#1969348798#586166)
-	size(0) lastModTime(0) curModTime(1765037706)
+fid(2): fd(24) fileName(/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/verdiLog/_swap_0001#1401500118#1764198)
+	size(0) lastModTime(0) curModTime(1765372037)
 	mode(w+b)	hot(0) cool(1) pos(0)
-fid(1): fd(1073741824) fileName(/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/kdb.elab++/work.lib++/switch_collision_tb.sv.tdc)
-	size(7762) lastModTime(1765025563) curModTime(1765025563)
+fid(1): fd(1073741824) fileName(/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/simv.daidir/kdb.elab++/work.lib++/switch_test.sv.tdc)
+	size(6813) lastModTime(1765371956) curModTime(1765371956)
 	mode(rb)	hot(2) cool(0) pos(0)
 fid(0): fd(0) fileName(NULL)
 	mode(NULL)	hot(0) cool(0) pos(0)
 ==================================================
-mySelf(0x230ab030) pre(0x209926a0) next((nil))
+mySelf(0x209455b0) pre(0x21101920) next((nil))
 version(200506)
 date(Jul 16 2025 20:28:23)
+fileName(NULL)
+	mode(rb)	hot(2) cool(0) pos(0)
+fid(2): fd(0) fileName(/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/verdiLog/_swap_0001#1401500118#2878061)

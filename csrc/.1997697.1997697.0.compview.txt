@@ -1,0 +1,8 @@
+Command exited with non-zero status 255
+{"vcs1":{"timestamp_begin":1765100157.862635005, "rt":0.16, "ut":0.05, "st":0.04}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1765100157.562003766}
+{"VCS_COMP_START_TIME": 1765100157.562003766}
+{"VCS_COMP_END_TIME": 1765100158.085606152}
+{"VCS_USER_OPTIONS": "-sverilog -f run.f -debug_access+all -kdb -top switch_test"}
+{"kdb": {"elabcom_name":"<Kdbresolver>", "log_dir":"simv.daidir/kdbresolverLog"}}
+{"vcs1": {"peak_mem": 462176}}

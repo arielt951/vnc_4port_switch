@@ -922,7 +922,7 @@ fHsimNewDebugOptMemDiag            	0
 hsGlobalVerboseLevel               	0
 fHsimTestPxpcode                   	0
 fHsimMdbVectorConstProp            	1
-fHsimEnableSeqUdpWrite             	1
+fHsimEnableSeqUdpWrite             	0
 fHsimDelInstSeqUdpWrite            	0
 fHsimDumpMDBOnlyForSeqUdp          	0
 fHsimInitRegRandom                 	0
@@ -1390,7 +1390,7 @@ fFsimNativeFaultFlow               	0
 fFsimSerialFaultFlow               	0
 fFsimCompiled                      	0
 fFsimOptCapsFlow                   	0
-fFsimUserEnabledForceCaps          	1
+fFsimUserEnabledForceCaps          	0
 fEnableForceSelectorOptimization   	0
 fFsimPortFaults                    	0
 fFsimPortFaultsOpt                 	0
@@ -1604,7 +1604,7 @@ fHsimDefRtvsViewHasSpice           	0
 fLicUseAarchOnly                   	0
 fFgpJaguarLevelization             	0
 fHsimGatesUsed                     	0
-fHsimDebugAccessUsed               	1
+fHsimDebugAccessUsed               	0
 fHsimDebugRegionUsed               	0
 fHsimUpgradeWarnToErrForICPSD_W    	0
 fHsimUpgradeWarnToErrForICPD_PCA_W 	0
