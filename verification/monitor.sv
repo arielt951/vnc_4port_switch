@@ -6,49 +6,42 @@ class monitor extends component_base;
   
   // 2. Output Channel (to send observed packets to Checker)
   mailbox #(packet) mon_mbx;
-covergroup packet_cg;
-      option.per_instance = 1; // Track coverage per monitor instance (Port 0, Port 1...)
+  covergroup packet_cg (ref packet p); 
+      option.per_instance = 1;
 
-      // A. Packet Type Coverage
-      // Did we see Single, Multicast, and Broadcast packets?
-      cp_type: coverpoint pkt.pkt_type {
-          bins sdp = {SDP}; // Single Destination
-          bins mdp = {MDP}; // Multicast
-          bins bdp = {BDP}; // Broadcast
+      // Use 'p' (the argument) instead of 'pkt'
+      cp_type: coverpoint p.pkt_type {
+          bins sdp = {SDP};
+          bins mdp = {MDP};
+          bins bdp = {BDP};
       }
 
-      // B. Source Port Coverage
-      // Did packets originate from all valid ports?
-      cp_source: coverpoint pkt.source {
+      cp_source: coverpoint p.source {
           bins port0 = {4'b0001};
           bins port1 = {4'b0010};
           bins port2 = {4'b0100};
           bins port3 = {4'b1000};
       }
 
-      // C. Target Port Coverage
-      // Did packets try to go to all valid destinations?
-      cp_target: coverpoint pkt.target {
+      cp_target: coverpoint p.target {
           bins port0 = {4'b0001};
           bins port1 = {4'b0010};
           bins port2 = {4'b0100};
           bins port3 = {4'b1000};
           bins broadcast = {4'b1111};
-          // Auto-bin the rest (Multicast combinations)
           bins multicast[] = default; 
       }
 
-      // D. Cross Coverage
-      // Did we verify that Port 0 sent a Broadcast? Did Port 2 send a Multicast?
       cross cp_source, cp_type;
-
   endgroup
+
+  packet cov_pkt;
 
   function new(string name, component_base parent);
     super.new(name, parent);
     mon_mbx = new(); // Create the mailbox
     // INSTANTIATE THE COVERGROUP
-    packet_cg = new();
+    packet_cg = new(cov_pkt);
   endfunction
 
   function void configure(virtual port_if vif, int port_id);
@@ -69,6 +62,7 @@ covergroup packet_cg;
       // utilizing the logic we defined in packet_pkg
       pkt.calc_type(); 
 
+      cov_pkt = pkt; 
       packet_cg.sample();
       
       // C. LOG: Print what we saw
