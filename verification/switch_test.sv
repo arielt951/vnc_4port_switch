@@ -20,16 +20,14 @@ module switch_test;
 
   // Function to print details for one port to keep code clean
     function void print_port_cov(int id, packet_vc vc);
-        $display("--- PORT %0d ---", id);
-        // 1. The Total Score
-        $display("  TOTAL:     %0.2f %%", vc.agt.mon.packet_cg.get_inst_coverage());
-        
-        // 2. The Individual Items (Drilling down)
-        $display("  - Types:   %0.2f %%", vc.agt.mon.packet_cg.cp_type.get_coverage());
-        $display("  - Sources: %0.2f %%", vc.agt.mon.packet_cg.cp_source.get_coverage());
-        $display("  - Targets: %0.2f %%", vc.agt.mon.packet_cg.cp_target.get_coverage());
-        $display("  - Cross:   %0.2f %%", vc.agt.mon.packet_cg.cross_type_src.get_coverage()); // Note: Verify cross name is correct based on monitor.sv
-    endfunction
+    $display("--- PORT %0d ---", id);
+    $display("  TOTAL:     %0.2f %%", vc.agt.mon.packet_cg.get_inst_coverage());
+    $display("  - Types:   %0.2f %%", vc.agt.mon.packet_cg.cp_type.get_coverage());
+    $display("  - Sources: %0.2f %%", vc.agt.mon.packet_cg.cp_source.get_coverage());
+    $display("  - Targets: %0.2f %%", vc.agt.mon.packet_cg.cp_target.get_coverage());
+    // UPDATED NAME:
+    $display("  - Cross:   %0.2f %%", vc.agt.mon.packet_cg.cx_all.get_coverage()); 
+  endfunction
 
 always @(posedge clk) begin
     // Check Port 0
