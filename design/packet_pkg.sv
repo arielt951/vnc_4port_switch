@@ -48,7 +48,7 @@ package packet_pkg;
 
 		// No Self-Loop (Source and Target cannot overlap)
 		constraint no_loopback_c {
-			(source & target) == 0;
+			(target == 4'b1111) || ((source & target) == 0);
 		}
 
 		// -------------------------------------------------------
