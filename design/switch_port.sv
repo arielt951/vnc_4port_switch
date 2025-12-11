@@ -142,9 +142,59 @@ always_comb begin
 		default: next_state = IDLE;
 	endcase
 end
-// Handle clock/reset
-// Implement routing logic
-// Add completion logic
+
+// -----------------------------------------------------------
+// WHITE-BOX COVERAGE (Embedded)
+// -----------------------------------------------------------
+// This verification block is ignored by synthesis tools
+// -----------------------------------------------------------
+`ifndef SYNTHESIS
+  covergroup port_fsm_cg @(posedge clk);
+    option.per_instance = 1; // Report each port separately
+    
+    // 1. FSM State Coverage: Did we reach all states?
+    cp_state: coverpoint current_state {
+      bins idle      = {IDLE};
+      bins route     = {ROUTE};
+      bins arb_wait  = {ARB_WAIT};
+      bins transmit  = {TRANSMIT};
+    }
+
+    // 2. FSM Transition Coverage: Did we follow valid paths?
+    cp_trans: coverpoint current_state {
+      bins idle_to_route     = (IDLE     => ROUTE);
+      bins route_to_wait     = (ROUTE    => ARB_WAIT); // Valid
+      bins route_to_idle     = (ROUTE    => IDLE);     // Drop
+      bins wait_to_trans     = (ARB_WAIT => TRANSMIT); // Grant
+      bins trans_to_idle     = (TRANSMIT => IDLE);     // Done
+      bins trans_to_route    = (TRANSMIT => ROUTE);    // Next
+    }
+
+    // 3. FIFO Stress: Did we hit Empty and Full?
+    cp_fifo_full: coverpoint fifo_full {
+      bins not_full = {0};
+      bins full     = {1};
+    }
+    
+    cp_fifo_empty: coverpoint fifo_empty {
+      bins not_empty = {0};
+      bins empty     = {1};
+    }
+
+    // 4. Congestion: Are we waiting for Grant while full?
+    cx_cong: cross cp_state, cp_fifo_full {
+      bins cong_wait = binsof(cp_state.arb_wait) && binsof(cp_fifo_full.full);
+    }
+  endgroup
+
+  // Instantiate the covergroup
+  port_fsm_cg fsm_cg = new();
+  
+  // Optional: Print coverage at end of simulation for debugging
+  final begin
+      $display("Port FSM Coverage: %0.2f %%", fsm_cg.get_inst_coverage());
+  end
+`endif
 
 endmodule
 
