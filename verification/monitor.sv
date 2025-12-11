@@ -38,9 +38,21 @@ class monitor extends component_base;
           bins p3 = {4'b1000} iff (port_id == 3);
           bins broadcast = {4'b1111};
           // Multicast: Any value with 2 or 3 bits set
-          bins multicast = {[4'b0011:4'b1110]} with (
-                              ($countones(item) inside {2,3}) && (item[port_id] == 1)
-                           );
+          // 3. Multicast Bins (2-Port Combinations)
+          // Only enable these bins if the current Monitor is one of the targets
+          bins mdp_01 = {4'b0011} iff (port_id == 0 || port_id == 1);
+          bins mdp_02 = {4'b0101} iff (port_id == 0 || port_id == 2);
+          bins mdp_03 = {4'b1001} iff (port_id == 0 || port_id == 3);
+          bins mdp_12 = {4'b0110} iff (port_id == 1 || port_id == 2);
+          bins mdp_13 = {4'b1010} iff (port_id == 1 || port_id == 3);
+          bins mdp_23 = {4'b1100} iff (port_id == 2 || port_id == 3);
+
+          // 4. Multicast Bins (3-Port Combinations)
+          bins mdp_012 = {4'b0111} iff (port_id == 0 || port_id == 1 || port_id == 2);
+          bins mdp_013 = {4'b1011} iff (port_id == 0 || port_id == 1 || port_id == 3);
+          bins mdp_023 = {4'b1101} iff (port_id == 0 || port_id == 2 || port_id == 3);
+          bins mdp_123 = {4'b1110} iff (port_id == 1 || port_id == 2 || port_id == 3);
+      }
           
 
         }
