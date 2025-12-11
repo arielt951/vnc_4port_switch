@@ -27,6 +27,7 @@ design/switch_4port.sv
 #verification/vc_test.sv
 
 # STEP B: Final Project (Uncomment this later when vc_test passes)
+verification/assertions.sv
 verification/switch_test.sv
 
 # --- 5. Legacy/Old Files (Keep commented out) ---

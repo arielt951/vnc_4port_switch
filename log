@@ -4,8 +4,8 @@ Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detec
 Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
 Chronologic VCS simulator copyright 1991-2025
 Contains Synopsys proprietary information.
-Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec 10 15:52 2025
-Warning : License for product VCS-BASE-RUNTIME will expire within 22 days, on: 31-dec-2025.
+Compiler version X-2025.06-1_Full64; Runtime version X-2025.06-1_Full64;  Dec 11 16:13 2025
+Warning : License for product VCS-BASE-RUNTIME will expire within 21 days, on: 31-dec-2025.
 
 If you would like to temporarily disable this message, set 
  the VCS_LIC_EXPIRE_WARNING environment variable to the number of days
@@ -19,19 +19,25 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
 *Verdi* : End of traversing.
 --- Starting Simulation (Driver-Driven) ---
 [Driver_0] ID:0 Name:pkt_0 | Src:0001 Tgt:1000 | Data(Hex):87 Data(Dec):135 | Type:SDP
-[Driver_1] ID:1 Name:pkt_1 | Src:0010 Tgt:1000 | Data(Hex):88 Data(Dec):136 | Type:SDP
+[Driver_1] ID:1 Name:pkt_1 | Src:0010 Tgt:1101 | Data(Hex):88 Data(Dec):136 | Type:MDP
 [Driver_2] ID:2 Name:pkt_2 | Src:0100 Tgt:0010 | Data(Hex):66 Data(Dec):102 | Type:SDP
-[Driver_3] ID:3 Name:pkt_3 | Src:1000 Tgt:0110 | Data(Hex):5d Data(Dec):93 | Type:MDP
+[Driver_3] ID:3 Name:pkt_3 | Src:1000 Tgt:0111 | Data(Hex):5d Data(Dec):93 | Type:MDP
 [Monitor_1] ID:4 Name:monitored | Src:0100 Tgt:0010 | Data(Hex):66 Data(Dec):102 | Type:SDP
 [Monitor_3] ID:5 Name:monitored | Src:0001 Tgt:1000 | Data(Hex):87 Data(Dec):135 | Type:SDP
 [Checker] SUCCESS: Packet matched on Port 1 (DrvID:2 -> MonID:4)
 [Checker] SUCCESS: Packet matched on Port 3 (DrvID:0 -> MonID:5)
-[Monitor_1] ID:6 Name:monitored | Src:1000 Tgt:0110 | Data(Hex):5d Data(Dec):93 | Type:MDP
-[Monitor_2] ID:7 Name:monitored | Src:1000 Tgt:0110 | Data(Hex):5d Data(Dec):93 | Type:MDP
-[Monitor_3] ID:8 Name:monitored | Src:0010 Tgt:1000 | Data(Hex):88 Data(Dec):136 | Type:SDP
-[Checker] SUCCESS: Packet matched on Port 1 (DrvID:3 -> MonID:6)
-[Checker] SUCCESS: Packet matched on Port 2 (DrvID:3 -> MonID:7)
-[Checker] SUCCESS: Packet matched on Port 3 (DrvID:1 -> MonID:8)
+[Monitor_0] ID:6 Name:monitored | Src:1000 Tgt:0111 | Data(Hex):5d Data(Dec):93 | Type:MDP
+[Monitor_1] ID:7 Name:monitored | Src:1000 Tgt:0111 | Data(Hex):5d Data(Dec):93 | Type:MDP
+[Monitor_2] ID:8 Name:monitored | Src:1000 Tgt:0111 | Data(Hex):5d Data(Dec):93 | Type:MDP
+[Checker] SUCCESS: Packet matched on Port 0 (DrvID:3 -> MonID:6)
+[Checker] SUCCESS: Packet matched on Port 1 (DrvID:3 -> MonID:7)
+[Checker] SUCCESS: Packet matched on Port 2 (DrvID:3 -> MonID:8)
+[Monitor_0] ID:9 Name:monitored | Src:0010 Tgt:1101 | Data(Hex):88 Data(Dec):136 | Type:MDP
+[Monitor_2] ID:10 Name:monitored | Src:0010 Tgt:1101 | Data(Hex):88 Data(Dec):136 | Type:MDP
+[Monitor_3] ID:11 Name:monitored | Src:0010 Tgt:1101 | Data(Hex):88 Data(Dec):136 | Type:MDP
+[Checker] SUCCESS: Packet matched on Port 0 (DrvID:1 -> MonID:9)
+[Checker] SUCCESS: Packet matched on Port 2 (DrvID:1 -> MonID:10)
+[Checker] SUCCESS: Packet matched on Port 3 (DrvID:1 -> MonID:11)
 --- Sequencers Done. Waiting for Drivers to drain... ---
 --- Drivers Done. Waiting for Switch to drain... ---
 
@@ -47,16 +53,11 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
 
 =========================================
  HARDWARE STATE INSPECTION
- Port 0 FIFO Usage: 0 / 8
- Port 1 FIFO Usage: 0 / 8
- Port 2 FIFO Usage: 0 / 8
- Port 3 FIFO Usage: 0 / 8
-=========================================
-
+[TEST] LIVENESS PASSED: All FIFOs drained successfully.
 
 =========================================
  CHECKER SUMMARY
- Matches:          5
+ Matches:          8
  Mismatches:       0
  Pending (Lost):   0
 -----------------------------------------
@@ -67,9 +68,9 @@ FSDB Dumper for VCS, Release Verdi_X-2025.06-1, Linux x86_64/64bit, 07/19/2025
  Stuck from Port 3: 0
 =========================================
 
-$finish called from file "verification/switch_test.sv", line 160.
+$finish called from file "verification/switch_test.sv", line 185.
 $finish at simulation time                10245
            V C S   S i m u l a t i o n   R e p o r t 
 Time: 10245
-CPU Time:      0.250 seconds;       Data structure size:   0.1Mb
-Wed Dec 10 15:52:43 2025
+CPU Time:      0.150 seconds;       Data structure size:   0.1Mb
+Thu Dec 11 16:13:41 2025
