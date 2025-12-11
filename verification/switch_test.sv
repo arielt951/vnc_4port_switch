@@ -1,6 +1,6 @@
 module switch_test;
   import packet_pkg::*;
-  localparam num_packets = 1;
+  localparam num_packets = 20;
   // 1. Signals & Interface
   bit clk = 0; always #5 clk = ~clk; 
   bit rst_n;
@@ -54,6 +54,49 @@ always @(posedge clk) begin
   bind switch_port port_sva i_port_props (.*);
   // 3. Bind Arbiter assertions to the single 'arbiter' instance
   bind arbiter arbiter_sva i_arb_props (.*);
+
+function void print_port_cov(int id, packet_vc vc);
+    real type_cov, src_cov, tgt_cov, route_cov, x_type_src_cov;
+    real effective_total;
+
+    $display("--- PORT %0d ---", id);
+
+    // 1. Get the Common Coverage Scores
+    type_cov       = vc.agt.mon.packet_cg.cp_type.get_coverage();
+    src_cov        = vc.agt.mon.packet_cg.cp_source.get_coverage();
+    x_type_src_cov = vc.agt.mon.packet_cg.cx_type_src.get_coverage();
+
+    // 2. Get the Port-Specific Scores (Ignore the others)
+    case(id)
+        0: begin
+            tgt_cov   = vc.agt.mon.packet_cg.cp_target_p0.get_coverage();
+            route_cov = vc.agt.mon.packet_cg.cx_route_p0.get_coverage();
+        end
+        1: begin
+            tgt_cov   = vc.agt.mon.packet_cg.cp_target_p1.get_coverage();
+            route_cov = vc.agt.mon.packet_cg.cx_route_p1.get_coverage();
+        end
+        2: begin
+            tgt_cov   = vc.agt.mon.packet_cg.cp_target_p2.get_coverage();
+            route_cov = vc.agt.mon.packet_cg.cx_route_p2.get_coverage();
+        end
+        3: begin
+            tgt_cov   = vc.agt.mon.packet_cg.cp_target_p3.get_coverage();
+            route_cov = vc.agt.mon.packet_cg.cx_route_p3.get_coverage();
+        end
+    endcase
+
+    // 3. Calculate "Effective Total" (Average of the 5 valid metrics)
+    effective_total = (type_cov + src_cov + tgt_cov + route_cov + x_type_src_cov) / 5.0;
+
+    // 4. Print Results
+    $display("  TOTAL (Valid): %0.2f %%", effective_total);
+    $display("  - Types:       %0.2f %%", type_cov);
+    $display("  - Sources:     %0.2f %%", src_cov);
+    $display("  - Targets:     %0.2f %%", tgt_cov);
+    $display("  - Type x Src:  %0.2f %%", x_type_src_cov);
+    $display("  - ROUTING:     %0.2f %%", route_cov);
+endfunction
 
   initial begin
     rst_n = 0;
@@ -163,14 +206,30 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
         $display("\n=========================================");
         $display(" HARDWARE STATE INSPECTION");
         // Peek at internal signals
-		$display(" Port 0 FIFO Usage: %0d / 8", dut.port0_i.port_fifo.fifo_count);
-		$display(" Port 1 FIFO Usage: %0d / 8", dut.port1_i.port_fifo.fifo_count);
-		$display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
-		$display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
-		$display("=========================================\n");
-	end
+        $display(" Port 0 FIFO Usage: %0d / 8", dut.port0_i.port_fifo.fifo_count);
+        $display(" Port 1 FIFO Usage: %0d / 8", dut.port1_i.port_fifo.fifo_count);
+        $display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
+        $display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
+        $display("=========================================\n");
 
-	chk.report();
-	$finish;
+        $display("\n=========================================");
+        $display(" FUNCTIONAL COVERAGE RESULTS");
+        $display("=========================================");
+        print_port_cov(0, vc0);
+        print_port_cov(1, vc1);
+        print_port_cov(2, vc2);
+        print_port_cov(3, vc3);
+        $display("=========================================\n");
+        // -------------------------
+
+      end
+
+    // 1. Pass the hardware counters to the Checker
+    chk.set_drops(drops);
+
+    // 2. Generate the Report
+    chk.report();
+
+    $finish;
   end
 endmodule
