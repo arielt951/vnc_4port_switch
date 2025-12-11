@@ -44,23 +44,31 @@ always @(posedge clk) begin
     end
   end
 
-  // -------------------------------------------------------------
-  // HELPER: PRINT COVERAGE
-  // -------------------------------------------------------------
-  function void print_port_cov(int id, packet_vc vc);
+function void print_port_cov(int id, packet_vc vc);
     $display("--- PORT %0d ---", id);
     $display("  TOTAL:       %0.2f %%", vc.agt.mon.packet_cg.get_inst_coverage());
-    
-    // Individual Components
     $display("  - Types:     %0.2f %%", vc.agt.mon.packet_cg.cp_type.get_coverage());
     $display("  - Sources:   %0.2f %%", vc.agt.mon.packet_cg.cp_source.get_coverage());
-    $display("  - Targets:   %0.2f %%", vc.agt.mon.packet_cg.cp_target.get_coverage());
     
-    // Cross Coverage 1: Did this port send all Types?
-    $display("  - Type x Src:%0.2f %%", vc.agt.mon.packet_cg.cx_type_src.get_coverage());
-    
-    // NEW: Cross Coverage 2: Did this port send to ALL other ports?
-    $display("  - ROUTING:   %0.2f %%", vc.agt.mon.packet_cg.cx_route.get_coverage()); 
+    // Dynamic Print based on Port ID
+    case(id)
+        0: begin
+            $display("  - Targets:   %0.2f %%", vc.agt.mon.packet_cg.cp_target_p0.get_coverage());
+            $display("  - ROUTING:   %0.2f %%", vc.agt.mon.packet_cg.cx_route_p0.get_coverage());
+        end
+        1: begin
+            $display("  - Targets:   %0.2f %%", vc.agt.mon.packet_cg.cp_target_p1.get_coverage());
+            $display("  - ROUTING:   %0.2f %%", vc.agt.mon.packet_cg.cx_route_p1.get_coverage());
+        end
+        2: begin
+            $display("  - Targets:   %0.2f %%", vc.agt.mon.packet_cg.cp_target_p2.get_coverage());
+            $display("  - ROUTING:   %0.2f %%", vc.agt.mon.packet_cg.cx_route_p2.get_coverage());
+        end
+        3: begin
+            $display("  - Targets:   %0.2f %%", vc.agt.mon.packet_cg.cp_target_p3.get_coverage());
+            $display("  - ROUTING:   %0.2f %%", vc.agt.mon.packet_cg.cx_route_p3.get_coverage());
+        end
+    endcase
 endfunction
 
   initial begin
