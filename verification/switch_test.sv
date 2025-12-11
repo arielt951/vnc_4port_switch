@@ -44,6 +44,17 @@ always @(posedge clk) begin
     end
   end
 
+  // -----------------------------------------------------------------
+  // ASSERTION BINDINGS
+  // -----------------------------------------------------------------
+  // 1. Bind FIFO assertions to every instance of 'fifo'
+  // We use .* because the signal names in fifo_sva match fifo.sv perfectly
+  bind fifo fifo_sva i_fifo_props (.*);
+  // 2. Bind Port assertions to every instance of 'switch_port'
+  bind switch_port port_sva i_port_props (.*);
+  // 3. Bind Arbiter assertions to the single 'arbiter' instance
+  bind arbiter arbiter_sva i_arb_props (.*);
+
   initial begin
     rst_n = 0;
     
@@ -152,16 +163,26 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
         $display("\n=========================================");
         $display(" HARDWARE STATE INSPECTION");
         // Peek at internal signals
-        $display(" Port 0 FIFO Usage: %0d / 8", dut.port0_i.port_fifo.fifo_count);
-        $display(" Port 1 FIFO Usage: %0d / 8", dut.port1_i.port_fifo.fifo_count);
-        $display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
-        $display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
-        $display("=========================================\n");
+      if (dut.port0_i.port_fifo.fifo_full || 
+        dut.port1_i.port_fifo.fifo_full || 
+        dut.port2_i.port_fifo.fifo_full || 
+        dut.port3_i.port_fifo.fifo_full) begin
+            
+        $fatal(1, "[TEST] CRITICAL FAILURE: Simulation ended with FULL FIFOs! (Deadlock detected)");
+        
+            end else if (!dut.port0_i.port_fifo.fifo_empty || 
+                         !dut.port1_i.port_fifo.fifo_empty || 
+                         !dut.port2_i.port_fifo.fifo_empty || 
+                         !dut.port3_i.port_fifo.fifo_empty) begin
+                 
+              $warning("[TEST] WARNING: Simulation ended with packets stuck in FIFO (Not empty).");
+          end else begin
+        $display("[TEST] LIVENESS PASSED: All FIFOs drained successfully.");
+    end
 
-      end
-
+    // Standard Report
     chk.report();
     $finish;
   end
-
+  end
 endmodule
