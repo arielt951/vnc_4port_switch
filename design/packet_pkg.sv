@@ -153,6 +153,8 @@ package packet_pkg;
 	`include "./verification/agent.sv"
 	`include "./verification/checker.sv"   
 	`include "./verification/packet_vc.sv"
+	`include "./verification/assertions.sv
+"
 
 
 endpackage
