@@ -112,7 +112,7 @@ function void report();
             packet p = scb_queue[i][j];
             pending_packets++;
             
-            [cite_start]// PRINT THE SPECIFIC PACKET DETAILS [cite: 78-79]
+            // PRINT THE SPECIFIC PACKET DETAILS [cite: 78-79]
             $display("  [LOST] ID:%0d | Src:%b | Tgt:%b | Data(Hex):%h | Type:%s", 
                      p.packet_id, p.source, p.target, p.data, p.pkt_type.name());
 
