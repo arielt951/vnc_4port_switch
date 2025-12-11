@@ -89,12 +89,15 @@ class monitor extends component_base;
     super.new(name, parent);
     mon_mbx = new(); 
     // Instantiate the covergroup
-    packet_cg = new(); 
+    //packet_cg = new(); 
   endfunction
 
   function void configure(virtual port_if vif, int port_id);
     this.vif = vif;
     this.port_id = port_id;
+    if (packet_cg == null) begin
+        packet_cg = new(); 
+    end
   endfunction
 
   // 3. Main Run Task
