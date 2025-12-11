@@ -108,7 +108,11 @@ always_comb begin
 			end else begin
 				// Invalid packet: Drop it!
 				read_en_fifo = 1'b1;
-				next_state = IDLE;
+				if(!fifo_empty) begin
+				next_state = ROUTE; // NEXT PACKET
+				end else begin
+				next_state = IDLE; // All data sent, return to IDLE
+				end 
 			end
 		end
 
