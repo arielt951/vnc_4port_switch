@@ -213,6 +213,10 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
 
       end
 
+    // 1. Pass the hardware counters to the Checker
+    chk.set_drops(drops);
+
+    // 2. Generate the Report
     chk.report();
 
     $finish;
