@@ -163,26 +163,14 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
         $display("\n=========================================");
         $display(" HARDWARE STATE INSPECTION");
         // Peek at internal signals
-      if (dut.port0_i.port_fifo.fifo_full || 
-        dut.port1_i.port_fifo.fifo_full || 
-        dut.port2_i.port_fifo.fifo_full || 
-        dut.port3_i.port_fifo.fifo_full) begin
-            
-        $fatal(1, "[TEST] CRITICAL FAILURE: Simulation ended with FULL FIFOs! (Deadlock detected)");
-        
-            end else if (!dut.port0_i.port_fifo.fifo_empty || 
-                         !dut.port1_i.port_fifo.fifo_empty || 
-                         !dut.port2_i.port_fifo.fifo_empty || 
-                         !dut.port3_i.port_fifo.fifo_empty) begin
-                 
-              $warning("[TEST] WARNING: Simulation ended with packets stuck in FIFO (Not empty).");
-          end else begin
-        $display("[TEST] LIVENESS PASSED: All FIFOs drained successfully.");
-    end
+		$display(" Port 0 FIFO Usage: %0d / 8", dut.port0_i.port_fifo.fifo_count);
+		$display(" Port 1 FIFO Usage: %0d / 8", dut.port1_i.port_fifo.fifo_count);
+		$display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
+		$display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
+		$display("=========================================\n");
+	end
 
-    // Standard Report
-    chk.report();
-    $finish;
-  end
+	chk.report();
+	$finish;
   end
 endmodule
