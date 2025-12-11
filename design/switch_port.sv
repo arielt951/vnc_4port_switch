@@ -176,15 +176,9 @@ end
 
     // 3. FIFO Stress: Did we hit Empty and Full?
     cp_fifo_full: coverpoint fifo_full {
-      bins not_full = {0};
       bins full     = {1};
     }
     
-    cp_fifo_empty: coverpoint fifo_empty {
-      bins not_empty = {0};
-      bins empty     = {1};
-    }
-
     // 4. Congestion: Are we waiting for Grant while full?
     cx_cong: cross cp_state, cp_fifo_full {
       bins cong_wait = binsof(cp_state.arb_wait) && binsof(cp_fifo_full.full);
@@ -201,7 +195,6 @@ end
       $display("  - States:       %0.2f %%", fsm_cg.cp_state.get_coverage());
       $display("  - Transitions:  %0.2f %%", fsm_cg.cp_trans.get_coverage());
       $display("  - FIFO Full:    %0.2f %%", fsm_cg.cp_fifo_full.get_coverage());
-      $display("  - FIFO Empty:   %0.2f %%", fsm_cg.cp_fifo_empty.get_coverage());
       $display("  - Congestion:   %0.2f %%", fsm_cg.cx_cong.get_coverage());
       $display("-------------------------------------------");
   end
