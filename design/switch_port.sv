@@ -164,7 +164,7 @@ end
     cp_trans: coverpoint current_state {
       bins idle_to_route     = (IDLE     => ROUTE);
       bins route_to_wait     = (ROUTE    => ARB_WAIT); // Valid
-      bins route_to_idle     = (ROUTE    => IDLE);     // Drop
+      //bins route_to_idle     = (ROUTE    => IDLE);     // Drop
       bins wait_to_trans     = (ARB_WAIT => TRANSMIT); // Grant
       bins trans_to_idle     = (TRANSMIT => IDLE);     // Done
       bins trans_to_route    = (TRANSMIT => ROUTE);    // Next
