@@ -37,8 +37,17 @@ class monitor extends component_base;
           bins p2 = {4'b0100};
           bins p3 = {4'b1000};
           bins broadcast = {4'b1111};
+          // Multicast: Any value with 2 or 3 bits set
           bins multicast = {[4'b0011:4'b1110]} with ($countones(item) inside {2,3});
-      }
+          
+          // --- NEW IGNORE RULES ---
+          // A Monitor on Port X will never see a Unicast packet destined for Port Y.
+          // We ignore the bins that don't match the current 'port_id'.
+          ignore_bins ignore_p0 = binsof(p0) iff (port_id != 0);
+          ignore_bins ignore_p1 = binsof(p1) iff (port_id != 1);
+          ignore_bins ignore_p2 = binsof(p2) iff (port_id != 2);
+          ignore_bins ignore_p3 = binsof(p3) iff (port_id != 3);
+        }
 
       // D. Cross Coverage: Source x Type (FIXED SYNTAX)
       cx_type_src: cross cp_source, cp_type {
