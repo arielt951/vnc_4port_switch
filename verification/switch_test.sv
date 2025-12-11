@@ -142,6 +142,7 @@ endfunction
     wait (vc2.agt.drv.mbx.num() == 0);
     wait (vc3.agt.drv.mbx.num() == 0);
 
+repeat(20) @(posedge clk);
 $display("--- Drivers Done. Waiting for Switch to drain... ---");
     // Wait for internal FIFOs to empty (with timeout)
     fork
@@ -158,21 +159,7 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
     join_any
     disable fork;
 
-    // -------------------------------------------------------------
-    // NEW: WAIT FOR MONITOR -> CHECKER PIPELINE TO DRAIN
-    // -------------------------------------------------------------
-    // Even if hardware is empty, the Monitor might still be processing
-    // the last packet or it might be sitting in the Checker's mailbox.
-    $display("--- Switch Empty. Waiting for Monitors to deliver... ---");
-    
-    // 1. Wait for Monitor Mailboxes to allow Checker to catch up
-    wait (vc0.agt.mon.mon_mbx.num() == 0);
-    wait (vc1.agt.mon.mon_mbx.num() == 0);
-    wait (vc2.agt.mon.mon_mbx.num() == 0);
-    wait (vc3.agt.mon.mon_mbx.num() == 0);
-
-    // 2. Extra safety delay for the Checker to finish the last 'compare'
-    repeat(100) @(posedge clk);
+    repeat(1000) @(posedge clk);
     
     
     // -------------------------------------------------------------
