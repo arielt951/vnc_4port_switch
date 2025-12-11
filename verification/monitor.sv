@@ -44,16 +44,16 @@ class monitor extends component_base;
       // D. Cross Coverage: Source x Type (with Ignore Rules)
       cx_type_src: cross cp_source, cp_type {
           // Ignore Self-Loop for Single Packets (Physically impossible on Output)
-          ignore_bins self_loop_sdp = binsof(cp_source.p0) && binsof(cp_type.sdp) && (port_id == 0) ||
-                                      binsof(cp_source.p1) && binsof(cp_type.sdp) && (port_id == 1) ||
-                                      binsof(cp_source.p2) && binsof(cp_type.sdp) && (port_id == 2) ||
-                                      binsof(cp_source.p3) && binsof(cp_type.sdp) && (port_id == 3);
+          ignore_bins self_loop_sdp = binsof(cp_source.p0) && binsof(cp_type.sdp) iff (port_id == 0) ||
+                                      binsof(cp_source.p1) && binsof(cp_type.sdp) iff (port_id == 1) ||
+                                      binsof(cp_source.p2) && binsof(cp_type.sdp) iff (port_id == 2) ||
+                                      binsof(cp_source.p3) && binsof(cp_type.sdp) iff (port_id == 3);
 
           // Ignore Self-Loop for Multicast Packets (Impossible on Output)
-          ignore_bins self_loop_mdp = binsof(cp_source.p0) && binsof(cp_type.mdp) && (port_id == 0) ||
-                                      binsof(cp_source.p1) && binsof(cp_type.mdp) && (port_id == 1) ||
-                                      binsof(cp_source.p2) && binsof(cp_type.mdp) && (port_id == 2) ||
-                                      binsof(cp_source.p3) && binsof(cp_type.mdp) && (port_id == 3);
+          ignore_bins self_loop_mdp = binsof(cp_source.p0) && binsof(cp_type.mdp) iff (port_id == 0) ||
+                                      binsof(cp_source.p1) && binsof(cp_type.mdp) iff (port_id == 1) ||
+                                      binsof(cp_source.p2) && binsof(cp_type.mdp) iff (port_id == 2) ||
+                                      binsof(cp_source.p3) && binsof(cp_type.mdp) iff (port_id == 3);
       }
       
       // E. Cross Coverage: Routing (Source x Target)
