@@ -1,6 +1,0 @@
-{"vcs1":{"timestamp_begin":1765092206.462563580, "rt":0.15, "ut":0.06, "st":0.05}}
-{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1765092206.041471105}
-{"VCS_COMP_START_TIME": 1765092206.041471105}
-{"VCS_COMP_END_TIME": 1765092206.691687995}
-{"VCS_USER_OPTIONS": "-sverilog -f run.f -debug_access+all -R"}
-{"kdb": {"elabcom_name":"<Elabcom>", "log_dir":"simv.daidir/elabcomLog"}}

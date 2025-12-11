@@ -1,0 +1,24 @@
+# --- Compilation & Simulation Artifacts ---
+csrc/
+simv
+simv.daidir/
+simv.cst/
+*.cud
+ucli.key
+
+# --- Waveforms & Debug Databases ---
+*.vcd
+*.fsdb
+verdiLog/
+log/
+novas.*
+
+# --- Verdi/Debug Session Files ---
+*.ses
+*.ses.*
+*.rc
+*.conf
+
+# --- IDE & Project Settings ---
+.settings/
+.project
