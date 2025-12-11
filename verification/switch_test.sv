@@ -158,7 +158,21 @@ $display("--- Drivers Done. Waiting for Switch to drain... ---");
     join_any
     disable fork;
 
-    repeat(1000) @(posedge clk);
+    // -------------------------------------------------------------
+    // NEW: WAIT FOR MONITOR -> CHECKER PIPELINE TO DRAIN
+    // -------------------------------------------------------------
+    // Even if hardware is empty, the Monitor might still be processing
+    // the last packet or it might be sitting in the Checker's mailbox.
+    $display("--- Switch Empty. Waiting for Monitors to deliver... ---");
+    
+    // 1. Wait for Monitor Mailboxes to allow Checker to catch up
+    wait (vc0.agt.mon.mon_mbx.num() == 0);
+    wait (vc1.agt.mon.mon_mbx.num() == 0);
+    wait (vc2.agt.mon.mon_mbx.num() == 0);
+    wait (vc3.agt.mon.mon_mbx.num() == 0);
+
+    // 2. Extra safety delay for the Checker to finish the last 'compare'
+    repeat(100) @(posedge clk);
     
     
     // -------------------------------------------------------------
