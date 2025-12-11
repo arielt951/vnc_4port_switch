@@ -55,7 +55,7 @@ class monitor extends component_base;
       }
           
 
-        }
+      
 
       // D. Cross Coverage: Source x Type (FIXED SYNTAX)
       cx_type_src: cross cp_source, cp_type {
