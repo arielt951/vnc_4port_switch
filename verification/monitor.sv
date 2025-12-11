@@ -32,21 +32,15 @@ class monitor extends component_base;
 
       // C. Target Port
       cp_target: coverpoint cov_pkt.target {
-          bins p0 = {4'b0001};
-          bins p1 = {4'b0010};
-          bins p2 = {4'b0100};
-          bins p3 = {4'b1000};
+          bins p0 = {4'b0001} iff (port_id == 0);
+          bins p1 = {4'b0010} iff (port_id == 1);
+          bins p2 = {4'b0100} iff (port_id == 2);
+          bins p3 = {4'b1000} iff (port_id == 3);
           bins broadcast = {4'b1111};
           // Multicast: Any value with 2 or 3 bits set
           bins multicast = {[4'b0011:4'b1110]} with ($countones(item) inside {2,3});
           
-          // --- NEW IGNORE RULES ---
-          // A Monitor on Port X will never see a Unicast packet destined for Port Y.
-          // We ignore the bins that don't match the current 'port_id'.
-          ignore_bins ignore_p0 = binsof(p0) iff (port_id != 0);
-          ignore_bins ignore_p1 = binsof(p1) iff (port_id != 1);
-          ignore_bins ignore_p2 = binsof(p2) iff (port_id != 2);
-          ignore_bins ignore_p3 = binsof(p3) iff (port_id != 3);
+
         }
 
       // D. Cross Coverage: Source x Type (FIXED SYNTAX)
