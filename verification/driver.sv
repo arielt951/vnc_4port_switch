@@ -2,6 +2,8 @@ class driver extends component_base;
   mailbox #(packet) mbx;
   virtual port_if vif;
   int port_id;
+
+  packet current_pkt;
   
   // CONNECTION TO CHECKER
   checker chk_h; 
@@ -19,7 +21,8 @@ class driver extends component_base;
     packet p;
     repeat(num_packets) begin
       // A. Get Packet from Sequencer
-      mbx.get(p);
+      mbx.get(current_pkt);
+
       
       // B. REGISTER WITH CHECKER (The new connection)
       if (chk_h != null) begin
@@ -30,7 +33,7 @@ class driver extends component_base;
       
       // C. Drive Packet to DUT
       p.print($sformatf("Driver_%0d", port_id));
-      vif.drive_packet(p);
+      vif.drive_packet(current_pkt);
     end
   endtask
 endclass
