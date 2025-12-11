@@ -21,6 +21,7 @@ design/switch_4port.sv
 //verification/vc_test.sv
 
 # 6. FUTURE TESTBENCH (Keep commented until needed)
+verification/assertions.sv
 verification/switch_test.sv
 
 

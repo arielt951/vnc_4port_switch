@@ -145,7 +145,6 @@ package packet_pkg;
     // 5. COMPONENT INCLUDES
     // -----------------------------------------------------------
     // NOTE: Order matters! Base classes must come before children.
-    `include "./verification/assertions.sv"
 	`include "./verification/component_base.sv"
 	`include "./verification/sequencer.sv"
 	`include "./verification/driver.sv"
@@ -153,6 +152,7 @@ package packet_pkg;
 	`include "./verification/agent.sv"
 	`include "./verification/checker.sv"   
 	`include "./verification/packet_vc.sv"
+
 
 
 endpackage
