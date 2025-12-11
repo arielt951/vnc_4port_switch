@@ -5,6 +5,7 @@ module fifo_sva #(parameter DEPTH=8, parameter PACKET_WIDTH=16) (
 	input logic rst_n,
 	input logic rd_en,
 	input logic fifo_empty,
+	input logic [($clog2(DEPTH) + 1) - 1 : 0] fifo_count, 
 	input logic [(PACKET_WIDTH >> 1) - 1 : 0] header_out,
 	input logic [$clog2(DEPTH) - 1 : 0] rd_ptr,
 	input logic [PACKET_WIDTH - 1 : 0] mem [DEPTH - 1 : 0]
@@ -19,23 +20,78 @@ module fifo_sva #(parameter DEPTH=8, parameter PACKET_WIDTH=16) (
 		@(posedge clk) disable iff (!rst_n)
 		(!fifo_empty) |-> (header_out == mem[rd_ptr][7:0])
 	) else $error("[FIFO] Error: header_out mismatch with memory!");
+	
+	assert_flags_consistent: assert property (
+			@(posedge clk) disable iff (!rst_n)
+			(fifo_count == 0) |-> fifo_empty
+		) else $error("[FIFO] Error: Count is 0 but Empty flag is low!");
 
 endmodule
 
+// =================================================================
+// MODULE 2: SWITCH PORT ASSERTIONS
+// =================================================================
 module port_sva (
 	input logic clk,
 	input logic rst_n,
 	input logic fifo_empty,
-	input state_t current_state
+	input state_t current_state,
+	
+	// INPUTS FOR LOGIC CHECKS
+	input logic grant,
+	input logic pkt_valid,
+	input p_type pkt_type,
+	input logic [3:0] source_in,
+	input logic [3:0] target_in,
+	input logic read_en_fifo  // <--- NEW INPUT
 );
 
-	property p_valid_state_when_empty;
+	// 1. Safety: Valid State when Empty
+	assert_valid_state_empty: assert property(
 		@(posedge clk) disable iff (!rst_n)
-		(fifo_empty) |-> (current_state == IDLE || current_state == TRANSMIT);
-	endproperty
+		(fifo_empty) |-> (current_state == IDLE || current_state == TRANSMIT)
+	) else $error("[PORT_FSM] Error: FSM is in state %s but FIFO is empty!", current_state.name());
 
-	assert_valid_state_empty: assert property(p_valid_state_when_empty)
-		else $error("[PORT_FSM] Error: FSM is in state %s but FIFO is empty!", current_state.name());
+	// 2. Wait for Grant Protocol
+	assert_wait_for_grant: assert property(
+		@(posedge clk) disable iff (!rst_n)
+		(current_state == ARB_WAIT && !grant) |=> (current_state == ARB_WAIT)
+	) else $error("[PORT_FSM] Error: FSM left ARB_WAIT without receiving a Grant!");
+
+	// 3. Valid Packet Constraint
+	assert_legal_routing: assert property (
+		@(posedge clk) disable iff (!rst_n)
+		(pkt_valid && pkt_type != BDP) |-> ((source_in & target_in) == 0)
+	) else $error("[PORT] Error: Illegal Loopback! Src:%b Tgt:%b", source_in, target_in);
+
+	// 4. STEP A: If Valid, Attempt to Route (Don't drop immediately)
+	assert_no_drop_valid: assert property (
+		@(posedge clk) disable iff (!rst_n)
+		(current_state == ROUTE && pkt_valid) |=> (current_state == ARB_WAIT)
+	) else $error("[PORT_FSM] FAIL: Valid Packet Dropped! (Went IDLE instead of WAIT). Packet Src:%b Tgt:%b", source_in, target_in);
+
+	// 5. STEP B: Persistence (Don't give up while waiting)
+	assert_dont_give_up: assert property (
+		@(posedge clk) disable iff (!rst_n)
+		(current_state == ARB_WAIT && !grant) |=> (current_state == ARB_WAIT)
+	) else $error("[PORT_FSM] FAIL: Packet Dropped while waiting for Grant! Packet Src:%b Tgt:%b", source_in, target_in);
+
+	// 6. STEP C: Output on Grant
+	assert_transmit_on_grant: assert property (
+		@(posedge clk) disable iff (!rst_n)
+		(current_state == ARB_WAIT && grant) |=> (current_state == TRANSMIT)
+	) else $error("[PORT_FSM] FAIL: Grant received but FSM did not Transmit! Packet Src:%b Tgt:%b", source_in, target_in);
+
+	// 7. READ PROTOCOL
+	// We confirm that a READ only happens when we are authorized to Transmit (Grant) or Drop.
+	// Reading in any other state (IDLE, ROUTE with valid packet) is FORBIDDEN.
+	assert_read_protocol: assert property (
+		@(posedge clk) disable iff (!rst_n)
+		read_en_fifo |-> (
+			 (current_state == ARB_WAIT && grant) ||   // Legal Transmit
+			 (current_state == ROUTE && !pkt_valid)    // Legal Drop
+		)
+	) else $error("[PORT_FSM] Error: Illegal FIFO Read! State: %s (Not Grant or Drop)", current_state.name());
 
 endmodule
 
