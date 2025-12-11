@@ -59,7 +59,7 @@ module arbiter_sva (
     input logic rst_n,
     input logic [1:0] common_ptr,
     input logic [3:0] grant_bus,
-    input logic [3:0] port0_dst, port1_dst, port2_dst, port3_dst,
+    input logic [3:0] reqs_out0, reqs_out1, reqs_out2, reqs_out3,
     input logic [1:0] mux_sel0, mux_sel1, mux_sel2, mux_sel3,
     input logic active0, active1, active2, active3
 );
