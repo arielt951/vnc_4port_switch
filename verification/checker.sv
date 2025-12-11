@@ -98,18 +98,32 @@ function void report();
     int pending_packets = 0;
     int src_stuck[4] = '{0,0,0,0}; // Count lost packets by SOURCE
     
-    // 1. Calculate Statistics
-    foreach(scb_queue[i]) begin
-      pending_packets += scb_queue[i].size();
-      
-      // Analyze WHO generated these missing packets
-      foreach(scb_queue[i][j]) begin
-        case (scb_queue[i][j].source)
-          4'b0001: src_stuck[0]++;
-          4'b0010: src_stuck[1]++;
-          4'b0100: src_stuck[2]++;
-          4'b1000: src_stuck[3]++;
-        endcase
+    $display("\n=========================================");
+    $display(" DETAILED LOST PACKET REPORT");
+    $display("=========================================");
+
+    // 1. Iterate through all queues (0 to 3) to find stuck packets
+    foreach(scb_queue[i]) begin 
+      // 'i' is the Destination Port where the packet WAS expected
+      if (scb_queue[i].size() > 0) begin
+          $display("--- Missing at Output Port %0d ---", i);
+          
+          foreach(scb_queue[i][j]) begin
+            packet p = scb_queue[i][j];
+            pending_packets++;
+            
+            [cite_start]// PRINT THE SPECIFIC PACKET DETAILS [cite: 78-79]
+            $display("  [LOST] ID:%0d | Src:%b | Tgt:%b | Data(Hex):%h | Type:%s", 
+                     p.packet_id, p.source, p.target, p.data, p.pkt_type.name());
+
+            // Collect Stats for Summary
+            case (p.source)
+              4'b0001: src_stuck[0]++;
+              4'b0010: src_stuck[1]++;
+              4'b0100: src_stuck[2]++;
+              4'b1000: src_stuck[3]++;
+            endcase
+          end
       end
     end
 
