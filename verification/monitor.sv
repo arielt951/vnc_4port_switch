@@ -38,7 +38,9 @@ class monitor extends component_base;
           bins p3 = {4'b1000} iff (port_id == 3);
           bins broadcast = {4'b1111};
           // Multicast: Any value with 2 or 3 bits set
-          bins multicast = {[4'b0011:4'b1110]} with ($countones(item) inside {2,3});
+          bins multicast = {[4'b0011:4'b1110]} with (
+                              ($countones(item) inside {2,3}) && (item[port_id] == 1)
+                           );
           
 
         }
