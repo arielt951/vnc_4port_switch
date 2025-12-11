@@ -144,4 +144,64 @@ module arbiter (
             common_ptr <= common_ptr + 1'b1;
         end
     end
+    // -----------------------------------------------------------
+// WHITE-BOX COVERAGE: ARBITRATION & CONTENTION
+// -----------------------------------------------------------
+`ifndef SYNTHESIS
+  covergroup arbiter_cg @(posedge clk);
+    option.per_instance = 1;
+
+    // 1. Contention Level (How busy is the switch?)
+    // Did we see 0, 1, 2, 3, and 4 concurrent requests?
+    cp_contention: coverpoint $countones(port_reqs) {
+      bins low      = {0, 1};
+      bins medium   = {2, 3};
+      bins max_load = {4}; // Critical: Max Contention
+    }
+
+    // 2. Round Robin Rotation
+    // Did the priority pointer visit all 4 slots?
+    cp_ptr: coverpoint common_ptr {
+      bins p0 = {0};
+      bins p1 = {1};
+      bins p2 = {2};
+      bins p3 = {3};
+    }
+
+    // 3. Grants (Did everyone get a turn?)
+    cp_g0: coverpoint grant_bus[0] { bins granted = {1}; }
+    cp_g1: coverpoint grant_bus[1] { bins granted = {1}; }
+    cp_g2: coverpoint grant_bus[2] { bins granted = {1}; }
+    cp_g3: coverpoint grant_bus[3] { bins granted = {1}; }
+
+    // 4. Stress Test: Fairness under Max Load
+    // Prove that Port X can get a grant even when EVERYONE is requesting (Load=4)
+    cx_stress_0: cross cp_contention, cp_g0 {
+        bins stress_grant = binsof(cp_contention.max_load) && binsof(cp_g0.granted);
+    }
+    cx_stress_1: cross cp_contention, cp_g1 {
+        bins stress_grant = binsof(cp_contention.max_load) && binsof(cp_g1.granted);
+    }
+    cx_stress_2: cross cp_contention, cp_g2 {
+        bins stress_grant = binsof(cp_contention.max_load) && binsof(cp_g2.granted);
+    }
+    cx_stress_3: cross cp_contention, cp_g3 {
+        bins stress_grant = binsof(cp_contention.max_load) && binsof(cp_g3.granted);
+    }
+
+  endgroup
+
+  arbiter_cg arb_cg = new();
+
+  // Print Report at End
+  final begin
+      $display("-------------------------------------------");
+      $display("Arbiter Coverage:    %0.2f %%", arb_cg.get_inst_coverage());
+      $display("  - Contention:      %0.2f %%", arb_cg.cp_contention.get_coverage());
+      $display("  - Pointer Rot:     %0.2f %%", arb_cg.cp_ptr.get_coverage());
+      $display("  - Stress Fairness: %0.2f %%", (arb_cg.cx_stress_0.get_coverage() + arb_cg.cx_stress_1.get_coverage() + arb_cg.cx_stress_2.get_coverage() + arb_cg.cx_stress_3.get_coverage())/4.0);
+      $display("-------------------------------------------");
+  end
+`endif
+
 endmodule
