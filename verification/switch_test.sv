@@ -124,6 +124,14 @@ endfunction
   initial begin
     rst_n = 0;
     
+    // =========================================================
+    // NEW: Load Timing Delays for Gate Level Simulation (GLS)
+    // =========================================================
+    `ifdef SDF_ANNOTATE
+        $display("Loading SDF Delays from switch_4port.sdf...");
+        $sdf_annotate("./switch_4port.sdf", dut); 
+    `endif
+
     // Build
     vc0=new("vc0",null); vc0.configure(port0,0);
     vc1=new("vc1",null); vc1.configure(port1,1);
