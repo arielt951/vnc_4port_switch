@@ -14,6 +14,7 @@ package packet_pkg;
 	typedef enum logic [1:0] {IDLE, ROUTE, ARB_WAIT, TRANSMIT} state_t;
 	typedef enum logic [1:0] {ERR, SDP, MDP, BDP} p_type;
 
+`ifndef SYNTHESIS
 	typedef class checker;
 
 	// -----------------------------------------------------------
@@ -152,7 +153,7 @@ package packet_pkg;
 	`include "./verification/agent.sv"
 	`include "./verification/checker.sv"   
 	`include "./verification/packet_vc.sv"
-
+`endif             
 
 
 endpackage

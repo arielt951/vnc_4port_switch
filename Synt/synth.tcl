@@ -1,43 +1,53 @@
 # =================================================================
 # 1. SETUP
 # =================================================================
-# EDIT THIS: Point to your standard cell library (.db file)
-set target_library "your_library_file.db" 
+# Point to the generic Synopsys training library we found
+set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/class.db"
+
+# Link against the target library AND the compiled designs in memory (*)
 set link_library   "* $target_library"
 
-# Define Design Files
-set HDL_FILES { \
-    design/packet_pkg.sv \
-    design/fifo.sv \
-    design/arbiter.sv \
-    design/parser.sv \
-    design/output_mux.sv \
-    design/switch_port.sv \
-    design/switch_4port.sv \
+# Define Design Files (Order matters!)
+# Note: No backslashes used inside the list
+set HDL_FILES { 
+    ../design/packet_pkg.sv 
+    ../design/port_if.sv 
+    ../design/FIFO.sv 
+    ../design/arbiter.sv 
+    ../design/parser.sv 
+    ../design/output_mux.sv 
+    ../design/switch_port.sv 
+    ../design/switch_4port.sv 
 }
 
 # =================================================================
 # 2. READ & LINK
 # =================================================================
+# Analyze the Verilog files
 analyze -format sverilog $HDL_FILES
+
+# Elaborate the top-level module
 elaborate switch_4port
-current_design switch_4port
-link
+
+# Set the top module (Fusion Compiler style)
+set_top_module switch_4port
 
 # =================================================================
 # 3. APPLY CONSTRAINTS
 # =================================================================
 source constraints.sdc
-check_design
+
+# Optional: Check for obvious errors before compiling
+# check_design -checks all 
 
 # =================================================================
-# 4. COMPILE (First Pass: No Clock Gating)
+# 4. COMPILE
 # =================================================================
-# This converts RTL to Gates
-compile -map_effort medium
+# Use the modern Fusion Compiler optimization engine
+compile_fusion
 
 # =================================================================
-# 5. REPORTS (For your final PDF)
+# 5. REPORTS
 # =================================================================
 report_area > report_area.txt
 report_power > report_power.txt
@@ -49,6 +59,7 @@ report_qor > report_qor.txt
 # =================================================================
 # The .v file is the "Gate Level" design
 write -format verilog -hierarchy -output switch_4port_netlist.v
+
 # The .sdf file contains the timing delays for simulation
 write_sdf switch_4port.sdf
 

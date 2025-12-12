@@ -8,6 +8,7 @@ interface port_if (input bit clk, input bit rst_n);
   logic [ADDR_WIDTH-1:0]  source_out;
   logic [ADDR_WIDTH-1:0]  target_out;
   logic [DATA_WIDTH-1:0]  data_out;
+`ifndef SYNTHESIS
   task drive_packet(input packet p);
     @(posedge clk);
     valid_in   <= 1;
@@ -24,4 +25,5 @@ interface port_if (input bit clk, input bit rst_n);
     p.target = target_out;
     p.data   = data_out;
   endtask
+`endif              
 endinterface
