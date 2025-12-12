@@ -8,7 +8,7 @@ set target_library "gtech.db"
 set link_library   "* gtech.db"
 
 # Link against the target library AND the compiled designs in memory (*)
-set link_library   "* $target_library" //TODO ADD LIB PATH
+set link_library   "* $target_library" //TODO: ADD LIB PATH
 
 # Define Design Files (Order matters!)
 # Note: No backslashes used inside the list
@@ -47,6 +47,10 @@ source constraints.sdc
 # 4. COMPILE
 # =================================================================
 # Use the modern Fusion Compiler optimization engine
+# === ENABLE CLOCK GATING ===
+set_clock_gating_style -minimum_bit_width 4 -positive_edge_logic {integrated}
+insert_clock_gating
+
 compile_fusion -no_map
 
 # =================================================================
@@ -61,7 +65,7 @@ report_qor > report_qor.txt
 # 6. EXPORT NETLIST
 # =================================================================
 # The .v file is the "Gate Level" design
-write -format verilog -hierarchy -output switch_4port_netlist.v
+write -format verilog -hierarchy -output switch_4port_cg.v
 
 # The .sdf file contains the timing delays for simulation
 write_sdf switch_4port.sdf
