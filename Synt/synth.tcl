@@ -2,7 +2,10 @@
 # 1. SETUP
 # =================================================================
 # Point to the generic Synopsys training library we found
-set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/class.db"
+#set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/class.db"
+
+set target_library "gtech.db"
+set link_library   "* gtech.db"
 
 # Link against the target library AND the compiled designs in memory (*)
 set link_library   "* $target_library"
@@ -44,7 +47,7 @@ source constraints.sdc
 # 4. COMPILE
 # =================================================================
 # Use the modern Fusion Compiler optimization engine
-compile_fusion
+compile_fusion -no_map
 
 # =================================================================
 # 5. REPORTS
