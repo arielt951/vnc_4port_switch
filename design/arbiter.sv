@@ -155,7 +155,7 @@ module arbiter (
     // Did we see 0, 1, 2, 3, and 4 concurrent requests?
     cp_contention: coverpoint $countones(port_reqs) {
       bins low      = {0, 1};
-      bins medium   = {2, 3};
+      bins mediumm   = {2, 3};
       bins max_load = {4}; // Critical: Max Contention
     }
 
