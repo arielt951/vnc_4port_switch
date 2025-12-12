@@ -176,7 +176,7 @@ endfunction
     wait (vc2.agt.drv.mbx.num() == 0);
     wait (vc3.agt.drv.mbx.num() == 0);
 
-$display("--- Drivers Done. Waiting for Switch to drain... ---");
+    $display("--- Drivers Done. Waiting for Switch to drain... ---");
     // Wait for internal FIFOs to empty (with timeout)
     fork
         begin
