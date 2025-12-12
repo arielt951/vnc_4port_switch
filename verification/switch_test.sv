@@ -44,29 +44,6 @@ always @(posedge clk) begin
     end
   end
 
-  always @(posedge clk) begin
-    // Check Port 0
-    if (port0.valid_in && dut.port0_i.port_fifo.fifo_full) begin
-       // We know Driver 0 is currently driving a packet. Get its ID.
-       chk.register_drop(vc0.agt.drv.current_pkt.packet_id);
-    end
-
-    // Check Port 1
-    if (port1.valid_in && dut.port1_i.port_fifo.fifo_full) begin
-       chk.register_drop(vc1.agt.drv.current_pkt.packet_id);
-    end
-
-    // Check Port 2
-    if (port2.valid_in && dut.port2_i.port_fifo.fifo_full) begin
-       chk.register_drop(vc2.agt.drv.current_pkt.packet_id);
-    end
-
-    // Check Port 3
-    if (port3.valid_in && dut.port3_i.port_fifo.fifo_full) begin
-       chk.register_drop(vc3.agt.drv.current_pkt.packet_id);
-    end
-  end
-
   // -----------------------------------------------------------------
   // ASSERTION BINDINGS
   // -----------------------------------------------------------------
