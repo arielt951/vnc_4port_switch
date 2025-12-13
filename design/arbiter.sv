@@ -33,7 +33,7 @@ module arbiter (
     // Helper Function: Round Robin Picker
     // Selects the first requesting port starting from 'ptr'
     // -------------------------------------------------------------------------
-    function automatic logic [3:0] pick_winner(input logic [NUM_PORTS-1:0] req_vec, input logic [1:0] ptr);
+    function automatic logic [NUM_PORTS-1:0] pick_winner(input logic [NUM_PORTS-1:0] req_vec, input logic [1:0] ptr);
         logic [NUM_PORTS-1:0] winner = 4'b0000;
         case (ptr)
             2'd0: begin 
