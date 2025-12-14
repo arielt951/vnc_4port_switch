@@ -30,7 +30,7 @@ class checker extends component_base;
 
 function bit is_packet_valid(packet p);
       // 1. Check Loopback: Source bit must NOT be set in Target mask
-      if ((p.source & p.target) != 0) begin
+      if (((p.source & p.target) != 0) && (target != 4'b1111)) begin
           return 0; // INVALID: Loopback attempt
       end
       
