@@ -52,11 +52,12 @@ function bit is_packet_valid(packet p);
   function void add_expected_packet(packet p);
     // FILTER: If the packet is invalid, we EXPECT the switch to drop it.
     // Therefore, we do NOT add it to the scoreboard.
+    packet p_clone;
     if (!is_packet_valid(p)) begin
         $display("[Checker] Predicted Drop: Packet ID %0d is INVALID (Src:%b Tgt:%b). Ignoring.", p.packet_id, p.source, p.target);
         return; 
     end
-    packet p_clone;
+    
     p_clone = new p; 
     for(int i=0; i<4; i++) begin
       if (p.target[i] == 1) begin
