@@ -1,0 +1,8 @@
+#running basic
+vcs -R -sverilog -f run.f -debug_access+all -top switch_test
+#running the switch test - with random seed and with code coverage
+vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/simv.vdb -cm_name switch_test_cov +ntb_random_seed_automatic
+#running with random seed, code coverage and with Error packets (no constaints)
+vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/simv.vdb -cm_name switch_test_cov +ERR_PKT +ntb_random_seed_automatic
+#opening gui of coded coverage
+verdi -cov -covdir ./cov_work/simv.vdb
