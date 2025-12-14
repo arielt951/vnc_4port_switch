@@ -190,8 +190,10 @@ end
   
   // Optional: Print coverage at end of simulation for debugging
   // DETAILED REPORTING AT END OF SIMULATION
-  final begin
-      $display("Port FSM Coverage [Total]: %0.2f %%", fsm_cg.get_inst_coverage());
+ final begin
+      $display("-------------------------------------------");
+      $display("PORT FSM COVERAGE for: %m"); // Shows ...port0_i, ...port1_i, etc.
+      $display("  [Total]:        %0.2f %%", fsm_cg.get_inst_coverage());
       $display("  - States:       %0.2f %%", fsm_cg.cp_state.get_coverage());
       $display("  - Transitions:  %0.2f %%", fsm_cg.cp_trans.get_coverage());
       $display("  - FIFO Full:    %0.2f %%", fsm_cg.cp_fifo_full.get_coverage());
