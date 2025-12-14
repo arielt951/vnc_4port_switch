@@ -113,6 +113,9 @@ always_comb begin
 				end else begin
 				next_state = IDLE; // All data sent, return to IDLE
 				end 
+				`ifndef SYNTHESIS
+          		 $display("[RTL DROP] Time:%0t | Instance:%m | Dropping INVALID Packet | Header: %h", $time, header_out);
+        		`endif
 			end
 		end
 
