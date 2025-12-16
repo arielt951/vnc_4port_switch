@@ -53,6 +53,23 @@ package packet_pkg;
 		}
 
 		// -------------------------------------------------------
+		// Dynamic Constraint Control
+		// -------------------------------------------------------
+		function void pre_randomize();
+			if ($test$plusargs("ERR_PKT")) begin
+			// If the flag +ERR_PKT is in the command line, 
+			// disable the validity rules to generate "Bad" packets.
+			this.valid_source_c.constraint_mode(0);
+			this.valid_target_c.constraint_mode(0);
+			this.no_loopback_c.constraint_mode(0);
+			end else begin
+			// Optional: Ensure they are enabled otherwise (safety)
+			this.valid_source_c.constraint_mode(1);
+			this.valid_target_c.constraint_mode(1);
+			this.no_loopback_c.constraint_mode(1);
+			end
+		endfunction
+		// -------------------------------------------------------
 		// CONSTRUCTOR
 		// Accepts name and numeric port index (0-3)
 		// -------------------------------------------------------

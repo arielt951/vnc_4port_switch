@@ -30,11 +30,36 @@ class checker extends component_base;
       this.hw_drops = drops;
   endfunction
 
+function bit is_packet_valid(packet p);
+      // 1. Check Loopback: Source bit must NOT be set in Target mask
+      if (((p.source & p.target) != 0) && (p.target != 4'b1111)) begin
+          return 0; // INVALID: Loopback attempt
+      end
+      
+      // 2. Check Valid Target: Must target at least one port
+      if (p.target == 4'b0000) begin
+          return 0; // INVALID: No destination
+      end
+
+      // 3. Check Valid Source: Must be one-hot (one port only)
+      if ($countones(p.source) != 1) begin
+          return 0; // INVALID: Source ID is corrupt/multiple
+      end
+
+      return 1; // Packet is valid
+  endfunction
   // ----------------------------------------------------------------
   // TASK: Add Expected Packet
   // ----------------------------------------------------------------
   function void add_expected_packet(packet p);
+    // FILTER: If the packet is invalid, we EXPECT the switch to drop it.
+    // Therefore, we do NOT add it to the scoreboard.
     packet p_clone;
+    if (!is_packet_valid(p)) begin
+        $display("[Checker] Predicted Drop: Packet ID %0d is INVALID (Src:%b Tgt:%b). Ignoring.", p.packet_id, p.source, p.target);
+        return; 
+    end
+    
     p_clone = new p; 
     for(int i=0; i<4; i++) begin
       if (p.target[i] == 1) begin
@@ -97,6 +122,8 @@ class checker extends component_base;
     if (exp.data   !== rcv.data)   return 0;
     return 1;
   endfunction
+
+
   
   // ----------------------------------------------------------------
   // FUNCTION: Report (UPDATED WITH DISTINCTION)
