@@ -108,11 +108,13 @@ always_comb begin
 			end else begin
 				// Invalid packet: Drop it!
 				read_en_fifo = 1'b1;
-				if(!fifo_empty) begin
-				next_state = ROUTE; // NEXT PACKET
-				end else begin
 				next_state = IDLE; // All data sent, return to IDLE
-				end 
+
+				// if(!fifo_empty) begin
+				// next_state = ROUTE; // NEXT PACKET
+				// end else begin
+				// next_state = IDLE; // All data sent, return to IDLE
+				// end 
 				`ifndef SYNTHESIS
           		 $display("[RTL DROP] Time:%0t | Instance:%m | Dropping INVALID Packet | Header: %h", $time, header_out);
         		`endif

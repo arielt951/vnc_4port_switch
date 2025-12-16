@@ -51,8 +51,18 @@ always @(posedge clk) begin
   // We use .* because the signal names in fifo_sva match fifo.sv perfectly
   bind fifo fifo_sva i_fifo_props (.*);
   // 2. Bind Port assertions to every instance of 'switch_port'
-  bind switch_port port_sva i_port_props (.*);
-  // 3. Bind Arbiter assertions to the single 'arbiter' instance
+  bind switch_port port_sva i_port_props (
+    .clk(clk),
+    .rst_n(rst_n),
+    .fifo_empty(fifo_empty),
+    .current_state(current_state),
+    .grant(grant),
+    .pkt_valid(pkt_valid),
+    .pkt_type(pkt_type),
+    .read_en_fifo(read_en_fifo),
+    .source_in(header_out[3:0]), 
+    .target_in(header_out[7:4])
+);  // 3. Bind Arbiter assertions to the single 'arbiter' instance
   bind arbiter arbiter_sva i_arb_props (.*);
 
 function void print_port_cov(int id, packet_vc vc);
