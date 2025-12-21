@@ -14,6 +14,8 @@ package packet_pkg;
 	typedef enum logic [1:0] {IDLE, ROUTE, ARB_WAIT, TRANSMIT} state_t;
 	typedef enum logic [1:0] {ERR, SDP, MDP, BDP} p_type;
 
+	typedef class checker;
+
 	// -----------------------------------------------------------
 	// 3. BASE PACKET CLASS
 	// -----------------------------------------------------------
@@ -46,7 +48,7 @@ package packet_pkg;
 
 		// No Self-Loop (Source and Target cannot overlap)
 		constraint no_loopback_c {
-			(source & target) == 0;
+			(target == 4'b1111) || ((source & target) == 0);
 		}
 
 		// -------------------------------------------------------
@@ -143,13 +145,14 @@ package packet_pkg;
     // 5. COMPONENT INCLUDES
     // -----------------------------------------------------------
     // NOTE: Order matters! Base classes must come before children.
-    
-    `include "component_base.sv"
-    `include "sequencer.sv"
-    `include "driver.sv"
-    `include "monitor.sv"
-    `include "agent.sv"
-    `include "checker.sv"   
-    `include "packet_vc.sv"
+	`include "./verification/component_base.sv"
+	`include "./verification/sequencer.sv"
+	`include "./verification/driver.sv"
+	`include "./verification/monitor.sv"
+	`include "./verification/agent.sv"
+	`include "./verification/checker.sv"   
+	`include "./verification/packet_vc.sv"
+
+
 
 endpackage

@@ -24,10 +24,11 @@ design/switch_4port.sv
 
 # --- 4. Testbenches ---
 # STEP A: Sanity Check (Uncomment this now)
-verification/vc_test.sv
+#verification/vc_test.sv
 
 # STEP B: Final Project (Uncomment this later when vc_test passes)
-# verification/switch_test.sv
+verification/assertions.sv
+verification/switch_test.sv
 
 # --- 5. Legacy/Old Files (Keep commented out) ---
 # tb/switch_simple_tb.sv
