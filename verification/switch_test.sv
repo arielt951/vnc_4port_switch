@@ -153,7 +153,7 @@ endfunction
     vc3.agt.drv.chk_h = chk;
 
     $display("--- Starting Simulation (Driver-Driven) ---");
-    $display("Number of packet generated at each port:  %0d", num_packets);
+    $display("Number of packets about to be generated at each port:  %0d", num_packets);
 
     // Start everything
     fork 
