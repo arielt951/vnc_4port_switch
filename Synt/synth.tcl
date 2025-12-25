@@ -1,14 +1,15 @@
 # =================================================================
 # 1. COMPATIBILITY SETTINGS (The Fix)
 # =================================================================
-# Force Fusion Compiler to ignore missing site rows/physical data
-set_app_options -name design.check_error_on_missing_physical_data -value false
-set_app_options -name place.coarse.continue_on_missing_scandef -value true
+# Tell Fusion Compiler to SHUT UP about the old library
+# OPT-1006: Missing gates (Buffer/Inverter checks)
+# OPT-1007: No technology data (Site rows)
+suppress_message {OPT-1006 OPT-1007}
 
 # =================================================================
 # 2. SETUP
 # =================================================================
-# Use the Toshiba library (or lsi_10k.db)
+# Use the Toshiba library 
 set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/tc6a_cbacore.db"
 set link_library   "* $target_library"
 
@@ -39,7 +40,7 @@ check_design > report_check_design.txt
 # =================================================================
 # 5. COMPILE
 # =================================================================
-# Use legacy compile (Not compile_fusion) because the library is old
+# Use legacy compile
 compile -exact_map
 
 # =================================================================
