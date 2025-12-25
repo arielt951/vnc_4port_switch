@@ -230,25 +230,25 @@ module arbiter_sva (
   // Port 0 Fairness
   property p_fairness_p0;
     @(posedge clk) disable iff (!rst_n)
-    (port_reqs[0]) |-> ##[1:20] grant_bus[0];
+    (port_reqs[0]) |-> s_eventually (grant_bus[0]);
   endproperty
 
   // Port 1 Fairness
   property p_fairness_p1;
     @(posedge clk) disable iff (!rst_n)
-    (port_reqs[1]) |-> ##[1:20] grant_bus[1];
+    (port_reqs[1]) |-> s_eventually (grant_bus[1]);
   endproperty
 
   // Port 2 Fairness
   property p_fairness_p2;
     @(posedge clk) disable iff (!rst_n)
-    (port_reqs[2]) |-> ##[1:20] grant_bus[2];
+    (port_reqs[2]) |-> s_eventually (grant_bus[2]);
   endproperty
 
   // Port 3 Fairness
   property p_fairness_p3;
     @(posedge clk) disable iff (!rst_n)
-    (port_reqs[3]) |-> ##[1:20] grant_bus[3];
+    (port_reqs[3]) |-> s_eventually (grant_bus[3]);
   endproperty
 
   // Assert the Properties
