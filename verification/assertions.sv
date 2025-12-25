@@ -155,58 +155,103 @@ endmodule
 module arbiter_sva (
     input logic clk,
     input logic rst_n,
-    input logic [3:0] port_reqs,   // Requests from 4 ports
-    input logic [3:0] grant_bus    // One-hot grant signal
+    
+    // ------------------------------------
+    // NEW INPUTS (For Formal Bonus)
+    // ------------------------------------
+    input logic [3:0] port_reqs,   // "I want to send a packet" (Aggregate request)
+
+    // ------------------------------------
+    // OLD INPUTS (For Detailed Checks)
+    // ------------------------------------
+    input logic [1:0] common_ptr,
+    // Requests per output (for coherence checks)
+    input logic [3:0] reqs_out0, reqs_out1, reqs_out2, reqs_out3, 
+    input logic [3:0] grant_bus,
+    input logic [3:0] port0_dst, port1_dst, port2_dst, port3_dst,
+    input logic [1:0] mux_sel0, mux_sel1, mux_sel2, mux_sel3,
+    input logic active0, active1, active2, active3
 );
 
-  // ===========================================================================
-  // 1. SAFETY PROPERTY: Mutual Exclusion (Mutex)
-  // ===========================================================================
-  // "Two ports shall typically NEVER receive a grant at the same time."
-  // Logic: The sum of bits in 'grant_bus' must be <= 1.
-  
-  property p_mutex;
-    @(posedge clk) disable iff (!rst_n)
-    $countones(grant_bus) <= 1;
-  endproperty
-
-  assert_mutex: assert property(p_mutex)
-    else $error("[FORMAL FAIL] Safety Violation: Multiple ports granted access simultaneously!");
+  localparam NUM_PORTS = 4;
 
   // ===========================================================================
-  // 2. LIVENESS PROPERTY: Fairness / No Starvation (The Bonus Check)
+  // 1. OLD CHECKER: Pointer Rotation (Deadlock Prevention)
+  // ===========================================================================
+  // FIX 1: Add ##1 delay to avoid reset glitch
+  assert_ptr_rotate: assert property (
+      @(posedge clk) disable iff (!rst_n)
+      ##1 (common_ptr != $past(common_ptr))
+  ) else $error("[ARBITER] Error: common_ptr is stuck! Deadlock risk.");
+
+  // ===========================================================================
+  // 2. OLD CHECKER: Coherence (Grant -> Mux Logic)
+  // ===========================================================================
+  generate
+      for (genvar p = 0; p < NUM_PORTS; p++) begin : port_check
+          for (genvar out = 0; out < NUM_PORTS; out++) begin : output_check
+              
+              logic requested_this_out;
+              logic output_is_active;
+              logic [1:0] output_sel;
+              
+              always_comb begin
+                  case(out) // Switched on 'out' to pick the correct request vector
+                      0: requested_this_out = reqs_out0[p]; 
+                      1: requested_this_out = reqs_out1[p]; 
+                      2: requested_this_out = reqs_out2[p]; 
+                      3: requested_this_out = reqs_out3[p]; 
+                  endcase
+                  case(out)
+                      0: begin output_is_active = active0; output_sel = mux_sel0; end
+                      1: begin output_is_active = active1; output_sel = mux_sel1; end
+                      2: begin output_is_active = active2; output_sel = mux_sel2; end
+                      3: begin output_is_active = active3; output_sel = mux_sel3; end
+                  endcase
+              end
+
+              // FIX 2: Changed |-> to |=> (Next Cycle) because Mux is Registered.
+              assert_coherence: assert property (
+                  @(posedge clk) disable iff (!rst_n)
+                  (grant_bus[p] && requested_this_out) |=> 
+                  (output_is_active && output_sel == p[1:0])
+              ) else $error("[ARBITER] Coherence Fail: Port %0d granted, expected Out %0d active/sel", p, out);
+
+          end
+      end
+  endgenerate
+
+  // ===========================================================================
+  // 3. NEW BONUS CHECKER: Liveness / Fairness (Formal Verification)
   // ===========================================================================
   // "If a port requests access, it MUST eventually receive a grant."
-  //
-  // In a 4-port Round Robin Arbiter, the maximum wait is 3 other turns.
-  // We use a "Bounded Liveness" check (20 cycles) which works in both 
-  // Simulation (VCS) and Formal Verification tools.
+  // We use a bounded window of 20 cycles (enough for Round-Robin).
 
-  // -- Port 0 Fairness --
+  // Port 0 Fairness
   property p_fairness_p0;
     @(posedge clk) disable iff (!rst_n)
-    (port_reqs[0]) |-> strong(##[1:20] grant_bus[0]);
+    (port_reqs[0]) |-> ##[1:20] grant_bus[0];
   endproperty
 
-  // -- Port 1 Fairness --
+  // Port 1 Fairness
   property p_fairness_p1;
     @(posedge clk) disable iff (!rst_n)
-    (port_reqs[1]) |-> strong(##[1:20] grant_bus[1]);
+    (port_reqs[1]) |-> ##[1:20] grant_bus[1];
   endproperty
 
-  // -- Port 2 Fairness --
+  // Port 2 Fairness
   property p_fairness_p2;
     @(posedge clk) disable iff (!rst_n)
-    (port_reqs[2]) |-> strong(##[1:20] grant_bus[2]);
+    (port_reqs[2]) |-> ##[1:20] grant_bus[2];
   endproperty
 
-  // -- Port 3 Fairness --
+  // Port 3 Fairness
   property p_fairness_p3;
     @(posedge clk) disable iff (!rst_n)
-    (port_reqs[3]) |-> strong(##[1:20] grant_bus[3]);
+    (port_reqs[3]) |-> ##[1:20] grant_bus[3];
   endproperty
 
-  // Assertions
+  // Assert the Properties
   assert_fairness_p0: assert property(p_fairness_p0) else $error("[FORMAL FAIL] Port 0 Starved!");
   assert_fairness_p1: assert property(p_fairness_p1) else $error("[FORMAL FAIL] Port 1 Starved!");
   assert_fairness_p2: assert property(p_fairness_p2) else $error("[FORMAL FAIL] Port 2 Starved!");

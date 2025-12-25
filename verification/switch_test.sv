@@ -78,11 +78,32 @@ always @(posedge clk) begin
   );
 
   // 3. Bind Arbiter (Standard)
-  bind switch_4port.arb_inst arbiter_sva i_arb_sva (
+  bind arbiter arbiter_sva i_arb_sva (
       .clk(clk),
       .rst_n(rst_n),
-      .req(request), // Use the internal signal names of your arbiter
-      .gnt(grant)
+      
+      // -- NEW: Connect the Aggregate Request Signal for Fairness Checks --
+      .port_reqs(port_reqs), 
+
+      // -- OLD: Connect Detailed Signals for Coherence Checks --
+      .common_ptr(common_ptr),
+      .reqs_out0(reqs_out0), 
+      .reqs_out1(reqs_out1), 
+      .reqs_out2(reqs_out2), 
+      .reqs_out3(reqs_out3),
+      .grant_bus(grant_bus),
+      .port0_dst(port0_dst), 
+      .port1_dst(port1_dst), 
+      .port2_dst(port2_dst), 
+      .port3_dst(port3_dst),
+      .mux_sel0(mux_sel0), 
+      .mux_sel1(mux_sel1), 
+      .mux_sel2(mux_sel2), 
+      .mux_sel3(mux_sel3),
+      .active0(active0), 
+      .active1(active1), 
+      .active2(active2), 
+      .active3(active3)
   );
 
 function void print_port_cov(int id, packet_vc vc);
