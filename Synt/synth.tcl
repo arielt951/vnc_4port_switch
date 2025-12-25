@@ -35,7 +35,7 @@ set_top_module switch_4port
 # 4. APPLY CONSTRAINTS
 # =================================================================
 source constraints.sdc
-check_design > report_check_design.txt
+redirect report_check_design.txt { check_design }
 
 # =================================================================
 # 5. COMPILE
