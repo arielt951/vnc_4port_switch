@@ -1,12 +1,18 @@
 # =================================================================
-# 1. COMPATIBILITY SETTINGS
+# 1. LOGICAL SYNTHESIS SETUP
 # =================================================================
-# Ignore missing physical data errors (OPT-1006, OPT-1007)
-suppress_message {OPT-1006 OPT-1007}
+# We are doing Logical Synthesis only (Lecture 9).
+# Suppress the errors regarding missing physical data (site rows).
+# OPT-1006: Buffer/Inverter check failure
+# OPT-1007: No technology data
+# LGL-397:  No site rows
+# FLW-*:    Flow errors caused by the above
+suppress_message {OPT-1006 OPT-1007 LGL-397 FLW-2543 FLW-1762}
 
 # =================================================================
-# 2. SETUP
+# 2. LIBRARY SETUP
 # =================================================================
+# Using the Toshiba library (Logic Only)
 set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/tc6a_cbacore.db"
 set link_library   "* $target_library"
 
@@ -22,36 +28,38 @@ set HDL_FILES {
 }
 
 # =================================================================
-# 3. READ & LINK
+# 3. READ & ELABORATE
 # =================================================================
 analyze -format sverilog $HDL_FILES
 elaborate switch_4port
 set_top_module switch_4port
 
 # =================================================================
-# 4. APPLY CONSTRAINTS & CHECK (The Fix)
+# 4. CONSTRAINTS & CHECK
 # =================================================================
 source constraints.sdc
 
-# USE "CATCH": Runs the check, but prevents the script from stopping if it fails
+# Use 'catch' so check_design reports issues but doesn't stop the script
 redirect report_check_design.txt { catch { check_design } }
 redirect report_check_timing.txt { catch { check_timing } }
 
 # =================================================================
-# 5. COMPILE
+# 5. COMPILE (LOGICAL ONLY)
 # =================================================================
-# Use legacy compile to support the old library
+# 'compile -exact_map' matches the Design Compiler behavior from the lecture.
+# It performs logic mapping without requiring physical floorplanning.
 compile -exact_map
 
 # =================================================================
-# 6. EXPORT RESULTS
+# 6. REPORTS
 # =================================================================
-# Wrap these in catch too, just to be safe
+# Use 'catch' here as well to ensure all reports are generated
 redirect report_area_std.txt   { catch { report_area } }
 redirect report_power_std.txt  { catch { report_power } }
 redirect report_timing_std.txt { catch { report_timing } }
 redirect report_qor_std.txt    { catch { report_qor } }
 
+# Write output files
 write -format verilog -hierarchy -output switch_4port_std.v
 write_sdf switch_4port_std.sdf
 
