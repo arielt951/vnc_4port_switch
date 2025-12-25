@@ -1,7 +1,14 @@
 # =================================================================
-# 1. SETUP
+# 1. COMPATIBILITY SETTINGS (The Fix)
 # =================================================================
-# Use the Toshiba library (or lsi_10k.db if this fails)
+# Force Fusion Compiler to ignore missing site rows/physical data
+set_app_options -name design.check_error_on_missing_physical_data -value false
+set_app_options -name place.coarse.continue_on_missing_scandef -value true
+
+# =================================================================
+# 2. SETUP
+# =================================================================
+# Use the Toshiba library (or lsi_10k.db)
 set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/tc6a_cbacore.db"
 set link_library   "* $target_library"
 
@@ -17,26 +24,26 @@ set HDL_FILES {
 }
 
 # =================================================================
-# 2. READ & LINK
+# 3. READ & LINK
 # =================================================================
 analyze -format sverilog $HDL_FILES
 elaborate switch_4port
 set_top_module switch_4port
 
 # =================================================================
-# 3. APPLY CONSTRAINTS
+# 4. APPLY CONSTRAINTS
 # =================================================================
 source constraints.sdc
 check_design > report_check_design.txt
 
 # =================================================================
-# 4. COMPILE (The Fix)
+# 5. COMPILE
 # =================================================================
-# Use standard compile for dc_shell
+# Use legacy compile (Not compile_fusion) because the library is old
 compile -exact_map
 
 # =================================================================
-# 5. EXPORT RESULTS
+# 6. EXPORT RESULTS
 # =================================================================
 report_area > report_area_std.txt
 report_power > report_power_std.txt
