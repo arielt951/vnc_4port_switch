@@ -78,7 +78,12 @@ always @(posedge clk) begin
   );
 
   // 3. Bind Arbiter (Standard)
-  bind arbiter arbiter_sva i_arb_props (.*);
+  bind switch_4port.arb_inst arbiter_sva i_arb_sva (
+      .clk(clk),
+      .rst_n(rst_n),
+      .req(request), // Use the internal signal names of your arbiter
+      .gnt(grant)
+  );
 
 function void print_port_cov(int id, packet_vc vc);
     real type_cov, src_cov, tgt_cov, route_cov, x_type_src_cov;
