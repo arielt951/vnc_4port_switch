@@ -1,11 +1,11 @@
 # =================================================================
 # 1. SETUP
 # =================================================================
-# Point to the generic Synopsys training library we found
-#set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/class.db"
+# 1. Define the Real Library Path (You found it!)
+set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/class.db"
 
-set target_library "gtech.db"
-set link_library   "* gtech.db"
+# 2. Link Library = Standard Cells (*) + Your Design in memory
+set link_library   "* $target_library"
 
 # Link against the target library AND the compiled designs in memory (*)
 set link_library   "* $target_library" //TODO ADD LIB PATH
