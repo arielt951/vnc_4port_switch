@@ -44,7 +44,8 @@ source constraints.sdc
 # 4. COMPILE
 # =================================================================
 # Use the modern Fusion Compiler optimization engine
-compile_fusion -no_map
+#compile_fusion -no_map
+compile -exact_map
 
 # =================================================================
 # 5. REPORTS
