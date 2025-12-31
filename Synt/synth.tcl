@@ -94,8 +94,7 @@ report_area   > report_area.txt
 report_qor    > report_qor.txt
 
 # Write Gate-Level Netlist (Use this for your post-synth simulation)
-write_verilog -hierarchy -output switch_4port_netlist.v
-
+write_verilog -hierarchy all switch_4port_netlist.v
 # Write SDF (Timing Delays)
 write_sdf switch_4port.sdf
 
