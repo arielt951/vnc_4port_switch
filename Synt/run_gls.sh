@@ -1,40 +1,45 @@
-set LIB_PATH "/data/synopsys/lib/saed32nm/ref/CLIBs"
-set TLU_PATH "/data/synopsys/lib/saed32nm/ref/tech"
-set_host_options -max_cores 4
+#!/bin/bash
 
-set TECH_FILE "$TLU_PATH/saed32nm_1p9m.tf"
-set REF_LIBS [list "${LIB_PATH}/saed32_hvt.ndm" "${LIB_PATH}/saed32_lvt.ndm" "${LIB_PATH}/saed32_rvt.ndm"]
+# 1. Define Assertions
+ASSERTIONS="../verification/assertions.sv"
 
-if {[file exists switch_cg.dlib]} { file delete -force switch_cg.dlib }
-create_lib -technology $TECH_FILE -ref_libs $REF_LIBS switch_cg.dlib
+# 2. Define the Simulation Library (SAED32)
+# This is the path we confirmed exists on your server
+SAED32_VRG="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
 
-read_parasitic_tech -tlu $TLU_PATH/saed32nm_1p9m_Cmax.lv.tluplus -name Cmax
-read_parasitic_tech -tlu $TLU_PATH/saed32nm_1p9m_Cmin.lv.tluplus -name Cmin
+# 3. Choose which netlist to simulate
+# Uncomment the one you want to test:
 
-set HDL_FILES { ../design/packet_pkg.sv ../design/port_if.sv ../design/FIFO.sv ../design/arbiter.sv ../design/parser.sv ../design/output_mux.sv ../design/switch_port.sv ../design/switch_4port.sv }
-analyze -format sverilog $HDL_FILES
-elaborate switch_4port
-set_top_module switch_4port
+# Option A: Standard Synthesis (from synth.tcl)
+# NETLIST="switch_4port_netlist.v"
 
-remove_corners -all; remove_modes -all; remove_scenarios -all
-create_corner Fast; create_corner Slow; create_mode FUNC
-set_parasitics_parameters -early_spec Cmin -late_spec Cmin -corners {Fast}
-set_parasitics_parameters -early_spec Cmax -late_spec Cmax -corners {Slow}
-create_scenario -mode FUNC -corner Fast -name FUNC_Fast
-create_scenario -mode FUNC -corner Slow -name FUNC_Slow
-current_scenario FUNC_Fast; source constraints.sdc
-current_scenario FUNC_Slow; source constraints.sdc
+# Option B: Low Power / Clock Gating (from synth_cg.tcl)
+NETLIST="switch_4port_cg.v" 
 
-# === CLOCK GATING ENABLED ===
-set_app_options -name clock_gating.enable -value true
+# 4. Run VCS
+# We use the '-v' flag to include the SAED32 standard cells
+vcs -sverilog -debug_access+all -full64 \
+    -timescale=1ns/1ps \
+    -v $SAED32_VRG \
+    +define+SDF_ANNOTATE \
+    ../design/packet_pkg.sv \
+    ../design/port_if.sv \
+    $ASSERTIONS \
+    ../verification/component_base.sv \
+    ../verification/packet_vc.sv \
+    ../verification/monitor.sv \
+    ../verification/sequencer.sv \
+    ../verification/driver.sv \
+    ../verification/agent.sv \
+    ../verification/checker.sv \
+    ../verification/switch_test.sv \
+    $NETLIST \
+    -o simv_gls
 
-set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
-compile_fusion -to logic_opto
-compile_fusion -to final_opto
-
-report_timing > report_timing_cg.txt
-report_power  > report_power_cg.txt
-write_verilog -hierarchy all switch_4port_cg.v
-write_sdf switch_4port_cg.sdf
-save_block -as switch_4port_cg_final
-exit
+# 5. Check if compilation succeeded
+if [ $? -eq 0 ]; then
+    echo "GLS Compilation Successful. Running Simulation..."
+    ./simv_gls
+else
+    echo "GLS Compilation Failed!"
+fi
