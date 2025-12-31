@@ -52,25 +52,33 @@ current_scenario FUNC_Fast; source constraints.sdc
 current_scenario FUNC_Slow; source constraints.sdc
 
 # =================================================================
-# 4. COMPILE WITH CLOCK GATING
+# 4. FORCE CLOCK GATING (AGGRESSIVE)
 # =================================================================
-# The correct way to enable Clock Gating in FC is to enable Total Power Optimization.
-# The tool will insert clock gates to reduce dynamic power.
+# Enable Power Optimization
 set_app_options -name opt.power.mode -value total
 
-# Optional: Configure minimum bit width (default is usually 3 or 4)
-# set_app_options -name clock_gating.minimum_bit_width -value 4
+# FORCE: Gate any register that is 2 bits or larger (Standard is 3+)
+set_app_options -name clock_gating.minimum_bit_width -value 2
+
+# FORCE: Allow gating on the top level
+set_app_options -name clock_gating.recycle_latency -value true
 
 set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
 
+# Compile
 compile_fusion -to logic_opto
 compile_fusion -to final_opto
 
 # =================================================================
 # 5. REPORTS
 # =================================================================
+# 1. Check if Clock Gating actually happened
+report_clock_gating > report_clock_gating_status.txt
+
+# 2. Standard Reports
 report_timing > report_timing_cg.txt
 report_power  > report_power_cg.txt
+report_area   > report_area_cg.txt
 
 # WRITE FILES
 write_verilog -hierarchy all switch_4port_cg.v
