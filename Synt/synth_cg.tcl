@@ -1,17 +1,30 @@
 # =================================================================
-# 1. SETUP
+# 1. SETUP LIBRARY PATHS (SAME AS synth.tcl)
 # =================================================================
-# Point to the generic Synopsys training library we found
-#set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/class.db"
+set LIB_PATH "/data/synopsys/lib/saed32nm/ref/CLIBs"
+set TLU_PATH "/data/synopsys/lib/saed32nm/ref/tech"
 
-set target_library "gtech.db"
-set link_library   "* gtech.db"
+set_host_options -max_cores 4
 
-# Link against the target library AND the compiled designs in memory (*)
-set link_library   "* $target_library" //TODO: ADD LIB PATH
+set TECH_FILE "$TLU_PATH/saed32nm_1p9m.tf"
+set REF_LIBS [list \
+    "${LIB_PATH}/saed32_hvt.ndm" \
+    "${LIB_PATH}/saed32_lvt.ndm" \
+    "${LIB_PATH}/saed32_rvt.ndm" \
+]
 
-# Define Design Files (Order matters!)
-# Note: No backslashes used inside the list
+# Create a fresh library for the Low Power run
+if {[file exists switch_cg.dlib]} {
+    file delete -force switch_cg.dlib
+}
+create_lib -technology $TECH_FILE -ref_libs $REF_LIBS switch_cg.dlib
+
+read_parasitic_tech -tlu $TLU_PATH/saed32nm_1p9m_Cmax.lv.tluplus -name Cmax
+read_parasitic_tech -tlu $TLU_PATH/saed32nm_1p9m_Cmin.lv.tluplus -name Cmin
+
+# =================================================================
+# 2. READ & ELABORATE
+# =================================================================
 set HDL_FILES { 
     ../design/packet_pkg.sv 
     ../design/port_if.sv 
@@ -23,51 +36,55 @@ set HDL_FILES {
     ../design/switch_4port.sv 
 }
 
-# =================================================================
-# 2. READ & LINK
-# =================================================================
-# Analyze the Verilog files
 analyze -format sverilog $HDL_FILES
-
-# Elaborate the top-level module
 elaborate switch_4port
-
-# Set the top module (Fusion Compiler style)
 set_top_module switch_4port
 
 # =================================================================
-# 3. APPLY CONSTRAINTS
+# 3. CONSTRAINTS
 # =================================================================
+remove_corners -all; remove_modes -all; remove_scenarios -all
+create_corner Fast
+create_corner Slow
+create_mode   FUNC
+
+set_parasitics_parameters -early_spec Cmin -late_spec Cmin -corners {Fast}
+set_parasitics_parameters -early_spec Cmax -late_spec Cmax -corners {Slow}
+
+create_scenario -mode FUNC -corner Fast -name FUNC_Fast
+create_scenario -mode FUNC -corner Slow -name FUNC_Slow
+
+current_scenario FUNC_Fast
+source constraints.sdc
+current_scenario FUNC_Slow
 source constraints.sdc
 
-# Optional: Check for obvious errors before compiling
-# check_design -checks all 
-
 # =================================================================
-# 4. COMPILE
+# 4. CLOCK GATING (THE KEY DIFFERENCE)
 # =================================================================
-# Use the modern Fusion Compiler optimization engine
-# === ENABLE CLOCK GATING ===
+# We insert clock gating logic BEFORE compilation
 set_clock_gating_style -minimum_bit_width 4 -positive_edge_logic {integrated}
 insert_clock_gating
 
-compile_fusion -no_map
+# =================================================================
+# 5. COMPILE
+# =================================================================
+set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
+
+compile_fusion -to logic_opto
+compile_fusion -to final_opto
 
 # =================================================================
-# 5. REPORTS
+# 6. REPORTS
 # =================================================================
-report_area > report_area.txt
-report_power > report_power.txt
-report_timing > report_timing.txt
-report_qor > report_qor.txt
+report_timing > report_timing_cg.txt
+report_power  > report_power_cg.txt
+report_area   > report_area_cg.txt
+report_qor    > report_qor_cg.txt
 
-# =================================================================
-# 6. EXPORT NETLIST
-# =================================================================
-# The .v file is the "Gate Level" design
-write -format verilog -hierarchy -output switch_4port_cg.v
+# Save the Low Power Netlist
+write_verilog -hierarchy all switch_4port_cg.v
+write_sdf switch_4port_cg.sdf
 
-# The .sdf file contains the timing delays for simulation
-write_sdf switch_4port.sdf
-
+save_block -as switch_4port_cg_final
 exit
