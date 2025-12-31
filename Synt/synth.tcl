@@ -9,7 +9,6 @@ set_host_options -max_cores 4
 # =================================================================
 # 2. CREATE WORKSPACE LIBRARY
 # =================================================================
-# This replaces "target_library" / "link_library" for Fusion Compiler.
 # It builds a database that links the logical (.db) and physical (.ndm) views.
 
 set TECH_FILE "$TLU_PATH/saed32nm_1p9m.tf"
@@ -75,7 +74,7 @@ current_scenario FUNC_Slow
 source constraints.sdc
 
 # =================================================================
-# 5. COMPILE (The correct command!)
+# 5. COMPILE 
 # =================================================================
 # Define basic floorplan rules (required for physical synthesis)
 set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
@@ -95,7 +94,7 @@ report_area   > report_area.txt
 report_qor    > report_qor.txt
 
 # Write Gate-Level Netlist (Use this for your post-synth simulation)
-write_file -format verilog -hierarchy -output switch_4port_netlist.v
+write_verilog -hierarchy -output switch_4port_netlist.v
 
 # Write SDF (Timing Delays)
 write_sdf switch_4port.sdf
