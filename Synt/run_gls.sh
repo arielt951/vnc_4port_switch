@@ -20,6 +20,7 @@ NETLIST="switch_4port_cg.v"
 # We use the '-v' flag to include the SAED32 standard cells
 vcs -sverilog -debug_access+all -full64 \
     -timescale=1ns/1ps \
+    +vcs+lic+wait \             
     -v $SAED32_VRG \
     +define+SDF_ANNOTATE \
     ../design/packet_pkg.sv \
