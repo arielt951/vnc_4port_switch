@@ -52,14 +52,11 @@ current_scenario FUNC_Fast; source constraints.sdc
 current_scenario FUNC_Slow; source constraints.sdc
 
 # =================================================================
-# 4. ENABLE CLOCK GATING
+# 4. ENABLE CLOCK GATING (SAFE MODE)
 # =================================================================
-# We use 'total' power optimization. The tool will automatically 
-# find ICG cells in the library and insert them.
+# This single command tells the tool: "Save Power by any means necessary".
+# It will look for ICG cells in the library automatically.
 set_app_options -name opt.power.mode -value total
-
-# (Optional) Allow gating across hierarchies for better results
-set_app_options -name clock_gating.recycle_latency -value true
 
 set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
 
@@ -71,13 +68,12 @@ compile_fusion -to final_opto
 # 5. VERIFICATION & REPORTS
 # =================================================================
 
-# CHECK 1: Did we find the ICG cells in the library?
-# (Look for this output in the log file)
-list_lib_cells -filter "is_clock_gating_cell==true" > report_lib_cg_cells.txt
+# DEBUG: Check if the tool actually found any clock gating cells in the library
+# If this file is empty, your library (.ndm) is missing the cells.
+list_lib_cells -filter "is_clock_gating_cell==true" > report_debug_lib_cells.txt
 
-# CHECK 2: Did we actually insert them?
+# Report the results
 report_clock_gating > report_clock_gating.txt
-
 report_timing > report_timing_cg.txt
 report_power  > report_power_cg.txt
 
