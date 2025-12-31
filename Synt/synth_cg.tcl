@@ -54,18 +54,20 @@ current_scenario FUNC_Slow; source constraints.sdc
 # =================================================================
 # 4. FORCE CLOCK GATING (AGGRESSIVE)
 # =================================================================
-# Enable Power Optimization
+
+# 1. Enable Total Power Optimization
+# (Ignore the warning about deprecation for now; it still works)
 set_app_options -name opt.power.mode -value total
 
-# FORCE: Gate any register that is 2 bits or larger (Standard is 3+)
-set_app_options -name clock_gating.minimum_bit_width -value 2
+# 2. DEFINE THE STYLE (This is the critical fix)
+# We use a COMMAND, not 'set_app_options'.
+# -minimum_bit_width 2: Gates any register 2 bits or larger.
+# -positive_edge_logic: Uses integrated clock gating cells (ICG) usually found in the library.
+set_clock_gating_style -minimum_bit_width 2 -positive_edge_logic {integrated}
 
-# FORCE: Allow gating on the top level
-set_app_options -name clock_gating.recycle_latency -value true
-
+# 3. COMPILE
 set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
 
-# Compile
 compile_fusion -to logic_opto
 compile_fusion -to final_opto
 
