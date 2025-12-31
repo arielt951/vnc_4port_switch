@@ -52,37 +52,35 @@ current_scenario FUNC_Fast; source constraints.sdc
 current_scenario FUNC_Slow; source constraints.sdc
 
 # =================================================================
-# 4. FORCE CLOCK GATING (AGGRESSIVE)
+# 4. ENABLE CLOCK GATING
 # =================================================================
-
-# 1. Enable Total Power Optimization
-# (Ignore the warning about deprecation for now; it still works)
+# We use 'total' power optimization. The tool will automatically 
+# find ICG cells in the library and insert them.
 set_app_options -name opt.power.mode -value total
 
-# 2. DEFINE THE STYLE (This is the critical fix)
-# We use a COMMAND, not 'set_app_options'.
-# -minimum_bit_width 2: Gates any register 2 bits or larger.
-# -positive_edge_logic: Uses integrated clock gating cells (ICG) usually found in the library.
-set_clock_gating_style -minimum_bit_width 2 -positive_edge_logic {integrated}
+# (Optional) Allow gating across hierarchies for better results
+set_app_options -name clock_gating.recycle_latency -value true
 
-# 3. COMPILE
 set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
 
+# Compile
 compile_fusion -to logic_opto
 compile_fusion -to final_opto
 
 # =================================================================
-# 5. REPORTS
+# 5. VERIFICATION & REPORTS
 # =================================================================
-# 1. Check if Clock Gating actually happened
-report_clock_gating > report_clock_gating_status.txt
 
-# 2. Standard Reports
+# CHECK 1: Did we find the ICG cells in the library?
+# (Look for this output in the log file)
+list_lib_cells -filter "is_clock_gating_cell==true" > report_lib_cg_cells.txt
+
+# CHECK 2: Did we actually insert them?
+report_clock_gating > report_clock_gating.txt
+
 report_timing > report_timing_cg.txt
 report_power  > report_power_cg.txt
-report_area   > report_area_cg.txt
 
-# WRITE FILES
 write_verilog -hierarchy all switch_4port_cg.v
 write_sdf switch_4port_cg.sdf
 save_block -as switch_4port_cg_final
