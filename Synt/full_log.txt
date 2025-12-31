@@ -1,0 +1,243 @@
+Launching fc_shell interactively via qrsh on queue normal...
+[?1h=Unloading [100;1mSNPSLIC/base[0m[m
+  [94mUnloading dependent[0m: FC/V-2023.12-SP3[m
+[K[?1l>
+
+
+                              Fusion Compiler (TM)
+
+                Version V-2023.12-SP3 for linux64 - May 07, 2024
+  This release has significant feature enhancements. Please review the Release
+                       Notes associated with this release.
+
+                    Copyright (c) 1988 - 2024 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+# =================================================================
+# 1. COMPATIBILITY SETTINGS
+# =================================================================
+# Ignore missing physical data errors (OPT-1006, OPT-1007)
+suppress_message {OPT-1006 OPT-1007}
+# =================================================================
+# 2. SETUP
+# =================================================================
+set target_library "/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/tc6a_cbacore.db"
+/tools/synopsys/syn/W-2024.09-SP3/libraries/syn/tc6a_cbacore.db
+set link_library   "* $target_library"
+* /tools/synopsys/syn/W-2024.09-SP3/libraries/syn/tc6a_cbacore.db
+set HDL_FILES { 
+    ../design/packet_pkg.sv 
+    ../design/port_if.sv 
+    ../design/FIFO.sv 
+    ../design/arbiter.sv 
+    ../design/parser.sv 
+    ../design/output_mux.sv 
+    ../design/switch_port.sv 
+    ../design/switch_4port.sv 
+}
+ 
+    ../design/packet_pkg.sv 
+    ../design/port_if.sv 
+    ../design/FIFO.sv 
+    ../design/arbiter.sv 
+    ../design/parser.sv 
+    ../design/output_mux.sv 
+    ../design/switch_port.sv 
+    ../design/switch_4port.sv 
+
+# =================================================================
+# 3. READ & LINK
+# =================================================================
+analyze -format sverilog $HDL_FILES
+Information: By default, the HDL template library is 'WORK' (LBR-??).
+Running PRESTO HDLC
+Compiling source file ../design/packet_pkg.sv
+Warning:  ../design/packet_pkg.sv:1: The package packet_pkg has already been analyzed. It is being replaced. (VER-26)
+Warning:  ../design/packet_pkg.sv:5: Parameter keyword used in local parameter declaration. (VER-329)
+Compiling source file ../design/port_if.sv
+Compiling source file ../design/FIFO.sv
+Compiling source file ../design/arbiter.sv
+Compiling source file ../design/parser.sv
+Compiling source file ../design/output_mux.sv
+Compiling source file ../design/switch_port.sv
+Compiling source file ../design/switch_4port.sv
+Presto compilation completed successfully.
+Elapsed = 00:00:00.03, CPU = 00:00:00.01
+1
+elaborate switch_4port
+Presto compilation completed successfully. (switch_4port)
+Information: Elaborating HDL template WORK:switch_port instantiated from 'switch_4port'. (ELAB-193)
+Warning:  ../design/switch_port.sv:146: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 76 in file
+	'../design/switch_port.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            85            |    auto/auto     |
+===============================================
+  state register: current_state
+
+Inferred memory devices in process
+	in routine switch_port line 62 in file
+		'../design/switch_port.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  current_state_reg  | Flip-flop |   2   |  Y  | Y  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (switch_port)
+Information: Elaborating HDL template WORK:arbiter instantiated from 'switch_4port'. (ELAB-193)
+
+Statistics for case statements in always block at line 70 in file
+	'../design/arbiter.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            38            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine arbiter line 114 in file
+		'../design/arbiter.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    mux_sel3_reg     | Flip-flop |   2   |  Y  | Y  | Y  | N  | N  | N  | N  |
+|   common_ptr_reg    | Flip-flop |   2   |  Y  | Y  | Y  | N  | N  | N  | N  |
+|     active0_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     active1_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     active2_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     active3_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    mux_sel0_reg     | Flip-flop |   2   |  Y  | Y  | Y  | N  | N  | N  | N  |
+|    mux_sel1_reg     | Flip-flop |   2   |  Y  | Y  | Y  | N  | N  | N  | N  |
+|    mux_sel2_reg     | Flip-flop |   2   |  Y  | Y  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (arbiter)
+Information: Elaborating HDL template WORK:output_mux instantiated from 'switch_4port'. (ELAB-193)
+Warning:  ../design/output_mux.sv:30: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block at line 23 in file
+	'../design/output_mux.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            25            |    auto/auto     |
+===============================================
+Presto compilation completed successfully. (output_mux)
+Information: Elaborating HDL template WORK:parser instantiated from 'switch_port'. (ELAB-193)
+
+Statistics for case statements in always block at line 11 in file
+	'../design/parser.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            20            |    auto/auto     |
+===============================================
+Presto compilation completed successfully. (parser)
+Information: Elaborating HDL template WORK:fifo instantiated from 'switch_port'. (ELAB-193)
+
+Inferred memory devices in process
+	in routine fifo line 30 in file
+		'../design/FIFO.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       mem_reg       | Flip-flop |  128  |  Y  | Y  | N  | N  | N  | N  | N  |
+|     wr_ptr_reg      | Flip-flop |   3   |  Y  | Y  | Y  | N  | N  | N  | N  |
+|     rd_ptr_reg      | Flip-flop |   3   |  Y  | Y  | Y  | N  | N  | N  | N  |
+|   fifo_count_reg    | Flip-flop |   4   |  Y  | Y  | Y  | N  | N  | N  | N  |
+|    data_out_reg     | Flip-flop |  16   |  Y  | Y  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (fifo)
+Information: Design elaboration summary: (FLW-8550)
+Number of modules read: 6
+Top level ports:        146
+Total in all modules
+  Ports:                366
+  Nets:                 1103
+  Instances:            592
+Design summary end. (FLW-8551)
+Elapsed = 00:00:00.13, CPU = 00:00:00.11
+1
+set_top_module switch_4port
+Information: Added key list 'DesignWare' to design 'switch_4port'. (DWS-0216)
+Elapsed = 00:00:00.08, CPU = 00:00:00.07
+1
+# =================================================================
+# 4. APPLY CONSTRAINTS & CHECK (The Fix)
+# =================================================================
+source constraints.sdc
+Information: Timer using 1 threads
+Setting dont_touch_network on term 'clk'
+Setting dont_touch_network on term 'rst_n'
+1
+# USE "CATCH": Runs the check, but prevents the script from stopping if it fails
+redirect report_check_design.txt { catch { check_design } }
+redirect report_check_timing.txt { catch { check_timing } }
+# =================================================================
+# 5. COMPILE
+# =================================================================
+# Use legacy compile to support the old library
+compile -exact_map
+Warning: Command compile is deprecated. See the command's man page for alternatives. (CMD-109)
+Warning: Legacy compile option '-exact_map' is not supported. (FLW-2561)
+INFO: compile_fusion is running in balanced flow mode.
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Information: Starting 'compile' (FLW-8000)
+Information: Time: 2025-12-25 15:14:16 / Session:  00:00:07 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 414 MB (FLW-8100)
+Information: CPU Load: 4%, Ram Free: 24 GB, Swap Free: 32 GB, Work Disk Free: 1003 GB, Tmp Disk Free: 34 GB (MSG-3995)
+CPU Load: 4%, Ram Free: 24 GB, Swap Free: 32 GB, Work Disk Free: 1003 GB, Tmp Disk Free: 34 GB
+****************************************
+Report : report_tbcs
+Version: V-2023.12-SP3
+Date   : Thu Dec 25 15:14:16 2025
+****************************************
+Warning: No site rows found in floorplan. (LGL-397)
+INFO: Start environment monitoring: recipes
+INFO: compile_fusion is running in balanced flow mode.
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: Flow step returns Error: fc/prelude/designPreludeChecks (FLW-2543)
+Error: Flow status set to Error by step: fc/prelude/designPreludeChecks (FLW-1762)
+INFO: End environment monitoring: recipes
+INFO: Restored 0 timer status, 8 app options, 0 tcl gvars, 0 env vars
+Information: Ending   'compile' (FLW-8001)
+Information: Time: 2025-12-25 15:14:16 / Session:  00:00:08 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 427 MB (FLW-8100)
+Information: CPU Load: 4%, Ram Free: 24 GB, Swap Free: 32 GB, Work Disk Free: 1003 GB, Tmp Disk Free: 34 GB (MSG-3995)
+Information: >>>>>>> 3 unique error and warning message tags while observing default: (MSG-3100)
+Information: #prnt #trgr #lmt    Tag  Level     Format (or last printed message)                                (MSG-3036)
+Information:     0     1  0 OPT-1006  OFF-      Library analysis failure - cannot find minimum required gate... NOTE: default level: ERROR (MSG-3032)
+Information:     0     1  0 OPT-1007  OFF-      Library analysis failure - No technology data                   NOTE: default level: ERROR (MSG-3032)
+Information:     1     1  0 FLW-2543  WARNING   Warning: Flow step returns Error: fc/prelude/designPreludeCh... (MSG-3032)
+Information:     7     8  0 LGL-397   WARNING   Warning: No site rows found in floorplan. (LGL-397)             (MSG-3032)
+Information:     1     1  0 FLW-1762  ERROR     Error: Flow status set to Error by step: fc/prelude/designPr... (MSG-3032)
+Warning: >>>>>>> Notice:    2 messages were downgraded (MSG-2104)
+Information:     9    12  0        3  <------   Total sum of messages (MSG-3038)
+Information: >>>>>>> Summary: 12 error&warning MSGs observed during default (MSG-3103)
+Information: script '/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/Synt/synth.tcl'
+            	stopped at line 44 due to error. (CMD-081)
+Extended error info:
+0
+    while executing
+"compile -exact_map"
+    (file "/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/Synt/synth.tcl" line 44)
+ -- End Extended Error Info
+fc_shell> 

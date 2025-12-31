@@ -1,0 +1,21 @@
+set search_path [list . /tools/synopsys/fc/V-2023.12-SP3/dw/syn_ver /tools/synopsys/fc/V-2023.12-SP3/dw/sim_ver /tools/synopsys/fc/V-2023.12-SP3/libraries/syn ] 
+analyze -format sverilog  "      ../design/packet_pkg.sv      ../design/port_if.sv      ../design/FIFO.sv      ../design/arbiter.sv      ../design/parser.sv      ../design/output_mux.sv      ../design/switch_port.sv      ../design/switch_4port.sv  " 
+C/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/Synt
+/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/packet_pkg.sv
+packet_pkg
+/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/port_if.sv
+port_if
+/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/FIFO.sv
+fifo
+/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/arbiter.sv
+arbiter
+/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/parser.sv
+parser
+/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/output_mux.sv
+output_mux
+/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/switch_port.sv
+switch_port
+/project/verif/users/arielt/ws/ex_vlsi_switch_project_ariel/design/switch_4port.sv
+switch_4port
+elaborate switch_4port
+set_top_module switch_4port
