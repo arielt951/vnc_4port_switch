@@ -4,23 +4,20 @@
 ASSERTIONS="../verification/assertions.sv"
 
 # 2. Define the Simulation Library (SAED32)
-# This is the path we confirmed exists on your server
+# This file defines the standard cells (NAND, DFF, etc.) used in the netlist
 SAED32_VRG="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
 
-# 3. Choose which netlist to simulate
+# 3. Choose the Netlist to Simulate
 # Uncomment the one you want to test:
-
-# Option A: Standard Synthesis (from synth.tcl)
-# NETLIST="switch_4port_netlist.v"
-
-# Option B: Low Power / Clock Gating (from synth_cg.tcl)
-NETLIST="switch_4port_cg.v" 
+# NETLIST="switch_4port_netlist.v"  # Standard Logic (from synth.tcl)
+NETLIST="switch_4port_cg.v"      # Low Power / Clock Gating (from synth_cg.tcl)
 
 # 4. Run VCS
-# We use the '-v' flag to include the SAED32 standard cells
+# Note: All lines inside the command must end with '\'
 vcs -sverilog -debug_access+all -full64 \
     -timescale=1ns/1ps \
-    +vcs+lic+wait \             
+    -top switch_test \
+    +vcs+lic+wait \
     -v $SAED32_VRG \
     +define+SDF_ANNOTATE \
     ../design/packet_pkg.sv \
@@ -37,7 +34,7 @@ vcs -sverilog -debug_access+all -full64 \
     $NETLIST \
     -o simv_gls
 
-# 5. Check if compilation succeeded
+# 5. Check Result
 if [ $? -eq 0 ]; then
     echo "GLS Compilation Successful. Running Simulation..."
     ./simv_gls
