@@ -15,9 +15,7 @@ package packet_pkg;
 	typedef enum logic [1:0] {ERR, SDP, MDP, BDP} p_type;
 
 `ifndef SYNTHESIS
-	`ifndef SDF_ANNOTATE
 		typedef class checker;
-	`endif
 	// -----------------------------------------------------------
 	// 3. BASE PACKET CLASS
 	// -----------------------------------------------------------
@@ -164,15 +162,13 @@ package packet_pkg;
     // 5. COMPONENT INCLUDES
     // -----------------------------------------------------------
     // NOTE: Order matters! Base classes must come before children.
-	`ifndef SDF_ANNOTATE
-	`include "./verification/component_base.sv"
-	`include "./verification/sequencer.sv"
-	`include "./verification/driver.sv"
-	`include "./verification/monitor.sv"
-	`include "./verification/agent.sv"
-	`include "./verification/checker.sv"   
-	`include "./verification/packet_vc.sv"
-	`endif
+	`include "../verification/component_base.sv"
+	`include "../verification/sequencer.sv"
+	`include "../verification/driver.sv"
+	`include "../verification/monitor.sv"
+	`include "../verification/agent.sv"
+	`include "../verification/checker.sv"   
+	`include "../verification/packet_vc.sv"
 
 `endif             
 
