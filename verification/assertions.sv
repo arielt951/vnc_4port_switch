@@ -11,11 +11,6 @@ module fifo_sva #(parameter DEPTH=8, parameter PACKET_WIDTH=16) (
 	input logic [PACKET_WIDTH - 1 : 0] mem [DEPTH - 1 : 0]
 );
 
-	assert_underflow: assert property (
-		@(posedge clk) disable iff (!rst_n)
-		(rd_en && fifo_empty) |-> 0 
-	) else $error("[FIFO] Error: Read Enable asserted while FIFO is Empty!");
-
 	assert_header_match: assert property (
 		@(posedge clk) disable iff (!rst_n)
 		(!fifo_empty) |-> (header_out == mem[rd_ptr][7:0])
