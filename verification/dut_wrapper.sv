@@ -3,10 +3,10 @@ module dut_wrapper (
     input logic clk,
     input logic rst_n,
     // Pass the interfaces as generic "modports" or just unconnected interface handles
-    port_if.DUT p0, 
-    port_if.DUT p1, 
-    port_if.DUT p2, 
-    port_if.DUT p3
+    port_if p0, 
+    port_if p1, 
+    port_if p2, 
+    port_if p3
 );
 
 `ifdef SDF_ANNOTATE
