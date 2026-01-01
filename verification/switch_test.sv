@@ -99,7 +99,6 @@ always @(posedge clk) begin
 // -----------------------------------------------------------------
   // ASSERTION BINDINGS
   // -----------------------------------------------------------------
-  `ifndef SDF_ANNOTATE
   bind fifo fifo_sva #(
       .DEPTH(packet_pkg::DEPTH), 
       .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)
