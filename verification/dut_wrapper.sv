@@ -107,7 +107,7 @@ module dut_wrapper (
 	// -------------------------------------------------------
 	// 3. Connect Wires to Netlist
 	// -------------------------------------------------------
-	switch_4port_netlist impl (
+	switch_4port impl (
 		.clk              (clk),
 		.rst_n            (rst_n),
 		
