@@ -1,38 +1,41 @@
 #!/bin/bash
 
-# 1. Define Paths
-SAED32="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
-# Point to your standard NETLIST (Not clock gated)
-NETLIST="../Synt/switch_4port_netlist.v"
+# 1. Define Paths (Found via your search)
+# We include HVT, RVT, and LVT to ensure all cell types are covered.
+HVT="/data/synopsys/lib/SAED32_EDK/lib/stdcell_hvt/verilog/saed32nm_hvt.v"
+RVT="/data/synopsys/lib/SAED32_EDK/lib/stdcell_rvt/verilog/saed32nm.v"
+LVT="/data/synopsys/lib/SAED32_EDK/lib/stdcell_lvt/verilog/saed32nm_lvt.v"
+
+NETLIST="./switch_4port_netlist.v"
 
 # 2. Compile
-# Note: We use +define+SDF_ANNOTATE which now does TWO jobs:
-#       1. Loads the .sdf file (in the `initial` block)
-#       2. Disables the RTL probes (via the `ifndef` blocks)
-vcs -sverilog -debug_access+all -full64 -kdb \
+# Notice we now use multiple -v flags to include all library files
+vcs -sverilog -debug_access+all -debug_region+cell+lib -full64 -kdb \
     -timescale=1ns/1ps \
     -top switch_test \
-    +vcs+lic+wait \
+    -v $HVT \
+    -v $RVT \
+    -v $LVT \
     +define+SDF_ANNOTATE \
-    -v $SAED32 \
     ../design/packet_pkg.sv \
     ../design/port_if.sv \
     ../verification/assertions.sv \
     ../verification/component_base.sv \
-    ../verification/packet_vc.sv \
     ../verification/monitor.sv \
     ../verification/sequencer.sv \
+    ../verification/checker.sv \
     ../verification/driver.sv \
     ../verification/agent.sv \
-    ../verification/checker.sv \
+    ../verification/packet_vc.sv \
+    ../verification/dut_wrapper.sv \
     ../verification/switch_test.sv \
     $NETLIST \
     -o simv_gls
 
 # 3. Launch
 if [ $? -eq 0 ]; then
-    echo "Compilation Successful. Launching Verdi..."
+    echo "GLS Compilation Successful. Launching Verdi..."
     ./simv_gls -gui=verdi
 else
-    echo "Compilation Failed!"
+    echo "GLS Compilation Failed!"
 fi
