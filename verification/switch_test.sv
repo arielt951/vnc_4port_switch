@@ -262,6 +262,7 @@ endfunction
 //        `else
 //            $display(" (Skipped in GLS/SDF Mode - Signals unavailable)");
 //        `endif
+
         $display("\n=========================================");
         $display(" FUNCTIONAL COVERAGE RESULTS");
         $display("=========================================");
