@@ -1,24 +1,23 @@
 #!/bin/bash
 
 # 1. Define Paths
-ASSERTIONS="../verification/assertions.sv"
-SAED32_VRG="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
+SAED32="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
+# Point to your standard NETLIST (Not clock gated)
+NETLIST="../Synt/switch_4port_netlist.v"
 
-# 2. Choose Netlist (Standard or Low Power)
-# NETLIST="switch_4port_netlist.v"  
-NETLIST="switch_4port_cg.v"      
-
-# 3. Compile with VCS + KDB (Required for Verdi)
-# Added '-kdb' to generate the database Verdi needs.
+# 2. Compile
+# Note: We use +define+SDF_ANNOTATE which now does TWO jobs:
+#       1. Loads the .sdf file (in the `initial` block)
+#       2. Disables the RTL probes (via the `ifndef` blocks)
 vcs -sverilog -debug_access+all -full64 -kdb \
     -timescale=1ns/1ps \
     -top switch_test \
     +vcs+lic+wait \
-    -v $SAED32_VRG \
     +define+SDF_ANNOTATE \
+    -v $SAED32 \
     ../design/packet_pkg.sv \
     ../design/port_if.sv \
-    $ASSERTIONS \
+    ../verification/assertions.sv \
     ../verification/component_base.sv \
     ../verification/packet_vc.sv \
     ../verification/monitor.sv \
@@ -30,10 +29,10 @@ vcs -sverilog -debug_access+all -full64 -kdb \
     $NETLIST \
     -o simv_gls
 
-# 4. Launch Simulation in Verdi GUI
+# 3. Launch
 if [ $? -eq 0 ]; then
     echo "Compilation Successful. Launching Verdi..."
     ./simv_gls -gui=verdi
 else
-    echo "GLS Compilation Failed!"
+    echo "Compilation Failed!"
 fi

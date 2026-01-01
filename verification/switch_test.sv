@@ -19,7 +19,7 @@ module switch_test;
   int drops[4] = '{0, 0, 0, 0}; // Initialize to 0
 
  
-
+ `ifndef SDF_ANNOTATE
 always @(posedge clk) begin
     // Check Port 0
     if (port0.valid_in && dut.port0_i.port_fifo.fifo_full) begin
@@ -43,13 +43,13 @@ always @(posedge clk) begin
       drops[3] += $countones(port3.target_in);
     end
   end
-
+`endif
 
 
 // -----------------------------------------------------------------
   // ASSERTION BINDINGS
   // -----------------------------------------------------------------
-  
+  `ifndef SDF_ANNOTATE
   bind fifo fifo_sva #(
       .DEPTH(packet_pkg::DEPTH), 
       .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)
@@ -79,6 +79,8 @@ always @(posedge clk) begin
 
   // 3. Bind Arbiter (Standard)
   bind arbiter arbiter_sva i_arb_props (.*);
+
+`endif
 
 function void print_port_cov(int id, packet_vc vc);
     real type_cov, src_cov, tgt_cov, route_cov, x_type_src_cov;
@@ -239,13 +241,17 @@ endfunction
 
         $display("\n=========================================");
         $display(" HARDWARE STATE INSPECTION");
+
+        `ifndef SDF_ANNOTATE
         // Peek at internal signals
         $display(" Port 0 FIFO Usage: %0d / 8", dut.port0_i.port_fifo.fifo_count);
         $display(" Port 1 FIFO Usage: %0d / 8", dut.port1_i.port_fifo.fifo_count);
         $display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
         $display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
         $display("=========================================\n");
-
+        `else
+            $display(" (Skipped in GLS/SDF Mode - Signals unavailable)");
+        `endif
         $display("\n=========================================");
         $display(" FUNCTIONAL COVERAGE RESULTS");
         $display("=========================================");
