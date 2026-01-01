@@ -163,7 +163,9 @@ package packet_pkg;
     // 5. COMPONENT INCLUDES
     // -----------------------------------------------------------
     // NOTE: Order matters! Base classes must come before children.
+	`ifndef SDF_ANNOTATE
 	`include "./verification/component_base.sv"
+	`endif
 	`include "./verification/sequencer.sv"
 	`include "./verification/driver.sv"
 	`include "./verification/monitor.sv"
