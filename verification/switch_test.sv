@@ -179,8 +179,10 @@ endfunction
 
     fork
       vc0.agt.drv.run(num_packets); vc1.agt.drv.run(num_packets); vc2.agt.drv.run(num_packets); vc3.agt.drv.run(num_packets);
-    join_none
-    
+	join_none
+	
+	repeat(50) @(posedge clk);
+
     // Run Sequencers (Parallel Generation)
     fork
       vc0.agt.seq.run(num_packets);
