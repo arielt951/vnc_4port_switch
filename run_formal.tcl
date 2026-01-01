@@ -1,9 +1,5 @@
-# 1. Set App Mode
-set_app_mode FPV
-
-# 2. Read Design Files with Relative Paths
-# Note: "design/" is added before the RTL files
-read_file -format sverilog { \
+# 1. Read Design Files with SVA enabled
+read_file -format sverilog -sva { \
     design/packet_pkg.sv \
     design/port_if.sv \
     design/FIFO.sv \
@@ -16,12 +12,12 @@ read_file -format sverilog { \
     formal_binds.sv \
 }
 
-# 3. Compile the Top Module
-elaborate design/switch_4port
+# 2. Compile Top Module
+elaborate switch_4port
 
-# 4. Set Clocks and Resets
+# 3. Set Clocks and Resets
 create_clock clk -period 10
 create_reset rst_n -sense low
 
-# 5. Run Verification
+# 4. Run Verification
 check_fv
