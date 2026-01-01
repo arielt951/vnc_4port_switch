@@ -2,26 +2,15 @@
 
 # 1. Define Paths
 SAED32="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
-
-# DIRECT PATH (Since you are in Synt/)
 NETLIST="./switch_4port_netlist.v"
 
-# 2. Compile with Strict Order
-# Order Logic:
-# 1. packet_pkg (Defines types)
-# 2. component_base (Base class)
-# 3. monitor/sequencer (Independent components)
-# 4. checker (Needs monitor)
-# 5. driver (Needs checker)
-# 6. agent (Needs driver, sequencer, monitor)
-# 7. packet_vc (Needs agent)
-# 8. switch_test (Needs everything)
-
+# 2. Compile (Added -suppress=IPD)
 vcs -sverilog -debug_access+all -full64 -kdb \
     -timescale=1ns/1ps \
     -top switch_test \
     -v $SAED32 \
     +define+SDF_ANNOTATE \
+    -suppress=IPD \
     ../design/packet_pkg.sv \
     ../design/port_if.sv \
     ../verification/assertions.sv \
