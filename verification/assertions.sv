@@ -150,3 +150,41 @@ module arbiter_sva (
 	endgenerate
 
 endmodule
+
+
+// ----------------------------------------------------------------
+// MOVE BINDS HERE (APPEND TO END OF FILE)
+// ----------------------------------------------------------------
+
+// 1. Bind FIFO
+bind FIFO fifo_sva #(
+    .DEPTH(packet_pkg::DEPTH), 
+    .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)
+) i_fifo_props (
+    .clk(clk),
+    .rst_n(rst_n),
+    .rd_en(rd_en),
+    .fifo_empty(fifo_empty),
+    .fifo_count(fifo_count),
+    .header_out(header_out), // This signal exists in FIFO module
+    .rd_ptr(rd_ptr),
+    .mem(mem)
+);
+
+// 2. Bind Switch Port (Using Hierarchical Path to be safe)
+bind switch_port port_sva i_port_props (
+    .clk(clk),
+    .rst_n(rst_n),
+    .fifo_empty(fifo_empty),
+    .current_state(current_state),
+    .grant(grant),
+    .pkt_valid(pkt_valid),
+    .pkt_type(pkt_type),
+    .read_en_fifo(read_en_fifo),
+    // We look inside the 'port_fifo' instance to find header_out
+    .source_in(port_fifo.header_out[3:0]), 
+    .target_in(port_fifo.header_out[7:4])
+);
+
+// 3. Bind Arbiter
+bind arbiter arbiter_sva i_arb_props (.*);
