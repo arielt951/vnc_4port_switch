@@ -13,7 +13,7 @@ Report : timing
         -report_by design
 Design : switch_4port
 Version: V-2023.12-SP3
-Date   : Thu Jan  1 13:37:53 2026
+Date   : Thu Jan  1 20:01:38 2026
 ****************************************
 
   Startpoint: rst_n (input port clocked by clk)

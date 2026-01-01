@@ -3,7 +3,7 @@
 (DESIGN "switch_4port")
 // Mode: FUNC  corner: Slow
 // setup active,  hold active
-(DATE "Thu Jan  1 13:37:54 2026")
+(DATE "Thu Jan  1 20:01:39 2026")
 (PROGRAM "Synopsys fc")
 (VERSION "V-2023.12-SP3")
 (DIVIDER /)

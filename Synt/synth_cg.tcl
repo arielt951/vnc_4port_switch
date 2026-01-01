@@ -49,7 +49,7 @@ set_top_module switch_4port
 # We are relying on compile_fusion to automatically pick up 
 # the ICG cells from the SAED32 library and insert them.
 # The default bitwidth is typically 3.
-
+set_app_options -name power.clock_gating.insertion -value false
 # =================================================================
 # 5. CONSTRAINTS (MCMM Setup)
 # =================================================================
