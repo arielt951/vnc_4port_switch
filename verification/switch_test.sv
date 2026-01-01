@@ -1,9 +1,24 @@
 module switch_test;
   import packet_pkg::*;
-  localparam num_packets = 20;
-  // 1. Signals & Interface
-  bit clk = 0; always #5 clk = ~clk; 
+  
+  // -------------------------------------------------------------
+  // 1. CLOCK & RESET CONFIGURATION (Updated)
+  // -------------------------------------------------------------
+  localparam CLK_PERIOD = 10;   // Parametric Clock
+  localparam RST_DURATION = 10; // Duration to hold reset
+
+  bit clk;
   bit rst_n;
+
+  // Clock Generation
+  initial clk = 0;
+  always #(CLK_PERIOD/2) clk = ~clk; 
+
+  localparam num_packets = 20;
+
+  // -------------------------------------------------------------
+  // 2. INTERFACE & DUT
+  // -------------------------------------------------------------
   port_if port0(clk, rst_n), port1(clk, rst_n), port2(clk, rst_n), port3(clk, rst_n);
 
   // 2. DUT
@@ -43,8 +58,33 @@ always @(posedge clk) begin
       drops[3] += $countones(port3.target_in);
     end
   end
-`endif
 
+  // -----------------------------------------------------------------
+  // 5. NEW: RESET TASKS (Added for Requirement)
+  // -----------------------------------------------------------------
+  task apply_reset();
+    $display("[TB] %0t: Asserting System Reset...", $time);
+    rst_n = 0; 
+    repeat(RST_DURATION) @(posedge clk);
+    @(negedge clk); // Sync release
+    rst_n = 1;
+    $display("[TB] %0t: Reset Released.", $time);
+    repeat(5) @(posedge clk); // Settle
+  endtask
+
+  task check_reset_state();
+    $display("[TB] Verifying Reset State...");
+    // Verify FIFOs are empty
+    if (!dut.port0_i.port_fifo.fifo_empty || !dut.port1_i.port_fifo.fifo_empty || 
+        !dut.port2_i.port_fifo.fifo_empty || !dut.port3_i.port_fifo.fifo_empty) 
+       $error("[TB] FATAL: FIFOs not empty after reset!");
+
+    // Verify FSM State (assuming access to internal state)
+    if (dut.port0_i.current_state != IDLE) 
+       $error("[TB] Port 0 FSM not IDLE after reset!");
+    
+    $display("[TB] Reset Verification Passed.");
+  endtask
 
 // -----------------------------------------------------------------
   // ASSERTION BINDINGS
@@ -125,6 +165,9 @@ function void print_port_cov(int id, packet_vc vc);
     $display("  - ROUTING:     %0.2f %%", route_cov);
 endfunction
 
+  // -----------------------------------------------------------------
+  // 8. MAIN TEST EXECUTION
+  // -----------------------------------------------------------------
   initial begin
     rst_n = 0;
     
@@ -167,8 +210,9 @@ endfunction
       vc0.agt.drv.run(num_packets); vc1.agt.drv.run(num_packets); vc2.agt.drv.run(num_packets); vc3.agt.drv.run(num_packets);
     join_none
     
-    // Reset
-    repeat(5) @(posedge clk); rst_n=1; repeat(5) @(posedge clk);
+    // >>> MODIFIED: CALL RESET TASKS <<<
+    apply_reset();      // Drive Reset
+    check_reset_state(); // Verify Reset
 
     // Run Sequencers (Parallel Generation)
     fork
