@@ -1,0 +1,23 @@
+****************************************
+Report : area
+Design : switch_4port
+Version: V-2023.12-SP3
+Date   : Thu Jan  1 21:10:11 2026
+****************************************
+
+Number of ports:                          148
+Number of nets:                          1749
+Number of cells:                         1632
+Number of combinational cells:            946
+Number of sequential cells:               686
+Number of macros/black boxes:               0
+Number of buf/inv:                        212
+Number of references:                      55
+
+Combinational area:                   2324.91
+Buf/Inv area:                          369.78
+Noncombinational area:                5883.94
+Macro/Black Box area:                    0.00
+
+Total cell area:                      8208.85
+1
