@@ -17,4 +17,9 @@ qrun ./simv -gui=verdi &
 fc_shell -f synth.tcl | tee synth.log
 fc_shell -f synth_cg.tcl | tee synth_cg.log
 
-#
+#fc shell help
+report_app_options *power*
+
+
+brnach for gls : clean_synth
+brnach for synth with and without power : clockgate_synth
