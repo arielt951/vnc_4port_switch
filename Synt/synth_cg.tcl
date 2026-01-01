@@ -44,14 +44,13 @@ elaborate switch_4port
 set_top_module switch_4port
 
 # =================================================================
-# 4. CLOCK GATING SETUP (*** REMOVED ***)
+# 4. CLOCK GATING SETUP (Force Insertion)
 # =================================================================
-# We are relying on compile_fusion to automatically pick up 
-# the ICG cells from the SAED32 library and insert them.
-# The default bitwidth is typically 3.
-set_app_options -name power.clock_gating.insertion -value false
+# We removed the 'set_clock_gating_style' because it failed.
+# Instead, we will rely on the direct insertion command in Section 6.
+
 # =================================================================
-# 5. CONSTRAINTS (MCMM Setup)
+# 5. CONSTRAINTS
 # =================================================================
 remove_corners -all; remove_modes -all; remove_scenarios -all
 
@@ -72,30 +71,38 @@ current_scenario FUNC_Slow
 source constraints.sdc
 
 # =================================================================
-# 6. COMPILE (With Clock Gating)
+# 6. COMPILE (With EXPLICIT Clock Gating)
 # =================================================================
 set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
 
-# OPTIONAL: Explicitly try to force insertion.
-# We wrap it in 'catch' so if the command doesn't exist, the script keeps going.
-catch { insert_clock_gating } 
+# FORCE COMMAND: This command physically looks for registers and adds latches.
+# We wrap it in 'catch' just in case, but print the result.
+puts "--- Attempting to Insert Clock Gating ---"
+if { [catch { insert_clock_gating -global } err] } {
+    puts "WARNING: insert_clock_gating failed: $err"
+} else {
+    puts "SUCCESS: insert_clock_gating command executed."
+}
 
-# Run Logical Optimization (ICGs should be inserted here)
+# Run Compilation (This cleans up the logic around the new gates)
 compile_fusion -to logic_opto
-
-# Run Final Optimization
 compile_fusion -to final_opto
 
 # =================================================================
 # 7. REPORTS & EXPORT
 # =================================================================
-report_timing > report_timing_cg.txt
-report_power  > report_power_cg.txt
-report_area   > report_area_cg.txt
-report_qor    > report_qor_cg.txt
+redirect -file report_timing_cg.txt { report_timing }
+redirect -file report_power_cg.txt  { report_power }
+redirect -file report_area_cg.txt   { report_area }
+redirect -file report_qor_cg.txt    { report_qor }
 
-# We verify if gating happened by generating this report:
-catch { report_clock_gating > report_clock_gating_cg.txt }
+# SAFER CLOCK GATING REPORT
+# We use 'catch' so the script finishes even if this specific report fails.
+if { [catch { redirect -file report_clock_gating_cg.txt { report_clock_gating -verbose } } err] } {
+    puts "WARNING: report_clock_gating failed or is not supported in this shell: $err"
+} else {
+    puts "SUCCESS: Clock gating report generated."
+}
 
 change_names -rules verilog -hierarchy
 write_verilog -hierarchy all switch_4port_netlist_cg.v

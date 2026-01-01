@@ -2,7 +2,7 @@
 Report : qor
 Design : switch_4port
 Version: V-2023.12-SP3
-Date   : Thu Jan  1 20:01:38 2026
+Date   : Thu Jan  1 21:16:21 2026
 ****************************************
 
 
@@ -10,8 +10,8 @@ Scenario           'FUNC_Fast'
 Timing Path Group  '**in2reg_default**'
 ----------------------------------------
 Levels of Logic:                      3
-Critical Path Length:              7.13
-Critical Path Slack:               2.04
+Critical Path Length:              7.42
+Critical Path Slack:               1.63
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -24,8 +24,8 @@ Scenario           'FUNC_Fast'
 Timing Path Group  '**reg2out_default**'
 ----------------------------------------
 Levels of Logic:                      6
-Critical Path Length:              1.81
-Critical Path Slack:               6.19
+Critical Path Length:              1.79
+Critical Path Slack:               6.21
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -38,8 +38,8 @@ Scenario           'FUNC_Fast'
 Timing Path Group  '**in2out_default**'
 ----------------------------------------
 Levels of Logic:                      5
-Critical Path Length:              3.03
-Critical Path Slack:               4.97
+Critical Path Length:              3.02
+Critical Path Slack:               4.98
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -51,9 +51,9 @@ No. of Hold Violations:               0
 Scenario           'FUNC_Fast'
 Timing Path Group  'clk'
 ----------------------------------------
-Levels of Logic:                     19
-Critical Path Length:              5.05
-Critical Path Slack:               4.37
+Levels of Logic:                      5
+Critical Path Length:              4.72
+Critical Path Slack:               4.19
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -66,8 +66,8 @@ Scenario           'FUNC_Slow'
 Timing Path Group  '**in2reg_default**'
 ----------------------------------------
 Levels of Logic:                      3
-Critical Path Length:              7.40
-Critical Path Slack:               1.76
+Critical Path Length:              7.72
+Critical Path Slack:               1.32
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -80,8 +80,8 @@ Scenario           'FUNC_Slow'
 Timing Path Group  '**reg2out_default**'
 ----------------------------------------
 Levels of Logic:                      6
-Critical Path Length:              1.84
-Critical Path Slack:               6.16
+Critical Path Length:              1.82
+Critical Path Slack:               6.18
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -94,8 +94,8 @@ Scenario           'FUNC_Slow'
 Timing Path Group  '**in2out_default**'
 ----------------------------------------
 Levels of Logic:                      5
-Critical Path Length:              3.06
-Critical Path Slack:               4.94
+Critical Path Length:              3.05
+Critical Path Slack:               4.95
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -107,9 +107,9 @@ No. of Hold Violations:               0
 Scenario           'FUNC_Slow'
 Timing Path Group  'clk'
 ----------------------------------------
-Levels of Logic:                     19
-Critical Path Length:              5.19
-Critical Path Slack:               4.24
+Levels of Logic:                      5
+Critical Path Length:              4.76
+Critical Path Slack:               4.14
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -123,11 +123,11 @@ Cell Count
 ----------------------------------------
 Hierarchical Cell Count:              0
 Hierarchical Port Count:              0
-Leaf Cell Count:                   1580
-Buf/Inv Cell Count:                 160
-Buf Cell Count:                      78
-Inv Cell Count:                      82
-Combinational Cell Count:           894
+Leaf Cell Count:                   1632
+Buf/Inv Cell Count:                 212
+Buf Cell Count:                      82
+Inv Cell Count:                     130
+Combinational Cell Count:           946
    Single-bit Isolation Cell Count:                        0
    Multi-bit Isolation Cell Count:                         0
    Isolation Cell Banking Ratio:                           0.00%
@@ -150,27 +150,27 @@ Macro Count:                          0
 
 Area
 ----------------------------------------
-Combinational Area:             2259.34
-Noncombinational Area:          5859.54
-Buf/Inv Area:                    302.94
-Total Buffer Area:               194.17
-Total Inverter Area:             108.77
+Combinational Area:             2324.91
+Noncombinational Area:          5883.94
+Buf/Inv Area:                    369.78
+Total Buffer Area:               200.27
+Total Inverter Area:             169.51
 Macro/Black Box Area:              0.00
 Net Area:                             0
-Net XLength:                   13229.89
-Net YLength:                   14033.38
+Net XLength:                   13334.11
+Net YLength:                   14576.56
 ----------------------------------------
-Cell Area (netlist):                           8118.88
-Cell Area (netlist and physical only):         8118.88
-Net Length:                    27263.27
+Cell Area (netlist):                           8208.85
+Cell Area (netlist and physical only):         8208.85
+Net Length:                    27910.67
 
 
 Design Rules
 ----------------------------------------
-Total Number of Nets:              1696
-Nets with Violations:                 3
+Total Number of Nets:              1749
+Nets with Violations:                 1
 Max Trans Violations:                 1
-Max Cap Violations:                   3
+Max Cap Violations:                   1
 ----------------------------------------
 
 1
