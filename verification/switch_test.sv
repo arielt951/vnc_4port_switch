@@ -150,8 +150,8 @@ task check_reset_state();
     // Load SDF Delays
     `ifdef SDF_ANNOTATE
         $display("Loading SDF Delays from switch_4port.sdf...");
-        $sdf_annotate("./switch_4port.sdf", dut.impl); 
-    `endif
+	$sdf_annotate("./switch_4port.sdf", dut.impl, , "sdf.log", "TYPICAL", "1.0:1.0:1.0", "FROM_MTM");
+	`endif
 
     // Build Environment
     vc0=new("vc0",null); vc0.configure(port0,0);

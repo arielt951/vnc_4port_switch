@@ -6,3 +6,7 @@ vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+b
 vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/simv.vdb -cm_name switch_test_cov +ERR_PKT +ntb_random_seed_automatic
 #opening gui of coded coverage
 verdi -cov -covdir ./cov_work/simv.vdb
+
+#opening gls from terminal 
+qrun vcs -R -sverilog -f run_gls.f +define+SDF_ANNOTATE -debug_access+all -top switch_test -timescale=1ns/1ps -l gls_run.log
+
