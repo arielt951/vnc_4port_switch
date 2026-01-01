@@ -47,24 +47,24 @@ module switch_test;
  `ifndef SDF_ANNOTATE
 always @(posedge clk) begin
     // Check Port 0
-    if (port0.valid_in && dut.port0_i.port_fifo.fifo_full) begin
+    if (port0.valid_in && dut.impl.port0_i.port_fifo.fifo_full) begin
       // COUNT EFFECTIVE DROPS:
       // If a packet targets 3 ports and is dropped, we lose 3 output packets.
       drops[0] += $countones(port0.target_in);
     end
 
     // Check Port 1
-    if (port1.valid_in && dut.port1_i.port_fifo.fifo_full) begin
+    if (port1.valid_in && dut.impl.port1_i.port_fifo.fifo_full) begin
       drops[1] += $countones(port1.target_in);
     end
 
     // Check Port 2
-    if (port2.valid_in && dut.port2_i.port_fifo.fifo_full) begin
+    if (port2.valid_in && dut.impl.port2_i.port_fifo.fifo_full) begin
       drops[2] += $countones(port2.target_in);
     end
 
     // Check Port 3
-    if (port3.valid_in && dut.port3_i.port_fifo.fifo_full) begin
+    if (port3.valid_in && dut.impl.port3_i.port_fifo.fifo_full) begin
       drops[3] += $countones(port3.target_in);
     end
   end
@@ -85,8 +85,8 @@ always @(posedge clk) begin
   task check_reset_state();
     $display("[TB] Verifying Reset State...");
     // Verify FIFOs are empty
-    if (!dut.port0_i.port_fifo.fifo_empty || !dut.port1_i.port_fifo.fifo_empty || 
-        !dut.port2_i.port_fifo.fifo_empty || !dut.port3_i.port_fifo.fifo_empty) 
+    if (!dut.impl.port0_i.port_fifo.fifo_empty || !dut.impl.port1_i.port_fifo.fifo_empty || 
+        !dut.impl.port2_i.port_fifo.fifo_empty || !dut.impl.port3_i.port_fifo.fifo_empty) 
        $error("[TB] FATAL: FIFOs not empty after reset!");
 
     // Verify FSM State (assuming access to internal state)
@@ -186,7 +186,7 @@ endfunction
     // =========================================================
     `ifdef SDF_ANNOTATE
         $display("Loading SDF Delays from switch_4port.sdf...");
-        $sdf_annotate("./switch_4port.sdf", dut); 
+        $sdf_annotate("./switch_4port.sdf", dut.impl); 
     `endif
 
     // Build

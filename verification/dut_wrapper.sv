@@ -112,8 +112,8 @@ module dut_wrapper (
 		.rst_n            (rst_n),
 		
 		// Port 0
-		.port0_clk        (clk),
-		.port0_rst_n      (rst_n),
+		//.port0_clk        (clk),
+		//.port0_rst_n      (rst_n),
 		.port0_valid_in   (w_p0_valid_in),  // Connect WIRE, not Interface
 		.port0_source_in  (w_p0_source_in),
 		.port0_target_in  (w_p0_target_in),
@@ -124,8 +124,8 @@ module dut_wrapper (
 		.port0_data_out   (w_p0_data_out),
 		
 		// Port 1
-		.port1_clk        (clk),
-		.port1_rst_n      (rst_n),
+		//.port1_clk        (clk),
+		//.port1_rst_n      (rst_n),
 		.port1_valid_in   (w_p1_valid_in),
 		.port1_source_in  (w_p1_source_in),
 		.port1_target_in  (w_p1_target_in),
@@ -136,8 +136,8 @@ module dut_wrapper (
 		.port1_data_out   (w_p1_data_out),
 
 		// Port 2
-		.port2_clk        (clk),
-		.port2_rst_n      (rst_n),
+		//.port2_clk        (clk),
+		//.port2_rst_n      (rst_n),
 		.port2_valid_in   (w_p2_valid_in),
 		.port2_source_in  (w_p2_source_in),
 		.port2_target_in  (w_p2_target_in),
@@ -148,8 +148,8 @@ module dut_wrapper (
 		.port2_data_out   (w_p2_data_out),
 
 		// Port 3
-		.port3_clk        (clk),
-		.port3_rst_n      (rst_n),
+		//.port3_clk        (clk),
+		//.port3_rst_n      (rst_n),
 		.port3_valid_in   (w_p3_valid_in),
 		.port3_source_in  (w_p3_source_in),
 		.port3_target_in  (w_p3_target_in),
