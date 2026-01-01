@@ -1,9 +1,7 @@
 import packet_pkg::*;
 
-// NO 'module formal_binds;' here!
-
-// 1. Bind FIFO Assertions
- bind fifo fifo_sva #(
+// 1. Bind FIFO (Lowercase 'fifo' based on your file)
+bind fifo fifo_sva #(
       .DEPTH(packet_pkg::DEPTH), 
       .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)
   ) i_fifo_props (
@@ -17,7 +15,8 @@ import packet_pkg::*;
       .mem(mem)
   );
 
-  bind switch_port port_sva i_port_props (
+// 2. Bind Switch Port (UPDATED: Using Hierarchical Paths)
+bind switch_port port_sva i_port_props (
       .clk(clk),
       .rst_n(rst_n),
       .fifo_empty(fifo_empty),
@@ -26,10 +25,10 @@ import packet_pkg::*;
       .pkt_valid(pkt_valid),
       .pkt_type(pkt_type),
       .read_en_fifo(read_en_fifo),
-      .source_in(header_out[3:0]), 
-      .target_in(header_out[7:4])
+      // CHANGE: Point directly to the FIFO instance output
+      .source_in(port_fifo.header_out[3:0]), 
+      .target_in(port_fifo.header_out[7:4])
   );
 
-  bind arbiter arbiter_sva i_arb_props (.*);
-
-// NO 'endmodule' here!
+// 3. Bind Arbiter
+bind arbiter arbiter_sva i_arb_props (.*);
