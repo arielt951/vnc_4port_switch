@@ -6,3 +6,30 @@ vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+b
 vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/simv.vdb -cm_name switch_test_cov +ERR_PKT +ntb_random_seed_automatic
 #opening gui of coded coverage
 verdi -cov -covdir ./cov_work/simv.vdb
+#FPV - inside gui
+# 1. CLEAN UP
+remove_design -all
+
+# 2. READ FILES (With -top flag to fix the warning)
+read_file -format sverilog -top formal_env -sva { \
+    design/packet_pkg.sv \
+    design/port_if.sv \
+    design/FIFO.sv \
+    design/parser.sv \
+    design/arbiter.sv \
+    design/output_mux.sv \
+    design/switch_port.sv \
+    design/switch_4port.sv \
+    verification/assertions.sv \
+}
+
+# 3. ELABORATE
+elaborate formal_env
+
+# 4. CONFIGURE
+create_clock clk -period 10
+create_reset rst_n -sense low
+
+# 5. RUN
+check_fv
+###########3
