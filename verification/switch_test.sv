@@ -1,11 +1,11 @@
 module switch_test;
   import packet_pkg::*;
-  
+
   // -------------------------------------------------------------
-  // 1. CLOCK & RESET CONFIGURATION (Updated)
+  // 1. CLOCK & RESET CONFIGURATION
   // -------------------------------------------------------------
-  localparam CLK_PERIOD = 10;   // Parametric Clock
-  localparam RST_DURATION = 10; // Duration to hold reset
+  localparam CLK_PERIOD = 10;
+  localparam RST_DURATION = 10;
 
   bit clk;
   bit rst_n;
@@ -17,132 +17,63 @@ module switch_test;
   localparam num_packets = 20;
 
   // -------------------------------------------------------------
-  // 2. INTERFACE & DUT
+  // 2. INTERFACE & DUT WRAPPER
   // -------------------------------------------------------------
   port_if port0(clk, rst_n), port1(clk, rst_n), port2(clk, rst_n), port3(clk, rst_n);
 
-  // 2. DUT
-  //switch_4port dut (.clk(clk), .rst_n(rst_n), .port0(port0), .port1(port1), .port2(port2), .port3(port3));
-  // 2. DUT Wrapper
-  // This handles the dirty work of connecting RTL vs Netlist automatically.
+  // Instantiate the wrapper (which contains the Netlist)
   dut_wrapper dut (
-	  .clk   (clk),
-	  .rst_n (rst_n),
-	  .p0    (port0),
-	  .p1    (port1),
-	  .p2    (port2),
-	  .p3    (port3)
+      .clk   (clk),
+      .rst_n (rst_n),
+      .p0    (port0),
+      .p1    (port1),
+      .p2    (port2),
+      .p3    (port3)
   );
-  
-  // 3. Env
+
+  // -------------------------------------------------------------
+  // 3. VERIFICATION ENVIRONMENT
+  // -------------------------------------------------------------
   packet_vc vc0, vc1, vc2, vc3;
   checker   chk;
+  int drops[4] = '{0, 0, 0, 0};
 
   // -------------------------------------------------------------
-  // NEW: HARDWARE DROP COUNTER
+  // 4. TASKS (Defined at module level to fix scope errors)
   // -------------------------------------------------------------
-  int drops[4] = '{0, 0, 0, 0}; // Initialize to 0
-
- 
- `ifndef SDF_ANNOTATE
-always @(posedge clk) begin
-    // Check Port 0
-    if (port0.valid_in && dut.impl.port0_i.port_fifo.fifo_full) begin
-      // COUNT EFFECTIVE DROPS:
-      // If a packet targets 3 ports and is dropped, we lose 3 output packets.
-      drops[0] += $countones(port0.target_in);
-    end
-
-    // Check Port 1
-    if (port1.valid_in && dut.impl.port1_i.port_fifo.fifo_full) begin
-      drops[1] += $countones(port1.target_in);
-    end
-
-    // Check Port 2
-    if (port2.valid_in && dut.impl.port2_i.port_fifo.fifo_full) begin
-      drops[2] += $countones(port2.target_in);
-    end
-
-    // Check Port 3
-    if (port3.valid_in && dut.impl.port3_i.port_fifo.fifo_full) begin
-      drops[3] += $countones(port3.target_in);
-    end
-  end
-
-  // -----------------------------------------------------------------
-  // 5. NEW: RESET TASKS (Added for Requirement)
-  // -----------------------------------------------------------------
   task apply_reset();
     $display("[TB] %0t: Asserting System Reset...", $time);
     rst_n = 0; 
     repeat(RST_DURATION) @(posedge clk);
-    @(negedge clk); // Sync release
+    @(negedge clk);
     rst_n = 1;
     $display("[TB] %0t: Reset Released.", $time);
-    repeat(5) @(posedge clk); // Settle
+    repeat(5) @(posedge clk);
   endtask
 
   task check_reset_state();
     $display("[TB] Verifying Reset State...");
-    // Verify FIFOs are empty
+    // NOTE: accessing 'dut.impl' because we are in GLS mode
     if (!dut.impl.port0_i.port_fifo.fifo_empty || !dut.impl.port1_i.port_fifo.fifo_empty || 
         !dut.impl.port2_i.port_fifo.fifo_empty || !dut.impl.port3_i.port_fifo.fifo_empty) 
        $error("[TB] FATAL: FIFOs not empty after reset!");
 
-    // Verify FSM State (assuming access to internal state)
-    if (dut.port0_i.current_state != IDLE) 
+    // In netlist, states are often encoded (0 usually = IDLE)
+    if (dut.impl.port0_i.current_state != 0) 
        $error("[TB] Port 0 FSM not IDLE after reset!");
-    
+       
     $display("[TB] Reset Verification Passed.");
   endtask
 
-// -----------------------------------------------------------------
-  // ASSERTION BINDINGS
-  // -----------------------------------------------------------------
-  bind fifo fifo_sva #(
-      .DEPTH(packet_pkg::DEPTH), 
-      .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)
-  ) i_fifo_props (
-      .clk(clk),
-      .rst_n(rst_n),
-      .rd_en(rd_en),
-      .fifo_empty(fifo_empty),
-      .fifo_count(fifo_count),
-      .header_out(header_out),
-      .rd_ptr(rd_ptr),
-      .mem(mem)
-  );
-
-  bind switch_port port_sva i_port_props (
-      .clk(clk),
-      .rst_n(rst_n),
-      .fifo_empty(fifo_empty),
-      .current_state(current_state),
-      .grant(grant),
-      .pkt_valid(pkt_valid),
-      .pkt_type(pkt_type),
-      .read_en_fifo(read_en_fifo),
-      .source_in(header_out[3:0]), 
-      .target_in(header_out[7:4])
-  );
-
-  // 3. Bind Arbiter (Standard)
-  bind arbiter arbiter_sva i_arb_props (.*);
-
-`endif
-
-function void print_port_cov(int id, packet_vc vc);
+  function void print_port_cov(int id, packet_vc vc);
     real type_cov, src_cov, tgt_cov, route_cov, x_type_src_cov;
     real effective_total;
 
     $display("--- PORT %0d ---", id);
-
-    // 1. Get the Common Coverage Scores
     type_cov       = vc.agt.mon.packet_cg.cp_type.get_coverage();
     src_cov        = vc.agt.mon.packet_cg.cp_source.get_coverage();
     x_type_src_cov = vc.agt.mon.packet_cg.cx_type_src.get_coverage();
 
-    // 2. Get the Port-Specific Scores (Ignore the others)
     case(id)
         0: begin
             tgt_cov   = vc.agt.mon.packet_cg.cp_target_p0.get_coverage();
@@ -162,33 +93,53 @@ function void print_port_cov(int id, packet_vc vc);
         end
     endcase
 
-    // 3. Calculate "Effective Total" (Average of the 5 valid metrics)
     effective_total = (type_cov + src_cov + tgt_cov + route_cov + x_type_src_cov) / 5.0;
-
-    // 4. Print Results
     $display("  TOTAL (Valid): %0.2f %%", effective_total);
     $display("  - Types:       %0.2f %%", type_cov);
     $display("  - Sources:     %0.2f %%", src_cov);
     $display("  - Targets:     %0.2f %%", tgt_cov);
     $display("  - Type x Src:  %0.2f %%", x_type_src_cov);
     $display("  - ROUTING:     %0.2f %%", route_cov);
-endfunction
+  endfunction
 
-  // -----------------------------------------------------------------
-  // 8. MAIN TEST EXECUTION
-  // -----------------------------------------------------------------
+  // -------------------------------------------------------------
+  // 5. HARDWARE MONITOR & BINDS (Masked for GLS safety)
+  // -------------------------------------------------------------
+  `ifndef SDF_ANNOTATE
+    always @(posedge clk) begin
+        // Using 'dut.impl' to reach netlist internals
+        if (port0.valid_in && dut.impl.port0_i.port_fifo.fifo_full) drops[0] += $countones(port0.target_in);
+        if (port1.valid_in && dut.impl.port1_i.port_fifo.fifo_full) drops[1] += $countones(port1.target_in);
+        if (port2.valid_in && dut.impl.port2_i.port_fifo.fifo_full) drops[2] += $countones(port2.target_in);
+        if (port3.valid_in && dut.impl.port3_i.port_fifo.fifo_full) drops[3] += $countones(port3.target_in);
+    end
+
+    // ASSERTION BINDINGS
+    bind fifo fifo_sva #(.DEPTH(packet_pkg::DEPTH), .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)) i_fifo_props (
+        .clk(clk), .rst_n(rst_n), .rd_en(rd_en), .fifo_empty(fifo_empty), 
+        .fifo_count(fifo_count), .header_out(header_out), .rd_ptr(rd_ptr), .mem(mem)
+    );
+    bind switch_port port_sva i_port_props (
+        .clk(clk), .rst_n(rst_n), .fifo_empty(fifo_empty), .current_state(current_state), 
+        .grant(grant), .pkt_valid(pkt_valid), .pkt_type(pkt_type), .read_en_fifo(read_en_fifo), 
+        .source_in(header_out[3:0]), .target_in(header_out[7:4])
+    );
+    bind arbiter arbiter_sva i_arb_props (.*);
+  `endif
+
+  // -------------------------------------------------------------
+  // 6. MAIN EXECUTION (Initial Block)
+  // -------------------------------------------------------------
   initial begin
     rst_n = 0;
-    
-    // =========================================================
-    // NEW: Load Timing Delays for Gate Level Simulation (GLS)
-    // =========================================================
+
+    // Load SDF Delays
     `ifdef SDF_ANNOTATE
         $display("Loading SDF Delays from switch_4port.sdf...");
         $sdf_annotate("./switch_4port.sdf", dut.impl); 
     `endif
 
-    // Build
+    // Build Environment
     vc0=new("vc0",null); vc0.configure(port0,0);
     vc1=new("vc1",null); vc1.configure(port1,1);
     vc2=new("vc2",null); vc2.configure(port2,2);
@@ -198,85 +149,53 @@ endfunction
     chk.mon_h[0]=vc0.agt.mon; chk.mon_h[1]=vc1.agt.mon; 
     chk.mon_h[2]=vc2.agt.mon; chk.mon_h[3]=vc3.agt.mon;
 
-    // --------------------------------------------------------
-    // CONNECT DRIVERS TO CHECKER (The Critical Link)
-    // --------------------------------------------------------
-    vc0.agt.drv.chk_h = chk;
-    vc1.agt.drv.chk_h = chk;
-    vc2.agt.drv.chk_h = chk;
-    vc3.agt.drv.chk_h = chk;
+    vc0.agt.drv.chk_h = chk; vc1.agt.drv.chk_h = chk;
+    vc2.agt.drv.chk_h = chk; vc3.agt.drv.chk_h = chk;
 
     $display("--- Starting Simulation (Driver-Driven) ---");
-    $display("Number of packets about to be generated at each port:  %0d", num_packets);
+    $display("Number of packets per port: %0d", num_packets);
 
-    // Start everything
+    // Run Monitors & Checker
     fork 
       vc0.agt.mon.run(); vc1.agt.mon.run(); vc2.agt.mon.run(); vc3.agt.mon.run(); 
-      chk.run(); 
+      chk.run();
     join_none
 
+    // Run Drivers
     fork
-      vc0.agt.drv.run(num_packets); vc1.agt.drv.run(num_packets); vc2.agt.drv.run(num_packets); vc3.agt.drv.run(num_packets);
+      vc0.agt.drv.run(num_packets); vc1.agt.drv.run(num_packets); 
+      vc2.agt.drv.run(num_packets); vc3.agt.drv.run(num_packets);
     join_none
     
-    // >>> MODIFIED: CALL RESET TASKS <<<
-    apply_reset();      // Drive Reset
-    check_reset_state(); // Verify Reset
+    // --- RESET PHASE ---
+    apply_reset();
+    check_reset_state(); 
 
-    // Run Sequencers (Parallel Generation)
+    // Run Sequencers
     fork
-      vc0.agt.seq.run(num_packets);
-      vc1.agt.seq.run(num_packets);
-      vc2.agt.seq.run(num_packets);
-      vc3.agt.seq.run(num_packets);
+      vc0.agt.seq.run(num_packets); vc1.agt.seq.run(num_packets);
+      vc2.agt.seq.run(num_packets); vc3.agt.seq.run(num_packets);
     join
 
-// -------------------------------------------------------------
-    // FIX: WAIT FOR DRIVERS TO FINISH
-    // -------------------------------------------------------------
     $display("--- Sequencers Done. Waiting for Drivers to drain... ---");
-    
-    // Wait until all driver mailboxes are empty
     wait (vc0.agt.drv.mbx.num() == 0);
     wait (vc1.agt.drv.mbx.num() == 0);
     wait (vc2.agt.drv.mbx.num() == 0);
     wait (vc3.agt.drv.mbx.num() == 0);
 
     $display("--- Drivers Done. Waiting for Switch to drain... ---");
-    // Wait for internal FIFOs to empty (with timeout)
-//    fork
-//        begin
-//            wait (dut.impl.port0_i.port_fifo.fifo_empty);
-//            wait (dut.impl.port1_i.port_fifo.fifo_empty);
-//            wait (dut.impl.port2_i.port_fifo.fifo_empty);
-//            wait (dut.impl.port3_i.port_fifo.fifo_empty);
-//        end
-//        begin
-//            repeat(100000) @(posedge clk);
-//            $display("[TEST] WARNING: Timeout waiting for FIFOs to drain.");
-//        end
-//    join_any
-//    disable fork;
-
     repeat(1000) @(posedge clk);
     
-    
-    // -------------------------------------------------------------
-    // FINAL CALCULATION: PROOF OF INTERNAL INTEGRITY
-    // -------------------------------------------------------------
+    // --- FINAL REPORTING ---
     begin
         int total_hw_drops;
         int total_pending;
         int internal_loss;
         
-        // 1. Get Checker Pending Count
         total_pending = 0;
         foreach(chk.scb_queue[i]) total_pending += chk.scb_queue[i].size();
         
-        // 2. Get Hardware Drop Count
         total_hw_drops = drops[0] + drops[1] + drops[2] + drops[3];
-
-        // 3. Calculate Internal Loss
         internal_loss = total_pending - total_hw_drops;
 
         $display("\n=========================================");
@@ -293,20 +212,6 @@ endfunction
             $error("[TEST] FAILED: %0d packets were accepted but LOST inside.", internal_loss);
 
         $display("\n=========================================");
-        $display(" HARDWARE STATE INSPECTION");
-
-//        `ifndef SDF_ANNOTATE
-//        // Peek at internal signals
-//        $display(" Port 0 FIFO Usage: %0d / 8", dut.impl.port0_i.port_fifo.fifo_empty);
-//        $display(" Port 1 FIFO Usage: %0d / 8", dut.impl.port1_i.port_fifo.fifo_empty);
-//        $display(" Port 2 FIFO Usage: %0d / 8", dut.impl.port2_i.port_fifo.fifo_empty);
-//        $display(" Port 3 FIFO Usage: %0d / 8", dut.impl.port3_i.port_fifo.fifo_empty);
-//        $display("=========================================\n");
-//        `else
-//            $display(" (Skipped in GLS/SDF Mode - Signals unavailable)");
-//        `endif
-
-        $display("\n=========================================");
         $display(" FUNCTIONAL COVERAGE RESULTS");
         $display("=========================================");
         print_port_cov(0, vc0);
@@ -314,16 +219,12 @@ endfunction
         print_port_cov(2, vc2);
         print_port_cov(3, vc3);
         $display("=========================================\n");
-        // -------------------------
+    end
 
-      end
-
-    // 1. Pass the hardware counters to the Checker
     chk.set_drops(drops);
-
-    // 2. Generate the Report
     chk.report();
 
     $finish;
   end
+
 endmodule
