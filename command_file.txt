@@ -10,3 +10,11 @@ verdi -cov -covdir ./cov_work/simv.vdb
 #opening gls from terminal 
 qrun vcs -R -sverilog -f run_gls.f +define+SDF_ANNOTATE -debug_access+all -top switch_test -timescale=1ns/1ps -l gls_run.log
 
+#open waves from the last sim
+qrun ./simv -gui=verdi &
+
+#run synthesis 
+fc_shell -f synth.tcl | tee synth.log
+fc_shell -f synth_cg.tcl | tee synth_cg.log
+
+#
