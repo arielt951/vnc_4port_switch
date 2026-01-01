@@ -15,8 +15,9 @@ package packet_pkg;
 	typedef enum logic [1:0] {ERR, SDP, MDP, BDP} p_type;
 
 `ifndef SYNTHESIS
-	typedef class checker;
-
+	`ifndef SDF_ANNOTATE
+		typedef class checker;
+	`endif
 	// -----------------------------------------------------------
 	// 3. BASE PACKET CLASS
 	// -----------------------------------------------------------
