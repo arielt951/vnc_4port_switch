@@ -1,20 +1,16 @@
 #!/bin/bash
 
-# 1. Define Assertions
+# 1. Define Paths
 ASSERTIONS="../verification/assertions.sv"
-
-# 2. Define the Simulation Library (SAED32)
-# This file defines the standard cells (NAND, DFF, etc.) used in the netlist
 SAED32_VRG="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
 
-# 3. Choose the Netlist to Simulate
-# Uncomment the one you want to test:
-# NETLIST="switch_4port_netlist.v"  # Standard Logic (from synth.tcl)
-NETLIST="switch_4port_cg.v"      # Low Power / Clock Gating (from synth_cg.tcl)
+# 2. Choose Netlist (Standard or Low Power)
+# NETLIST="switch_4port_netlist.v"  
+NETLIST="switch_4port_cg.v"      
 
-# 4. Run VCS
-# Note: All lines inside the command must end with '\'
-vcs -sverilog -debug_access+all -full64 \
+# 3. Compile with VCS + KDB (Required for Verdi)
+# Added '-kdb' to generate the database Verdi needs.
+vcs -sverilog -debug_access+all -full64 -kdb \
     -timescale=1ns/1ps \
     -top switch_test \
     +vcs+lic+wait \
@@ -34,10 +30,10 @@ vcs -sverilog -debug_access+all -full64 \
     $NETLIST \
     -o simv_gls
 
-# 5. Check Result
+# 4. Launch Simulation in Verdi GUI
 if [ $? -eq 0 ]; then
-    echo "GLS Compilation Successful. Running Simulation..."
-    ./simv_gls
+    echo "Compilation Successful. Launching Verdi..."
+    ./simv_gls -gui=verdi
 else
     echo "GLS Compilation Failed!"
 fi
