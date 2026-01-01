@@ -2,37 +2,44 @@
 
 # 1. Define Paths
 SAED32="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
-# Point to your standard NETLIST (Not clock gated)
-NETLIST="../Synt/switch_4port_netlist.v"
 
-# 2. Compile
-# Note: We use +define+SDF_ANNOTATE which now does TWO jobs:
-#       1. Loads the .sdf file (in the `initial` block)
-#       2. Disables the RTL probes (via the `ifndef` blocks)
+# DIRECT PATH (Since you are in Synt/)
+NETLIST="./switch_4port_netlist.v"
+
+# 2. Compile with Strict Order
+# Order Logic:
+# 1. packet_pkg (Defines types)
+# 2. component_base (Base class)
+# 3. monitor/sequencer (Independent components)
+# 4. checker (Needs monitor)
+# 5. driver (Needs checker)
+# 6. agent (Needs driver, sequencer, monitor)
+# 7. packet_vc (Needs agent)
+# 8. switch_test (Needs everything)
+
 vcs -sverilog -debug_access+all -full64 -kdb \
     -timescale=1ns/1ps \
     -top switch_test \
-    +vcs+lic+wait \
-    +define+SDF_ANNOTATE \
     -v $SAED32 \
+    +define+SDF_ANNOTATE \
     ../design/packet_pkg.sv \
     ../design/port_if.sv \
     ../verification/assertions.sv \
     ../verification/component_base.sv \
-    ../verification/packet_vc.sv \
     ../verification/monitor.sv \
     ../verification/sequencer.sv \
+    ../verification/checker.sv \
     ../verification/driver.sv \
     ../verification/agent.sv \
-    ../verification/checker.sv \
+    ../verification/packet_vc.sv \
     ../verification/switch_test.sv \
     $NETLIST \
     -o simv_gls
 
 # 3. Launch
 if [ $? -eq 0 ]; then
-    echo "Compilation Successful. Launching Verdi..."
+    echo "GLS Compilation Successful. Launching Verdi..."
     ./simv_gls -gui=verdi
 else
-    echo "Compilation Failed!"
+    echo "GLS Compilation Failed! (Check syntax errors above)"
 fi
