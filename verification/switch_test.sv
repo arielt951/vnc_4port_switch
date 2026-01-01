@@ -1,15 +1,27 @@
 module switch_test;
   import packet_pkg::*;
-  localparam num_packets = 20;
-  // 1. Signals & Interface
-  bit clk = 0; always #5 clk = ~clk; 
+
+  // -------------------------------------------------------------
+  // 1. CLOCK & RESET CONFIGURATION
+  // -------------------------------------------------------------
+  localparam CLK_PERIOD = 10;
+  localparam RST_DURATION = 10;
+
+  bit clk;
   bit rst_n;
+
+  // Clock Generation
+  initial clk = 0;
+  always #(CLK_PERIOD/2) clk = ~clk; 
+
+  localparam num_packets = 20;
+
+  // -------------------------------------------------------------
+  // 2. INTERFACE & DUT WRAPPER
+  // -------------------------------------------------------------
   port_if port0(clk, rst_n), port1(clk, rst_n), port2(clk, rst_n), port3(clk, rst_n);
 
-  // 2. DUT
-  //switch_4port dut (.clk(clk), .rst_n(rst_n), .port0(port0), .port1(port1), .port2(port2), .port3(port3));
-  // 2. DUT Wrapper
-  // This handles the dirty work of connecting RTL vs Netlist automatically.
+  // Instantiate the wrapper (which contains the Netlist)
   dut_wrapper dut (
 	  .clk   (clk),
 	  .rst_n (rst_n),
@@ -27,6 +39,43 @@ module switch_test;
   // NEW: HARDWARE DROP COUNTER
   // -------------------------------------------------------------
   int drops[4] = '{0, 0, 0, 0}; // Initialize to 0
+ task apply_reset();
+    $display("[TB] %0t: Asserting System Reset...", $time);
+    rst_n = 0; 
+    repeat(RST_DURATION) @(posedge clk);
+    @(negedge clk);
+    rst_n = 1;
+    $display("[TB] %0t: Reset Released.", $time);
+    repeat(5) @(posedge clk);
+  endtask
+
+task check_reset_state();
+    $display("[TB] Verifying Reset State...");
+    
+    // -------------------------------------------------------
+    // RTL MODE: Detailed White-Box Check
+    // -------------------------------------------------------
+    `ifndef SDF_ANNOTATE
+        // These paths only exist in RTL. In Netlist, they are flattened/renamed.
+        if (!dut.impl.port0_i.port_fifo.fifo_empty || !dut.impl.port1_i.port_fifo.fifo_empty || 
+            !dut.impl.port2_i.port_fifo.fifo_empty || !dut.impl.port3_i.port_fifo.fifo_empty) 
+           $error("[TB] FATAL: FIFOs not empty after reset!");
+
+        // Check FSM State (IDLE)
+        if (dut.impl.port0_i.current_state != 0) 
+           $error("[TB] Port 0 FSM not IDLE after reset!");
+           
+        $display("[TB] Reset Internal State Verification Passed (RTL).");
+
+    // -------------------------------------------------------
+    // GLS MODE: Black-Box Check Only
+    // -------------------------------------------------------
+    `else
+        // In GLS, we cannot peek inside safely. 
+        // We assume reset works if outputs are not X (which the monitor checks).
+        $display("[TB] Skipping internal state check for GLS (Hierarchy flattened).");
+    `endif
+  endtask
 
  
  `ifndef SDF_ANNOTATE
@@ -167,7 +216,9 @@ endfunction
     $display("--- Starting Simulation (Driver-Driven) ---");
     $display("Number of packets about to be generated at each port:  %0d", num_packets);
 	
-	rst_n = 0;
+  apply_reset();
+  check_reset_state();
+	//rst_n = 0;
 	repeat(100) @(posedge clk);
 	repeat(1) @(negedge clk);
 	rst_n = 1;
@@ -183,6 +234,8 @@ endfunction
 	join_none
 	
 	repeat(50) @(posedge clk);
+
+  
 
     // Run Sequencers (Parallel Generation)
     fork
