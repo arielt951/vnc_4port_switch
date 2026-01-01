@@ -10,7 +10,7 @@ NETLIST="./switch_4port_netlist.v"
 
 # 2. Compile
 # Notice we now use multiple -v flags to include all library files
-vcs -sverilog -debug_access+all -full64 -kdb \
+vcs -sverilog -debug_access+all -debug_region+cell+lib -full64 -kdb \
     -timescale=1ns/1ps \
     -top switch_test \
     -v $HVT \
@@ -27,6 +27,7 @@ vcs -sverilog -debug_access+all -full64 -kdb \
     ../verification/driver.sv \
     ../verification/agent.sv \
     ../verification/packet_vc.sv \
+    ../verification/dut_wrapper.sv \
     ../verification/switch_test.sv \
     $NETLIST \
     -o simv_gls

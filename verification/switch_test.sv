@@ -7,8 +7,18 @@ module switch_test;
   port_if port0(clk, rst_n), port1(clk, rst_n), port2(clk, rst_n), port3(clk, rst_n);
 
   // 2. DUT
-  switch_4port dut (.clk(clk), .rst_n(rst_n), .port0(port0), .port1(port1), .port2(port2), .port3(port3));
-
+  //switch_4port dut (.clk(clk), .rst_n(rst_n), .port0(port0), .port1(port1), .port2(port2), .port3(port3));
+  // 2. DUT Wrapper
+  // This handles the dirty work of connecting RTL vs Netlist automatically.
+  dut_wrapper dut (
+	  .clk   (clk),
+	  .rst_n (rst_n),
+	  .p0    (port0),
+	  .p1    (port1),
+	  .p2    (port2),
+	  .p3    (port3)
+  );
+  
   // 3. Env
   packet_vc vc0, vc1, vc2, vc3;
   checker   chk;
@@ -191,19 +201,19 @@ endfunction
 
     $display("--- Drivers Done. Waiting for Switch to drain... ---");
     // Wait for internal FIFOs to empty (with timeout)
-    fork
-        begin
-            wait (dut.port0_i.port_fifo.fifo_empty);
-            wait (dut.port1_i.port_fifo.fifo_empty);
-            wait (dut.port2_i.port_fifo.fifo_empty);
-            wait (dut.port3_i.port_fifo.fifo_empty);
-        end
-        begin
-            repeat(100000) @(posedge clk);
-            $display("[TEST] WARNING: Timeout waiting for FIFOs to drain.");
-        end
-    join_any
-    disable fork;
+//    fork
+//        begin
+//            wait (dut.impl.port0_i.port_fifo.fifo_empty);
+//            wait (dut.impl.port1_i.port_fifo.fifo_empty);
+//            wait (dut.impl.port2_i.port_fifo.fifo_empty);
+//            wait (dut.impl.port3_i.port_fifo.fifo_empty);
+//        end
+//        begin
+//            repeat(100000) @(posedge clk);
+//            $display("[TEST] WARNING: Timeout waiting for FIFOs to drain.");
+//        end
+//    join_any
+//    disable fork;
 
     repeat(1000) @(posedge clk);
     
@@ -242,16 +252,16 @@ endfunction
         $display("\n=========================================");
         $display(" HARDWARE STATE INSPECTION");
 
-        `ifndef SDF_ANNOTATE
-        // Peek at internal signals
-        $display(" Port 0 FIFO Usage: %0d / 8", dut.port0_i.port_fifo.fifo_count);
-        $display(" Port 1 FIFO Usage: %0d / 8", dut.port1_i.port_fifo.fifo_count);
-        $display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
-        $display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
-        $display("=========================================\n");
-        `else
-            $display(" (Skipped in GLS/SDF Mode - Signals unavailable)");
-        `endif
+//        `ifndef SDF_ANNOTATE
+//        // Peek at internal signals
+//        $display(" Port 0 FIFO Usage: %0d / 8", dut.impl.port0_i.port_fifo.fifo_empty);
+//        $display(" Port 1 FIFO Usage: %0d / 8", dut.impl.port1_i.port_fifo.fifo_empty);
+//        $display(" Port 2 FIFO Usage: %0d / 8", dut.impl.port2_i.port_fifo.fifo_empty);
+//        $display(" Port 3 FIFO Usage: %0d / 8", dut.impl.port3_i.port_fifo.fifo_empty);
+//        $display("=========================================\n");
+//        `else
+//            $display(" (Skipped in GLS/SDF Mode - Signals unavailable)");
+//        `endif
         $display("\n=========================================");
         $display(" FUNCTIONAL COVERAGE RESULTS");
         $display("=========================================");
