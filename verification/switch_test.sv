@@ -51,18 +51,32 @@ module switch_test;
     repeat(5) @(posedge clk);
   endtask
 
-  task check_reset_state();
+task check_reset_state();
     $display("[TB] Verifying Reset State...");
-    // NOTE: accessing 'dut.impl' because we are in GLS mode
-    if (!dut.impl.port0_i.port_fifo.fifo_empty || !dut.impl.port1_i.port_fifo.fifo_empty || 
-        !dut.impl.port2_i.port_fifo.fifo_empty || !dut.impl.port3_i.port_fifo.fifo_empty) 
-       $error("[TB] FATAL: FIFOs not empty after reset!");
+    
+    // -------------------------------------------------------
+    // RTL MODE: Detailed White-Box Check
+    // -------------------------------------------------------
+    `ifndef SDF_ANNOTATE
+        // These paths only exist in RTL. In Netlist, they are flattened/renamed.
+        if (!dut.impl.port0_i.port_fifo.fifo_empty || !dut.impl.port1_i.port_fifo.fifo_empty || 
+            !dut.impl.port2_i.port_fifo.fifo_empty || !dut.impl.port3_i.port_fifo.fifo_empty) 
+           $error("[TB] FATAL: FIFOs not empty after reset!");
 
-    // In netlist, states are often encoded (0 usually = IDLE)
-    if (dut.impl.port0_i.current_state != 0) 
-       $error("[TB] Port 0 FSM not IDLE after reset!");
-       
-    $display("[TB] Reset Verification Passed.");
+        // Check FSM State (IDLE)
+        if (dut.impl.port0_i.current_state != 0) 
+           $error("[TB] Port 0 FSM not IDLE after reset!");
+           
+        $display("[TB] Reset Internal State Verification Passed (RTL).");
+
+    // -------------------------------------------------------
+    // GLS MODE: Black-Box Check Only
+    // -------------------------------------------------------
+    `else
+        // In GLS, we cannot peek inside safely. 
+        // We assume reset works if outputs are not X (which the monitor checks).
+        $display("[TB] Skipping internal state check for GLS (Hierarchy flattened).");
+    `endif
   endtask
 
   function void print_port_cov(int id, packet_vc vc);
