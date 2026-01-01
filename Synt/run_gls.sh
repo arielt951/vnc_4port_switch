@@ -4,7 +4,8 @@
 SAED32="/data/synopsys/lib/saed32nm/lib/std/verilog/saed32nm.v"
 NETLIST="./switch_4port_netlist.v"
 
-# 2. Compile (Added -suppress=IPD)
+# 2. Compile
+# Added -suppress=IPD to ignore netlist naming conflicts
 vcs -sverilog -debug_access+all -full64 -kdb \
     -timescale=1ns/1ps \
     -top switch_test \
