@@ -166,7 +166,11 @@ endfunction
 
     $display("--- Starting Simulation (Driver-Driven) ---");
     $display("Number of packets about to be generated at each port:  %0d", num_packets);
-
+	
+	rst_n = 0;
+	repeat(100) @(posedge clk);
+	rst_n = 1;
+	repeat(20) @(posedge clk); // Wait for chip to settle
     // Start everything
     fork 
       vc0.agt.mon.run(); vc1.agt.mon.run(); vc2.agt.mon.run(); vc3.agt.mon.run(); 
@@ -177,9 +181,6 @@ endfunction
       vc0.agt.drv.run(num_packets); vc1.agt.drv.run(num_packets); vc2.agt.drv.run(num_packets); vc3.agt.drv.run(num_packets);
     join_none
     
-    // Reset
-    repeat(5) @(posedge clk); rst_n=1; repeat(5) @(posedge clk);
-
     // Run Sequencers (Parallel Generation)
     fork
       vc0.agt.seq.run(num_packets);
