@@ -151,40 +151,66 @@ module arbiter_sva (
 
 endmodule
 
+// --------------------------------------------------------
+// APPENDED FORMAL WRAPPER (Run this module as TOP)
+// --------------------------------------------------------
+module formal_env;
+  import packet_pkg::*; // Ensure definitions are visible
 
-// ----------------------------------------------------------------
-// MOVE BINDS HERE (APPEND TO END OF FILE)
-// ----------------------------------------------------------------
+  // 1. Generate Clock & Reset
+  logic clk;
+  logic rst_n;
 
-// 1. Bind FIFO
-bind FIFO fifo_sva #(
-    .DEPTH(packet_pkg::DEPTH), 
-    .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)
-) i_fifo_props (
+  // 2. Instantiate Interfaces
+  // This allows the Formal tool to "see" and drive the ports
+  port_if port0(clk, rst_n);
+  port_if port1(clk, rst_n);
+  port_if port2(clk, rst_n);
+  port_if port3(clk, rst_n);
+
+  // 3. Instantiate the DUT
+  switch_4port dut (
     .clk(clk),
     .rst_n(rst_n),
-    .rd_en(rd_en),
-    .fifo_empty(fifo_empty),
-    .fifo_count(fifo_count),
-    .header_out(header_out), // This signal exists in FIFO module
-    .rd_ptr(rd_ptr),
-    .mem(mem)
-);
+    .port0(port0),
+    .port1(port1),
+    .port2(port2),
+    .port3(port3)
+  );
 
-// 2. Bind Switch Port (Using Hierarchical Path to be safe)
-bind switch_port port_sva i_port_props (
-    .clk(clk),
-    .rst_n(rst_n),
-    .fifo_empty(fifo_empty),
-    .current_state(current_state),
-    .grant(grant),
-    .pkt_valid(pkt_valid),
-    .pkt_type(pkt_type),
-    .read_en_fifo(read_en_fifo),
-    // We look inside the 'port_fifo' instance to find header_out
-    .source_in(port_fifo.header_out[3:0]), 
-    .target_in(port_fifo.header_out[7:4])
-);
+  // 4. BIND ASSERTIONS
+  
+  // Bind FIFO (Targeting module 'fifo')
+  bind fifo fifo_sva #(
+      .DEPTH(packet_pkg::DEPTH), 
+      .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)
+  ) i_fifo_props (
+      .clk(clk),
+      .rst_n(rst_n),
+      .rd_en(rd_en),
+      .fifo_empty(fifo_empty),
+      .fifo_count(fifo_count),
+      .header_out(header_out),
+      .rd_ptr(rd_ptr),
+      .mem(mem)
+  );
 
-// 3. Bind Arbiter
-bind arbiter arbiter_sva i_arb_props (.*);
+  // Bind Switch Port (Targeting module 'switch_port')
+  // We use the local 'header_out' signal which we confirmed exists in your RTL
+  bind switch_port port_sva i_port_props (
+      .clk(clk),
+      .rst_n(rst_n),
+      .fifo_empty(fifo_empty),
+      .current_state(current_state),
+      .grant(grant),
+      .pkt_valid(pkt_valid),
+      .pkt_type(pkt_type),
+      .read_en_fifo(read_en_fifo),
+      .source_in(header_out[3:0]), 
+      .target_in(header_out[7:4])
+  );
+
+  // Bind Arbiter (Targeting module 'arbiter')
+  bind arbiter arbiter_sva i_arb_props (.*);
+
+endmodule
