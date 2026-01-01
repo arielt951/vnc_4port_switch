@@ -5,7 +5,7 @@ module switch_test;
   // 1. CLOCK & RESET CONFIGURATION
   // -------------------------------------------------------------
   localparam CLK_PERIOD = 10;
-  localparam RST_DURATION = 10;
+  localparam RST_DURATION = 100;
 
   bit clk;
   bit rst_n;
@@ -40,13 +40,15 @@ module switch_test;
   // -------------------------------------------------------------
   int drops[4] = '{0, 0, 0, 0}; // Initialize to 0
  task apply_reset();
-    $display("[TB] %0t: Asserting System Reset...", $time);
-    rst_n = 0; 
-    repeat(RST_DURATION) @(posedge clk);
-    @(negedge clk);
-    rst_n = 1;
+	$display("[TB] %0t: Asserting System Reset...", $time);
+	rst_n = 0;
+	repeat(RST_DURATION) @(posedge clk);
+	repeat(1) @(negedge clk);
+	rst_n = 1;
+	repeat(RST_DURATION/5) @(posedge clk); // Wait for chip to settle
+    
     $display("[TB] %0t: Reset Released.", $time);
-    repeat(5) @(posedge clk);
+    
   endtask
 
 task check_reset_state();
@@ -219,10 +221,10 @@ endfunction
   apply_reset();
   check_reset_state();
 	//rst_n = 0;
-	repeat(100) @(posedge clk);
-	repeat(1) @(negedge clk);
-	rst_n = 1;
-	repeat(20) @(posedge clk); // Wait for chip to settle
+	//repeat(100) @(posedge clk);
+	//repeat(1) @(negedge clk);
+	//rst_n = 1;
+	//repeat(20) @(posedge clk); // Wait for chip to settle
     // Start everything
     fork 
       vc0.agt.mon.run(); vc1.agt.mon.run(); vc2.agt.mon.run(); vc3.agt.mon.run(); 
