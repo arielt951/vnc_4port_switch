@@ -169,6 +169,7 @@ endfunction
 	
 	rst_n = 0;
 	repeat(100) @(posedge clk);
+	repeat(1) @(negedge clk);
 	rst_n = 1;
 	repeat(20) @(posedge clk); // Wait for chip to settle
     // Start everything
