@@ -1,4 +1,4 @@
-Information: The stitching and editing of coupling caps is turned OFF for design 'switch_cg.dlib:switch_4port.design'. (TIM-125)
+Information: The stitching and editing of coupling caps is turned OFF for design 'switch_lib_cg.dlib:switch_4port.design'. (TIM-125)
 Information: Design Average RC for design switch_4port  (NEX-011)
 Information: r = 1.053743 ohm/um, via_r = 0.461386 ohm/cut, c = 0.071384 ff/um, cc = 0.000000 ff/um (X dir) (NEX-017)
 Information: r = 1.384202 ohm/um, via_r = 0.578659 ohm/cut, c = 0.082090 ff/um, cc = 0.000000 ff/um (Y dir) (NEX-017)
@@ -13,7 +13,7 @@ Report : timing
         -report_by design
 Design : switch_4port
 Version: V-2023.12-SP3
-Date   : Wed Dec 31 21:51:40 2025
+Date   : Thu Jan  1 19:44:11 2026
 ****************************************
 
   Startpoint: rst_n (input port clocked by clk)
