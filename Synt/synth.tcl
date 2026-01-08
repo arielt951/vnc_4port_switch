@@ -45,22 +45,32 @@ elaborate switch_4port
 set_top_module switch_4port
 
 # =================================================================
-# 4. FORCE DISABLE ALL POWER OPTIMIZATION (Baseline Strategy)
+# 4. FORCE DISABLE ALL POWER OPTIMIZATION (Nuclear Option)
 # =================================================================
-# 1. Block the ICG cells (Confirmed to trigger attribute override in logs)
-set icg_cells [get_lib_cells */CGLPPR*]
-set_lib_cell_purpose -include none $icg_cells
-set_dont_use $icg_cells
+puts "--- STARTING CLOCK GATING REMOVAL PROTOCOL ---"
 
-# 2. Disable Global Power Optimizations (Found 'true' by default in your reports)
-remove_clock_gating
+# 1. Physically disable the ICG cells in the library
+# This catches CGLNPR (Negative), CGLPPR (Positive), HVT, LVT, etc.
+set icg_cells [get_lib_cells */*CGL*]
+
+if {[sizeof_collection $icg_cells] > 0} {
+    puts "--- Disabling [sizeof_collection $icg_cells] Clock Gating Cells from Library ---"
+    # Prevent tool from using them for any reason
+    set_lib_cell_purpose -include none $icg_cells
+    set_dont_use $icg_cells
+} else {
+    puts "WARNING: No Clock Gating cells found in library to disable!"
+}
+
+# 2. Disable Global Power Flow Options
 set_app_options -name clock_opt.flow.enable_power -value false
 set_app_options -name place_opt.flow.enable_power -value false
 set_app_options -name route_opt.flow.enable_power -value false
 set_app_options -name cts.common.enable_low_power -value false
 
-# 3. Force User-Setting-Only for Clock Gating
-set_app_options -name time.clock_gating_user_setting_only -value true
+# 3. Legacy Variables (Universal compatibility for DC/FC)
+set power_driven_clock_gating_enable false
+set compile_clock_gating_through_hierarchy false
 
 # =================================================================
 # 5. CONSTRAINTS (MCMM Setup)
@@ -86,7 +96,7 @@ source constraints.sdc
 # =================================================================
 set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
 
-# Compile design with power optimizations disabled
+# Compile without gating
 compile_fusion -to logic_opto
 compile_fusion -to final_opto
 

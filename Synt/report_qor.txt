@@ -2,16 +2,16 @@
 Report : qor
 Design : switch_4port
 Version: V-2023.12-SP3
-Date   : Thu Jan  8 22:41:07 2026
+Date   : Fri Jan  9 00:03:51 2026
 ****************************************
 
 
 Scenario           'FUNC_Fast'
 Timing Path Group  '**in2reg_default**'
 ----------------------------------------
-Levels of Logic:                      3
-Critical Path Length:              7.42
-Critical Path Slack:               1.63
+Levels of Logic:                      4
+Critical Path Length:              9.43
+Critical Path Slack:               0.31
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -24,8 +24,8 @@ Scenario           'FUNC_Fast'
 Timing Path Group  '**reg2out_default**'
 ----------------------------------------
 Levels of Logic:                      6
-Critical Path Length:              1.79
-Critical Path Slack:               6.21
+Critical Path Length:              1.80
+Critical Path Slack:               6.05
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -38,8 +38,8 @@ Scenario           'FUNC_Fast'
 Timing Path Group  '**in2out_default**'
 ----------------------------------------
 Levels of Logic:                      5
-Critical Path Length:              3.02
-Critical Path Slack:               4.98
+Critical Path Length:              3.03
+Critical Path Slack:               4.97
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -51,9 +51,9 @@ No. of Hold Violations:               0
 Scenario           'FUNC_Fast'
 Timing Path Group  'clk'
 ----------------------------------------
-Levels of Logic:                      5
-Critical Path Length:              4.72
-Critical Path Slack:               4.19
+Levels of Logic:                      6
+Critical Path Length:              8.35
+Critical Path Slack:               1.24
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -65,9 +65,9 @@ No. of Hold Violations:               0
 Scenario           'FUNC_Slow'
 Timing Path Group  '**in2reg_default**'
 ----------------------------------------
-Levels of Logic:                      3
-Critical Path Length:              7.72
-Critical Path Slack:               1.32
+Levels of Logic:                      4
+Critical Path Length:              9.74
+Critical Path Slack:               0.00
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -81,7 +81,7 @@ Timing Path Group  '**reg2out_default**'
 ----------------------------------------
 Levels of Logic:                      6
 Critical Path Length:              1.82
-Critical Path Slack:               6.18
+Critical Path Slack:               6.02
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -107,9 +107,9 @@ No. of Hold Violations:               0
 Scenario           'FUNC_Slow'
 Timing Path Group  'clk'
 ----------------------------------------
-Levels of Logic:                      5
-Critical Path Length:              4.76
-Critical Path Slack:               4.14
+Levels of Logic:                      6
+Critical Path Length:              8.66
+Critical Path Slack:               0.92
 Critical Path Clk Period:         10.00
 Total Negative Slack:              0.00
 No. of Violating Paths:               0
@@ -123,11 +123,11 @@ Cell Count
 ----------------------------------------
 Hierarchical Cell Count:              0
 Hierarchical Port Count:              0
-Leaf Cell Count:                   1632
-Buf/Inv Cell Count:                 212
-Buf Cell Count:                      82
-Inv Cell Count:                     130
-Combinational Cell Count:           946
+Leaf Cell Count:                   2106
+Buf/Inv Cell Count:                 173
+Buf Cell Count:                      91
+Inv Cell Count:                      82
+Combinational Cell Count:          1468
    Single-bit Isolation Cell Count:                        0
    Multi-bit Isolation Cell Count:                         0
    Isolation Cell Banking Ratio:                           0.00%
@@ -137,8 +137,8 @@ Combinational Cell Count:           946
    Single-bit ELS Cell Count:                              0
    Multi-bit ELS Cell Count:                               0
    ELS Cell Banking Ratio:                                 0.00%
-Sequential Cell Count:              686
-   Integrated Clock-Gating Cell Count:                     48
+Sequential Cell Count:              638
+   Integrated Clock-Gating Cell Count:                     0
    Sequential Macro Cell Count:                            0
    Single-bit Sequential Cell Count:                       638
    Multi-bit Sequential Cell Count:                        0
@@ -150,27 +150,27 @@ Macro Count:                          0
 
 Area
 ----------------------------------------
-Combinational Area:             2324.91
-Noncombinational Area:          5883.94
-Buf/Inv Area:                    369.78
-Total Buffer Area:               200.27
-Total Inverter Area:             169.51
+Combinational Area:             3766.16
+Noncombinational Area:          5581.51
+Buf/Inv Area:                    314.38
+Total Buffer Area:               209.41
+Total Inverter Area:             104.96
 Macro/Black Box Area:              0.00
 Net Area:                             0
-Net XLength:                   13334.11
-Net YLength:                   14576.56
+Net XLength:                   18685.38
+Net YLength:                   19607.83
 ----------------------------------------
-Cell Area (netlist):                           8208.85
-Cell Area (netlist and physical only):         8208.85
-Net Length:                    27910.67
+Cell Area (netlist):                           9347.67
+Cell Area (netlist and physical only):         9347.67
+Net Length:                    38293.21
 
 
 Design Rules
 ----------------------------------------
-Total Number of Nets:              1749
-Nets with Violations:                 1
-Max Trans Violations:                 1
-Max Cap Violations:                   1
+Total Number of Nets:              2224
+Nets with Violations:                66
+Max Trans Violations:                64
+Max Cap Violations:                  66
 ----------------------------------------
 
 1
