@@ -53,6 +53,7 @@ set_lib_cell_purpose -include none $icg_cells
 set_dont_use $icg_cells
 
 # 2. Disable Global Power Optimizations (Found 'true' by default in your reports)
+remove_clock_gating
 set_app_options -name clock_opt.flow.enable_power -value false
 set_app_options -name place_opt.flow.enable_power -value false
 set_app_options -name route_opt.flow.enable_power -value false
