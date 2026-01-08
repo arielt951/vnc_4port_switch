@@ -1,6 +1,6 @@
 module switch_test;
   import packet_pkg::*;
-  localparam num_packets = 20;
+  localparam num_packets = 50;
   // 1. Signals & Interface
   bit clk = 0; always #5 clk = ~clk; 
   bit rst_n;
@@ -143,7 +143,7 @@ endfunction
     // =========================================================
     `ifdef SDF_ANNOTATE
         $display("Loading SDF Delays from switch_4port.sdf...");
-	$sdf_annotate("./switch_4port.sdf", dut.impl, , "sdf.log", "TYPICAL", "1.0:1.0:1.0", "FROM_MTM");
+	$sdf_annotate("./switch_4port_cg.sdf", dut.impl, , "sdf.log", "TYPICAL", "1.0:1.0:1.0", "FROM_MTM");
 	`endif
 
     // Build
