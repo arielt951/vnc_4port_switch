@@ -8,7 +8,7 @@ vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+b
 verdi -cov -covdir ./cov_work/simv.vdb
 
 #run gls setting (befire the test in Synth folder) 
-vcs -kdb -sverilog -f run_gls.f \
+qrun vcs -kdb -sverilog -f run_gls.f \
     +define+SDF_ANNOTATE \
     -debug_access+all \
     -top switch_test \
@@ -22,7 +22,7 @@ vcs -kdb -sverilog -f run_gls.f \
     -l gls_compile.log
 #stage 2 run the sim 
 
- ./simv \
+ qrun ./simv \
     +vcs+initreg+1 \
     +ntb_random_seed_automatic \
     +ERR_PKT \
