@@ -7,8 +7,29 @@ vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+b
 #opening gui of coded coverage
 verdi -cov -covdir ./cov_work/simv.vdb
 
-#opening gls from terminal 
-qrun vcs -R -sverilog -f run_gls.f +define+SDF_ANNOTATE -debug_access+all -top switch_test -timescale=1ns/1ps -l gls_run.log
+#run gls setting (befire the test in Synth folder) 
+vcs -kdb -sverilog -f run_gls.f \
+    +define+SDF_ANNOTATE \
+    -debug_access+all \
+    -top switch_test \
+    -timescale=1ns/1ps \
+    +neg_tchk \
+    -negdelay \
+    +vcs+initreg+random \
+    -suppress=TFIPC,DDTC,SDFCOM_NTCSIS,SDFCOM_UHICD \
+    -cm line+cond+fsm+branch+tgl \
+    -cm_dir ./cov_work/gls_simv.vdb \
+    -l gls_compile.log
+#stage 2 run the sim 
+
+ ./simv \
+    +vcs+initreg+1 \
+    +ntb_random_seed_automatic \
+    +ERR_PKT \
+    -cm line+cond+fsm+branch+tgl \
+    -cm_dir ./cov_work/gls_simv.vdb \
+    -cm_name gls_final_submission \
+    -l gls_final.log   
 
 #open waves from the last sim
 qrun ./simv -gui=verdi &
