@@ -1,8 +1,8 @@
 module switch_test;
   import packet_pkg::*;
-  localparam num_packets = 50;
+  localparam num_packets = 60;
   // 1. Signals & Interface
-  bit clk = 0; always #5 clk = ~clk; 
+  bit clk = 0; always #6 clk = ~clk; 
   bit rst_n;
   port_if port0(clk, rst_n), port1(clk, rst_n), port2(clk, rst_n), port3(clk, rst_n);
 
