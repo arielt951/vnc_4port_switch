@@ -7,7 +7,7 @@
 
 // 3. DUT Wrapper & Netlist
 ../verification/dut_wrapper.sv
-./switch_4port_netlist.v
+./switch_4port_netlist_cg.v
 
 // 4. Testbench Top
 ../verification/switch_test.sv
