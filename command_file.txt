@@ -1,0 +1,36 @@
+#running basic
+vcs -R -sverilog -f run.f -debug_access+all -top switch_test
+#running the switch test - with random seed and with code coverage
+vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/simv.vdb -cm_name switch_test_cov +ntb_random_seed_automatic
+#running with random seed, code coverage and with Error packets (no constaints)
+vcs -R -sverilog -f run.f -debug_access+all -top switch_test -cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/simv.vdb -cm_name switch_test_cov +ERR_PKT +ntb_random_seed_automatic
+#opening gui of coded coverage
+verdi -cov -covdir ./cov_work/simv.vdb
+
+#run synthesis 
+fc_shell -f synth.tcl | tee synth.log
+fc_shell -f synth_cg.tcl | tee synth_cg.log
+
+#fc shell help
+report_app_options *power*
+
+
+#compile 
+vcs -kdb -sverilog -f run_gls.f +define+SDF_ANNOTATE -debug_access+all -top switch_test -timescale=1ns/100fs +neg_tchk -negdelay +vcs+initreg+random -suppress=TFIPC,DDTC,SDFCOM_NTCSIS,SDFCOM_UHICD -cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/gls_simv.vdb -l gls_compile_cg_100mhz.log
+
+#run the gls
+./simv +vcs+initreg+1 +ntb_random_seed_automatic +ERR_PKT -cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/gls_simv.vdb -cm_name gls_final_submission -l gls_final_cg_100mhz.log
+
+#create coverage reports
+urg -dir ./cov_work/gls_simv.vdb -format text -report coverage_gls_report
+
+#open gui
+verdi -cov -covdir ./cov_work/gls_simv.vdb &
+
+#open waves from the last sim
+qrun ./simv -gui=verdi &
+
+
+
+brnach for gls : clean_synth
+brnach for synth with and without power : clockgate_synth

@@ -1,0 +1,164 @@
+Command: vcs -kdb -sverilog -f run_gls.f +define+SDF_ANNOTATE -debug_access+all -top \
+switch_test -timescale=1ns/100fs +neg_tchk -negdelay +vcs+initreg+random -suppress=TFIPC,DDTC,SDFCOM_NTCSIS,SDFCOM_UHICD \
+-cm line+cond+fsm+branch+tgl -cm_dir ./cov_work/gls_simv.vdb -l gls_compile_no_cg_100mhz.log \
+
+                         Chronologic VCS (TM)
+        Version X-2025.06-1_Full64 -- Fri Jan  9 00:41:44 2026
+
+                    Copyright (c) 1991 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file '../design/packet_pkg.sv'
+Parsing included file '../verification/component_base.sv'.
+Back to file '../design/packet_pkg.sv'.
+Parsing included file '../verification/sequencer.sv'.
+Back to file '../design/packet_pkg.sv'.
+Parsing included file '../verification/driver.sv'.
+Back to file '../design/packet_pkg.sv'.
+Parsing included file '../verification/monitor.sv'.
+Back to file '../design/packet_pkg.sv'.
+Parsing included file '../verification/agent.sv'.
+Back to file '../design/packet_pkg.sv'.
+Parsing included file '../verification/checker.sv'.
+Back to file '../design/packet_pkg.sv'.
+Parsing included file '../verification/packet_vc.sv'.
+Back to file '../design/packet_pkg.sv'.
+Parsing design file '../design/port_if.sv'
+Parsing design file '../verification/assertions.sv'
+
+Note-[SV-LCM-PPWI] Package previously wildcard imported
+../verification/assertions.sv, 1
+$unit
+  Package 'packet_pkg' already wildcard imported. 
+  Ignoring packet_pkg::*
+  See the SystemVerilog LRM(1800-2005), section 19.2.1.
+
+Parsing design file '../verification/dut_wrapper.sv'
+Parsing design file './switch_4port_netlist.v'
+Parsing design file '../verification/switch_test.sv'
+Parsing library file '/data/synopsys/lib/SAED32_EDK/lib/stdcell_hvt/verilog/saed32nm_hvt.v'
+Parsing library file '/data/synopsys/lib/SAED32_EDK/lib/stdcell_rvt/verilog/saed32nm.v'
+Parsing library file '/data/synopsys/lib/SAED32_EDK/lib/stdcell_lvt/verilog/saed32nm_lvt.v'
+Top Level Modules:
+       switch_test
+TimeScale is 1 ps / 100 fs
+VCS Coverage Metrics Release X-2025.06-1_Full64 Copyright (c) 1991-2025 by Synopsys Inc.
+
+   ***   $sdf_annotate() version 1.2R
+   ***    SDF file: "./switch_4port.sdf"
+   ***    Annotation scope: switch_test.dut.impl
+   ***    SDF Annotator log file: "sdf.log"
+   ***    MTM selection: "TYPICAL"
+   ***    SCALE FACTORS: "1.0000:1.0000:1.0000"
+   ***    SCALE TYPE: "FROM_MTM"
+   ***    Turnoff delay: "FROM_FILE"
+   ***    Approximation (mipd) policy: "MAXIMUM"
+
+   ***    SDF annotation begin: Fri Jan  9 00:41:44 2026
+
+
+SDF Info: +pulse_r/100, +pulse_e/100 in effect
+
+          Total errors: 0
+          Total warnings: 0
+   ***    SDF annotation completed: Fri Jan  9 00:41:44 2026
+
+
+Notice: Ports coerced to inout, use -notice for details
+Starting vcs inline pass...
+63 modules and 9 UDPs read.
+recompiling package vcs_paramclassrepository
+recompiling module port_if
+recompiling module dut_wrapper
+recompiling module switch_4port
+recompiling module switch_test
+recompiling module AND2X1_HVT
+recompiling module AND3X1_HVT
+recompiling module AND4X1_HVT
+recompiling module AO22X1_HVT
+recompiling module INVX0_HVT
+recompiling module INVX1_HVT
+recompiling module MUX21X1_HVT
+recompiling module NBUFFX4_HVT
+recompiling module NOR3X0_HVT
+recompiling module OA222X1_HVT
+recompiling module OAI221X2_HVT
+recompiling module OR3X1_HVT
+recompiling module SDFFARX1_HVT
+recompiling module SDFFARX2_HVT
+recompiling module AND2X1_RVT
+recompiling module AND3X1_RVT
+recompiling module AND3X2_RVT
+recompiling module AND4X1_RVT
+recompiling module AO21X1_RVT
+recompiling module AO21X2_RVT
+recompiling module AO221X1_RVT
+recompiling module AO222X1_RVT
+recompiling module AO22X1_RVT
+recompiling module AOI221X1_RVT
+recompiling module AOI222X1_RVT
+recompiling module INVX0_RVT
+recompiling module INVX1_RVT
+recompiling module INVX4_RVT
+recompiling module MUX21X1_RVT
+recompiling module MUX41X1_RVT
+recompiling module NAND2X0_RVT
+recompiling module NAND2X1_RVT
+recompiling module NAND3X0_RVT
+recompiling module NAND3X4_RVT
+recompiling module NAND4X0_RVT
+recompiling module NAND4X1_RVT
+recompiling module NBUFFX2_RVT
+recompiling module NOR2X0_RVT
+recompiling module NOR2X1_RVT
+recompiling module NOR2X2_RVT
+recompiling module NOR3X1_RVT
+recompiling module OA21X1_RVT
+recompiling module OA221X1_RVT
+recompiling module OA221X2_RVT
+recompiling module OA222X1_RVT
+50 of 63 modules done
+recompiling module OA22X1_RVT
+recompiling module OAI21X1_RVT
+recompiling module OAI21X2_RVT
+recompiling module OAI221X1_RVT
+recompiling module OAI22X1_RVT
+recompiling module OR2X1_RVT
+recompiling module OR3X1_RVT
+recompiling module SDFFX1_RVT
+recompiling module AND3X2_LVT
+recompiling module AND3X4_LVT
+recompiling module OR3X1_LVT
+recompiling module SDFFX2_LVT
+62 of 63 modules done
+	However, due to incremental compilation, only 62 modules need to be compiled. 
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x ../simv ]; then chmod a-x ../simv; fi
+g++  -o ../simv      -rdynamic  -Wl,-rpath='$ORIGIN'/simv.daidir -Wl,-rpath=./simv.daidir \
+-Wl,-rpath=/tools/synopsys/vcs/X-2025.06-1/linux64/lib -L/tools/synopsys/vcs/X-2025.06-1/linux64/lib \
+-Wl,-rpath-link=./  /usr/lib64/libnuma.so.1   objs/amcQw_d.o   _2641774_archive_1.so \
+_prev_archive_1.so objs/udps/W7e2i.o objs/udps/Gjg4Z.o objs/udps/hg6Rm.o objs/udps/Z0GwU.o \
+objs/udps/LSJP2.o objs/udps/e37Qb.o objs/udps/vYf51.o objs/udps/c09Aa.o objs/udps/sBVUP.o \
+SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o \
+-lvirsim -lerrorinf -lsnpsmalloc -lvfs      -lvcsnew -ldistsimclient -lsimprofile \
+-lreader_common /tools/synopsys/vcs/X-2025.06-1/linux64/lib/libBA.a -luclinative \
+/tools/synopsys/vcs/X-2025.06-1/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli \
+-Wl,-no-whole-archive        _vcs_pli_stub_.o   /tools/synopsys/vcs/X-2025.06-1/linux64/lib/vcs_save_restore_new.o \
+/tools/synopsys/verdi/X-2025.06-1/share/PLI/VCS/LINUX64/pli.a -ldl  -lc -lm -lpthread \
+-ldl 
+../simv up to date
+CPU time: 1.464 seconds to compile + .382 seconds to elab + .313 seconds to link
+Verdi KDB elaboration done and the database successfully generated

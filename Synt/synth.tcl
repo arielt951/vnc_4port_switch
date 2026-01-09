@@ -1,0 +1,116 @@
+# =================================================================
+# 1. SETUP LIBRARY PATHS
+# =================================================================
+set LIB_PATH "/data/synopsys/lib/saed32nm/ref/CLIBs"
+set TLU_PATH "/data/synopsys/lib/saed32nm/ref/tech"
+
+set_host_options -max_cores 4
+
+# =================================================================
+# 2. CREATE FRESH WORKSPACE LIBRARY
+# =================================================================
+set TECH_FILE "$TLU_PATH/saed32nm_1p9m.tf"
+set REF_LIBS [list \
+    "${LIB_PATH}/saed32_hvt.ndm" \
+    "${LIB_PATH}/saed32_lvt.ndm" \
+    "${LIB_PATH}/saed32_rvt.ndm" \
+]
+
+# Use a unique library name to ensure no cached gated data persists
+if {[file exists switch_lib_baseline.dlib]} {
+    file delete -force switch_lib_baseline.dlib
+}
+
+create_lib -technology $TECH_FILE -ref_libs $REF_LIBS switch_lib_baseline.dlib
+
+read_parasitic_tech -tlu $TLU_PATH/saed32nm_1p9m_Cmax.lv.tluplus -name Cmax
+read_parasitic_tech -tlu $TLU_PATH/saed32nm_1p9m_Cmin.lv.tluplus -name Cmin
+
+# =================================================================
+# 3. READ & ELABORATE
+# =================================================================
+set HDL_FILES { 
+    ../design/packet_pkg.sv 
+    ../design/port_if.sv 
+    ../design/FIFO.sv 
+    ../design/arbiter.sv 
+    ../design/parser.sv 
+    ../design/output_mux.sv 
+    ../design/switch_port.sv 
+    ../design/switch_4port.sv 
+}
+
+analyze -format sverilog $HDL_FILES
+elaborate switch_4port
+set_top_module switch_4port
+
+# =================================================================
+# 4. FORCE DISABLE ALL POWER OPTIMIZATION (Nuclear Option)
+# =================================================================
+puts "--- STARTING CLOCK GATING REMOVAL PROTOCOL ---"
+
+# 1. Physically disable the ICG cells in the library
+# This catches CGLNPR (Negative), CGLPPR (Positive), HVT, LVT, etc.
+set icg_cells [get_lib_cells */*CGL*]
+
+if {[sizeof_collection $icg_cells] > 0} {
+    puts "--- Disabling [sizeof_collection $icg_cells] Clock Gating Cells from Library ---"
+    # Prevent tool from using them for any reason
+    set_lib_cell_purpose -include none $icg_cells
+    set_dont_use $icg_cells
+} else {
+    puts "WARNING: No Clock Gating cells found in library to disable!"
+}
+
+# 2. Disable Global Power Flow Options
+set_app_options -name clock_opt.flow.enable_power -value false
+set_app_options -name place_opt.flow.enable_power -value false
+set_app_options -name route_opt.flow.enable_power -value false
+set_app_options -name cts.common.enable_low_power -value false
+
+# 3. Legacy Variables (Universal compatibility for DC/FC)
+set power_driven_clock_gating_enable false
+set compile_clock_gating_through_hierarchy false
+
+# =================================================================
+# 5. CONSTRAINTS (MCMM Setup)
+# =================================================================
+remove_corners -all; remove_modes -all; remove_scenarios -all
+create_corner Fast
+create_corner Slow
+create_mode   FUNC
+
+set_parasitics_parameters -early_spec Cmin -late_spec Cmin -corners {Fast}
+set_parasitics_parameters -early_spec Cmax -late_spec Cmax -corners {Slow}
+
+create_scenario -mode FUNC -corner Fast -name FUNC_Fast
+create_scenario -mode FUNC -corner Slow -name FUNC_Slow
+
+current_scenario FUNC_Fast
+source constraints.sdc
+current_scenario FUNC_Slow
+source constraints.sdc
+
+# =================================================================
+# 6. COMPILE
+# =================================================================
+set_auto_floorplan_constraints -core_utilization 0.7 -side_ratio {1 1} -core_offset 2
+
+# Compile without gating
+compile_fusion -to logic_opto
+compile_fusion -to final_opto
+
+# =================================================================
+# 7. REPORTS & EXPORT
+# =================================================================
+redirect -file report_timing.txt { report_timing }
+redirect -file report_power.txt  { report_power }
+redirect -file report_area.txt   { report_area }
+redirect -file report_qor.txt    { report_qor }
+
+change_names -rules verilog -hierarchy
+write_verilog -hierarchy all switch_4port_netlist.v
+write_sdf switch_4port.sdf
+
+save_block -as switch_4port_final
+exit

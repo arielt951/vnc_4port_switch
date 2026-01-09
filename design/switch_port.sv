@@ -108,11 +108,11 @@ always_comb begin
 			end else begin
 				// Invalid packet: Drop it!
 				read_en_fifo = 1'b1;
-				if(!fifo_empty) begin
-				next_state = ROUTE; // NEXT PACKET
-				end else begin
-				next_state = IDLE; // All data sent, return to IDLE
-				end 
+				next_state = IDLE; 
+
+				`ifndef SYNTHESIS
+          		 $display("[RTL DROP] Time:%0t | Instance:%m | Dropping INVALID Packet | Header: %h", $time, header_out);
+        		`endif
 			end
 		end
 
@@ -190,8 +190,10 @@ end
   
   // Optional: Print coverage at end of simulation for debugging
   // DETAILED REPORTING AT END OF SIMULATION
-  final begin
-      $display("Port FSM Coverage [Total]: %0.2f %%", fsm_cg.get_inst_coverage());
+ final begin
+      $display("-------------------------------------------");
+      $display("PORT FSM COVERAGE for: %m"); // Shows ...port0_i, ...port1_i, etc.
+      $display("  [Total]:        %0.2f %%", fsm_cg.get_inst_coverage());
       $display("  - States:       %0.2f %%", fsm_cg.cp_state.get_coverage());
       $display("  - Transitions:  %0.2f %%", fsm_cg.cp_trans.get_coverage());
       $display("  - FIFO Full:    %0.2f %%", fsm_cg.cp_fifo_full.get_coverage());

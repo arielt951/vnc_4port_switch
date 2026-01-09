@@ -1,14 +1,24 @@
 module switch_test;
   import packet_pkg::*;
-  localparam num_packets = 20;
+  localparam num_packets = 60;
   // 1. Signals & Interface
-  bit clk = 0; always #5 clk = ~clk; 
+  bit clk = 0; always #6 clk = ~clk; 
   bit rst_n;
   port_if port0(clk, rst_n), port1(clk, rst_n), port2(clk, rst_n), port3(clk, rst_n);
 
   // 2. DUT
-  switch_4port dut (.clk(clk), .rst_n(rst_n), .port0(port0), .port1(port1), .port2(port2), .port3(port3));
-
+  //switch_4port dut (.clk(clk), .rst_n(rst_n), .port0(port0), .port1(port1), .port2(port2), .port3(port3));
+  // 2. DUT Wrapper
+  // This handles the dirty work of connecting RTL vs Netlist automatically.
+  dut_wrapper dut (
+	  .clk   (clk),
+	  .rst_n (rst_n),
+	  .p0    (port0),
+	  .p1    (port1),
+	  .p2    (port2),
+	  .p3    (port3)
+  );
+  
   // 3. Env
   packet_vc vc0, vc1, vc2, vc3;
   checker   chk;
@@ -19,7 +29,7 @@ module switch_test;
   int drops[4] = '{0, 0, 0, 0}; // Initialize to 0
 
  
-
+ `ifndef SDF_ANNOTATE
 always @(posedge clk) begin
     // Check Port 0
     if (port0.valid_in && dut.port0_i.port_fifo.fifo_full) begin
@@ -43,40 +53,44 @@ always @(posedge clk) begin
       drops[3] += $countones(port3.target_in);
     end
   end
+`endif
 
-  always @(posedge clk) begin
-    // Check Port 0
-    if (port0.valid_in && dut.port0_i.port_fifo.fifo_full) begin
-       // We know Driver 0 is currently driving a packet. Get its ID.
-       chk.register_drop(vc0.agt.drv.current_pkt.packet_id);
-    end
 
-    // Check Port 1
-    if (port1.valid_in && dut.port1_i.port_fifo.fifo_full) begin
-       chk.register_drop(vc1.agt.drv.current_pkt.packet_id);
-    end
-
-    // Check Port 2
-    if (port2.valid_in && dut.port2_i.port_fifo.fifo_full) begin
-       chk.register_drop(vc2.agt.drv.current_pkt.packet_id);
-    end
-
-    // Check Port 3
-    if (port3.valid_in && dut.port3_i.port_fifo.fifo_full) begin
-       chk.register_drop(vc3.agt.drv.current_pkt.packet_id);
-    end
-  end
-
-  // -----------------------------------------------------------------
+// -----------------------------------------------------------------
   // ASSERTION BINDINGS
   // -----------------------------------------------------------------
-  // 1. Bind FIFO assertions to every instance of 'fifo'
-  // We use .* because the signal names in fifo_sva match fifo.sv perfectly
-  bind fifo fifo_sva i_fifo_props (.*);
-  // 2. Bind Port assertions to every instance of 'switch_port'
-  bind switch_port port_sva i_port_props (.*);
-  // 3. Bind Arbiter assertions to the single 'arbiter' instance
+  `ifndef SDF_ANNOTATE
+  bind fifo fifo_sva #(
+      .DEPTH(packet_pkg::DEPTH), 
+      .PACKET_WIDTH(packet_pkg::PACKET_WIDTH)
+  ) i_fifo_props (
+      .clk(clk),
+      .rst_n(rst_n),
+      .rd_en(rd_en),
+      .fifo_empty(fifo_empty),
+      .fifo_count(fifo_count),
+      .header_out(header_out),
+      .rd_ptr(rd_ptr),
+      .mem(mem)
+  );
+
+  bind switch_port port_sva i_port_props (
+      .clk(clk),
+      .rst_n(rst_n),
+      .fifo_empty(fifo_empty),
+      .current_state(current_state),
+      .grant(grant),
+      .pkt_valid(pkt_valid),
+      .pkt_type(pkt_type),
+      .read_en_fifo(read_en_fifo),
+      .source_in(header_out[3:0]), 
+      .target_in(header_out[7:4])
+  );
+
+  // 3. Bind Arbiter (Standard)
   bind arbiter arbiter_sva i_arb_props (.*);
+
+`endif
 
 function void print_port_cov(int id, packet_vc vc);
     real type_cov, src_cov, tgt_cov, route_cov, x_type_src_cov;
@@ -124,6 +138,14 @@ endfunction
   initial begin
     rst_n = 0;
     
+    // =========================================================
+    // NEW: Load Timing Delays for Gate Level Simulation (GLS)
+    // =========================================================
+    `ifdef SDF_ANNOTATE
+        $display("Loading SDF Delays from switch_4port.sdf...");
+	$sdf_annotate("./switch_4port_cg.sdf", dut.impl, , "sdf.log", "TYPICAL", "1.0:1.0:1.0", "FROM_MTM");
+	`endif
+
     // Build
     vc0=new("vc0",null); vc0.configure(port0,0);
     vc1=new("vc1",null); vc1.configure(port1,1);
@@ -143,7 +165,13 @@ endfunction
     vc3.agt.drv.chk_h = chk;
 
     $display("--- Starting Simulation (Driver-Driven) ---");
-
+    $display("Number of packets about to be generated at each port:  %0d", num_packets);
+	
+	rst_n = 0;
+	repeat(100) @(posedge clk);
+	repeat(1) @(negedge clk);
+	rst_n = 1;
+	repeat(20) @(posedge clk); // Wait for chip to settle
     // Start everything
     fork 
       vc0.agt.mon.run(); vc1.agt.mon.run(); vc2.agt.mon.run(); vc3.agt.mon.run(); 
@@ -152,10 +180,9 @@ endfunction
 
     fork
       vc0.agt.drv.run(num_packets); vc1.agt.drv.run(num_packets); vc2.agt.drv.run(num_packets); vc3.agt.drv.run(num_packets);
-    join_none
-    
-    // Reset
-    repeat(5) @(posedge clk); rst_n=1; repeat(5) @(posedge clk);
+	join_none
+	
+	repeat(50) @(posedge clk);
 
     // Run Sequencers (Parallel Generation)
     fork
@@ -178,19 +205,19 @@ endfunction
 
     $display("--- Drivers Done. Waiting for Switch to drain... ---");
     // Wait for internal FIFOs to empty (with timeout)
-    fork
-        begin
-            wait (dut.port0_i.port_fifo.fifo_empty);
-            wait (dut.port1_i.port_fifo.fifo_empty);
-            wait (dut.port2_i.port_fifo.fifo_empty);
-            wait (dut.port3_i.port_fifo.fifo_empty);
-        end
-        begin
-            repeat(100000) @(posedge clk);
-            $display("[TEST] WARNING: Timeout waiting for FIFOs to drain.");
-        end
-    join_any
-    disable fork;
+//    fork
+//        begin
+//            wait (dut.impl.port0_i.port_fifo.fifo_empty);
+//            wait (dut.impl.port1_i.port_fifo.fifo_empty);
+//            wait (dut.impl.port2_i.port_fifo.fifo_empty);
+//            wait (dut.impl.port3_i.port_fifo.fifo_empty);
+//        end
+//        begin
+//            repeat(100000) @(posedge clk);
+//            $display("[TEST] WARNING: Timeout waiting for FIFOs to drain.");
+//        end
+//    join_any
+//    disable fork;
 
     repeat(1000) @(posedge clk);
     
@@ -228,12 +255,17 @@ endfunction
 
         $display("\n=========================================");
         $display(" HARDWARE STATE INSPECTION");
-        // Peek at internal signals
-        $display(" Port 0 FIFO Usage: %0d / 8", dut.port0_i.port_fifo.fifo_count);
-        $display(" Port 1 FIFO Usage: %0d / 8", dut.port1_i.port_fifo.fifo_count);
-        $display(" Port 2 FIFO Usage: %0d / 8", dut.port2_i.port_fifo.fifo_count);
-        $display(" Port 3 FIFO Usage: %0d / 8", dut.port3_i.port_fifo.fifo_count);
-        $display("=========================================\n");
+
+//        `ifndef SDF_ANNOTATE
+//        // Peek at internal signals
+//        $display(" Port 0 FIFO Usage: %0d / 8", dut.impl.port0_i.port_fifo.fifo_empty);
+//        $display(" Port 1 FIFO Usage: %0d / 8", dut.impl.port1_i.port_fifo.fifo_empty);
+//        $display(" Port 2 FIFO Usage: %0d / 8", dut.impl.port2_i.port_fifo.fifo_empty);
+//        $display(" Port 3 FIFO Usage: %0d / 8", dut.impl.port3_i.port_fifo.fifo_empty);
+//        $display("=========================================\n");
+//        `else
+//            $display(" (Skipped in GLS/SDF Mode - Signals unavailable)");
+//        `endif
 
         $display("\n=========================================");
         $display(" FUNCTIONAL COVERAGE RESULTS");

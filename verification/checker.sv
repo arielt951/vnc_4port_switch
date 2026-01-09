@@ -30,11 +30,36 @@ class checker extends component_base;
       this.hw_drops = drops;
   endfunction
 
+function bit is_packet_valid(packet p);
+      // 1. Check Loopback: Source bit must NOT be set in Target mask
+      if (((p.source & p.target) != 0) && (p.target != 4'b1111)) begin
+          return 0; // INVALID: Loopback attempt
+      end
+      
+      // 2. Check Valid Target: Must target at least one port
+      if (p.target == 4'b0000) begin
+          return 0; // INVALID: No destination
+      end
+
+      // 3. Check Valid Source: Must be one-hot (one port only)
+      if ($countones(p.source) != 1) begin
+          return 0; // INVALID: Source ID is corrupt/multiple
+      end
+
+      return 1; // Packet is valid
+  endfunction
   // ----------------------------------------------------------------
   // TASK: Add Expected Packet
   // ----------------------------------------------------------------
   function void add_expected_packet(packet p);
+    // FILTER: If the packet is invalid, we EXPECT the switch to drop it.
+    // Therefore, we do NOT add it to the scoreboard.
     packet p_clone;
+    if (!is_packet_valid(p)) begin
+        $display("[Checker] Predicted Drop: Packet ID %0d is INVALID (Src:%b Tgt:%b). Ignoring.", p.packet_id, p.source, p.target);
+        return; 
+    end
+    
     p_clone = new p; 
     for(int i=0; i<4; i++) begin
       if (p.target[i] == 1) begin
@@ -97,20 +122,23 @@ class checker extends component_base;
     if (exp.data   !== rcv.data)   return 0;
     return 1;
   endfunction
+
+
   
   // ----------------------------------------------------------------
   // FUNCTION: Report (UPDATED WITH DISTINCTION)
   // ----------------------------------------------------------------
   function void report();
     int total_pending = 0;
-    int known_drops = 0;
-    int internal_bugs = 0;
-    string status_label;
+    int total_hw_drops = 0;
+    int internal_loss = 0;
+    int src_stuck[4] = '{0,0,0,0}; 
 
     $display("\n=========================================");
-    $display(" DETAILED MISSING PACKET REPORT");
+    $display(" DETAILED LOST PACKET REPORT");
     $display("=========================================");
 
+    // 1. Count Pending (Missing)
     foreach(scb_queue[i]) begin 
       if (scb_queue[i].size() > 0) begin
           $display("--- Missing at Output Port %0d ---", i);
@@ -119,41 +147,51 @@ class checker extends component_base;
             packet p = scb_queue[i][j];
             total_pending++;
 
-            // CHECK: Is this ID in our "Known Dropped" list?
-            // Note: In a real complex environment, we'd use an associative array for speed.
-            // For this project, a queue search is fine.
-            int q_res[$] = dropped_ids.find(x) with (x == p.packet_id);
+            // Print details of every missing packet
+            $display("  [MISSING] ID:%0d | Src:%b | Tgt:%b | Data:%h", 
+                     p.packet_id, p.source, p.target, p.data);
 
-            if (q_res.size() > 0) begin
-                status_label = "[VALID DROP]";
-                known_drops++;
-            end else begin
-                status_label = "[INTERNAL LOSS - BUG!]";
-                internal_bugs++;
-            end
-
-            // PRINT THE CLASSIFICATION
-            $display("  %s ID:%0d | Src:%b | Tgt:%b | Data:%h", 
-                     status_label, p.packet_id, p.source, p.target, p.data);
+            // Tally by source for debug
+            case (p.source)
+              4'b0001: src_stuck[0]++;
+              4'b0010: src_stuck[1]++;
+              4'b0100: src_stuck[2]++;
+              4'b1000: src_stuck[3]++;
+            endcase
           end
       end
     end
 
+    // 2. Calculate Internal Loss
+    total_hw_drops = hw_drops[0] + hw_drops[1] + hw_drops[2] + hw_drops[3];
+    internal_loss = total_pending - total_hw_drops;
+
+    // 3. Print The Distinction
     $display("\n=========================================");
-    $display(" FINAL INTEGRITY SUMMARY");
+    $display(" CHECKER SUMMARY (Integrity Check)");
     $display("-----------------------------------------");
-    $display(" Total Matches:      %0d", matchess);
-    $display(" Total Missing:      %0d", total_pending);
-    $display("   - Valid Drops:    %0d", known_drops);
-    $display("   - Internal Loss:  %0d", internal_bugs);
+    $display(" Matches (Delivered):     %0d", matchess);
+    $display(" Mismatches (Corrupt):    %0d", mismatches);
+    $display(" Total Pending (Missing): %0d", total_pending);
+    $display("-----------------------------------------");
+    $display(" BREAKDOWN OF MISSING PACKETS:");
+    $display(" (-) Valid HW Drops (FIFO Full): %0d", total_hw_drops);
+    $display(" (=) INTERNAL LOSS (BUGS):       %0d", internal_loss);
     $display("=========================================\n");
     
-    if (internal_bugs > 0) 
-        $error("TEST FAILED: %0d packets vanished inside the switch (Design Bugs).", internal_bugs);
-    else if (total_pending > 0)
-        $display("TEST PASSED: All missing packets were valid FIFO drops.");
-    else
-        $display("TEST PASSED: Perfect transmission.");
+    // 4. Final Verdict
+    if (mismatches > 0) begin
+        $error("TEST FAILED: Data Corruption Detected (%0d mismatches).", mismatches);
+    end
+    else if (internal_loss > 0) begin
+        $error("TEST FAILED: Critical Bug! %0d packets vanished inside the switch.", internal_loss);
+    end
+    else if (total_pending > 0) begin
+        $display("TEST PASSED (With Drops): %0d packets dropped validly due to congestion.", total_hw_drops);
+    end
+    else begin
+        $display("TEST PASSED: Perfect transmission (0 drops, 0 loss).");
+    end
   endfunction
 
 endclass

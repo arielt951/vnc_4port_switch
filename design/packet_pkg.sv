@@ -14,8 +14,8 @@ package packet_pkg;
 	typedef enum logic [1:0] {IDLE, ROUTE, ARB_WAIT, TRANSMIT} state_t;
 	typedef enum logic [1:0] {ERR, SDP, MDP, BDP} p_type;
 
-	typedef class checker;
-
+`ifndef SYNTHESIS
+		typedef class checker;
 	// -----------------------------------------------------------
 	// 3. BASE PACKET CLASS
 	// -----------------------------------------------------------
@@ -51,6 +51,23 @@ package packet_pkg;
 			(target == 4'b1111) || ((source & target) == 0);
 		}
 
+		// -------------------------------------------------------
+		// Dynamic Constraint Control
+		// -------------------------------------------------------
+		function void pre_randomize();
+			if ($test$plusargs("ERR_PKT")) begin
+			// If the flag +ERR_PKT is in the command line, 
+			// disable the validity rules to generate "Bad" packets.
+			this.valid_source_c.constraint_mode(0);
+			this.valid_target_c.constraint_mode(0);
+			this.no_loopback_c.constraint_mode(0);
+			end else begin
+			// Optional: Ensure they are enabled otherwise (safety)
+			this.valid_source_c.constraint_mode(1);
+			this.valid_target_c.constraint_mode(1);
+			this.no_loopback_c.constraint_mode(1);
+			end
+		endfunction
 		// -------------------------------------------------------
 		// CONSTRUCTOR
 		// Accepts name and numeric port index (0-3)
@@ -145,14 +162,15 @@ package packet_pkg;
     // 5. COMPONENT INCLUDES
     // -----------------------------------------------------------
     // NOTE: Order matters! Base classes must come before children.
-	`include "./verification/component_base.sv"
-	`include "./verification/sequencer.sv"
-	`include "./verification/driver.sv"
-	`include "./verification/monitor.sv"
-	`include "./verification/agent.sv"
-	`include "./verification/checker.sv"   
-	`include "./verification/packet_vc.sv"
+	`include "../verification/component_base.sv"
+	`include "../verification/sequencer.sv"
+	`include "../verification/driver.sv"
+	`include "../verification/monitor.sv"
+	`include "../verification/agent.sv"
+	`include "../verification/checker.sv"   
+	`include "../verification/packet_vc.sv"
 
+`endif             
 
 
 endpackage

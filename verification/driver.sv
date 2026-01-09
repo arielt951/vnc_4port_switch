@@ -18,21 +18,19 @@ class driver extends component_base;
   endfunction
 
   task run(int num_packets);
-    packet p;
     repeat(num_packets) begin
       // A. Get Packet from Sequencer
       mbx.get(current_pkt);
 
-      
-      // B. REGISTER WITH CHECKER (The new connection)
+      // B. REGISTER WITH CHECKER
       if (chk_h != null) begin
-        chk_h.add_expected_packet(p);
+        chk_h.add_expected_packet(current_pkt); 
       end else begin
         $error("[Driver] Error: Checker handle is null!");
       end
       
       // C. Drive Packet to DUT
-      p.print($sformatf("Driver_%0d", port_id));
+      current_pkt.print($sformatf("Driver_%0d", port_id));
       vif.drive_packet(current_pkt);
     end
   endtask

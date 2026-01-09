@@ -1,0 +1,54 @@
+Information: The stitching and editing of coupling caps is turned OFF for design 'switch_lib_baseline.dlib:switch_4port.design'. (TIM-125)
+Information: Design Average RC for design switch_4port  (NEX-011)
+Information: r = 1.052965 ohm/um, via_r = 0.461162 ohm/cut, c = 0.072609 ff/um, cc = 0.000000 ff/um (X dir) (NEX-017)
+Information: r = 1.384202 ohm/um, via_r = 0.578659 ohm/cut, c = 0.083810 ff/um, cc = 0.000000 ff/um (Y dir) (NEX-017)
+Information: The RC mode used is VR for design 'switch_4port'. (NEX-022)
+Information: Update timing completed net estimation for all the timing graph nets (TIM-111)
+Information: Net estimation statistics: timing graph nets = 2222, routed nets = 0, across physical hierarchy nets = 0, parasitics cached nets = 2222, delay annotated nets = 0, parasitics annotated nets = 0, multi-voltage nets = 0. (TIM-112)
+****************************************
+Report : timing
+        -path_type full
+        -delay_type max
+        -max_paths 1
+        -report_by design
+Design : switch_4port
+Version: V-2023.12-SP3
+Date   : Fri Jan  9 00:03:51 2026
+****************************************
+
+  Startpoint: port3.valid_in (input port clocked by clk)
+  Endpoint: port3_i/port_fifo/mem_reg[7][12] (rising edge-triggered flip-flop clocked by clk)
+  Mode: FUNC
+  Corner: Slow
+  Scenario: FUNC_Slow
+  Path Group: **in2reg_default**
+  Path Type: max
+
+  Point                                            Incr      Path  
+  ------------------------------------------------------------------------
+  clock clk (rise edge)                            0.00      0.00
+  clock network delay (ideal)                      0.00      0.00
+  input external delay                             2.00      2.00 r
+  port3.valid_in (inout)                           0.00      2.00 r
+  ctmTdsLR_2_1036/Y (AND3X2_LVT)                   0.10      2.10 r
+  ctmi_8011/Y (AND4X1_HVT)                         3.11      5.21 r
+  ctmi_8087/Y (INVX0_HVT)                          2.28      7.49 f
+  ctmi_8090/Y (AO22X1_HVT)                         2.24      9.74 f
+  port3_i/port_fifo/mem_reg[7][12]/D (SDFFX1_RVT)
+                                                   0.00      9.74 f
+  data arrival time                                          9.74
+
+  clock clk (rise edge)                           10.00     10.00
+  clock network delay (ideal)                      0.20     10.20
+  port3_i/port_fifo/mem_reg[7][12]/CLK (SDFFX1_RVT)
+                                                   0.00     10.20 r
+  library setup time                              -0.46      9.74
+  data required time                                         9.74
+  ------------------------------------------------------------------------
+  data required time                                         9.74
+  data arrival time                                         -9.74
+  ------------------------------------------------------------------------
+  slack (MET)                                                0.00
+
+
+1

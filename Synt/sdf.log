@@ -1,0 +1,21 @@
+
+   ***   $sdf_annotate() version 1.2R
+   ***    SDF file: "./switch_4port_cg.sdf"
+   ***    Annotation scope: switch_test.dut.impl
+   ***    SDF Annotator log file: "sdf.log"
+   ***    MTM selection: "TYPICAL"
+   ***    SCALE FACTORS: "1.0000:1.0000:1.0000"
+   ***    SCALE TYPE: "FROM_MTM"
+   ***    Turnoff delay: "FROM_FILE"
+   ***    Approximation (mipd) policy: "MAXIMUM"
+
+   ***    SDF annotation begin: Fri Jan  9 10:16:21 2026
+
+
+SDF Info: +pulse_r/100, +pulse_e/100 in effect
+
+          Total errors: 0
+          Total warnings: 0
+   ***    SDF annotation completed: Fri Jan  9 10:16:21 2026
+
+
