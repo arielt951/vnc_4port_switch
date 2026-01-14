@@ -13,6 +13,6 @@
 ../verification/switch_test.sv
 
 // 5. Library (Keep your SAED paths)
--v /data/synopsys/lib/SAED32_EDK/lib/stdcell_hvt/verilog/saed32nm_hvt.v
--v /data/synopsys/lib/SAED32_EDK/lib/stdcell_rvt/verilog/saed32nm.v
--v /data/synopsys/lib/SAED32_EDK/lib/stdcell_lvt/verilog/saed32nm_lvt.v
+-v ./saed32nm_hvt_fixed.tv
+-v ./saed32nm_rvt_fixed.tv
+-v ./saed32nm_lvt_fixed.tv
